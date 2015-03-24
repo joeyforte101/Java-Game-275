@@ -16,6 +16,7 @@ public class BigOGame extends ApplicationAdapter {
 		img = new Texture("badlogic.jpg");
 	}
 	//this works AGAIN
+	//test
 	@Override
 	public void render () {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
