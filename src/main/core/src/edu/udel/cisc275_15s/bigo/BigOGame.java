@@ -16,7 +16,7 @@ public class BigOGame extends ApplicationAdapter {
 		img = new Texture("badlogic.jpg");
 	}
 	//this works AGAIN
-	//test
+	//vinn has flower shapped nipples
 	@Override
 	public void render () {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
