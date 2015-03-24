@@ -35,8 +35,8 @@ public class BigOGame extends ApplicationAdapter {
 		batch.begin();
 		font.draw(batch,coords,30,30);
 		batch.end();
-		if(Gdx.input.isTouched()){
-			coords=Integer.toString(Gdx.input.getX())+":"+Integer.toString(Gdx.input.getY());
+		if(Gdx.input.isTouched()){ 
+			coords=Integer.toString(Gdx.input.getX())+":"+Integer.toString(Mapping.yScreenToText(Gdx.input.getY()));
 			mainGuy.move(Gdx.input.getX(),Gdx.input.getY());
 		}
 	}

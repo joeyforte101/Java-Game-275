@@ -7,6 +7,7 @@ public class UserCharacter {
 	private int xCoord, yCoord;
 	private int xScale = 32, yScale = 32;
 	SpriteBatch batch = new SpriteBatch();
+	private int moveSpeed = 5;
 	Texture userText = new Texture("badlogic.jpg");
 
 	public UserCharacter(int x, int y) {
@@ -22,18 +23,20 @@ public class UserCharacter {
 
 	public void move(int xTouch, int yTouch) {
 		yTouch=Mapping.yScreenToText(yTouch);
-		boolean xBigger = (Math.abs(xTouch - xCoord) > Math.abs(yTouch - yCoord));
+		int centerxCoord = xCoord+xScale/2;
+		int centeryCoord = yCoord+yScale/2;
+		boolean xBigger = (Math.abs(xTouch - centerxCoord) > Math.abs(yTouch - centeryCoord));
 
 		if (xBigger) {
-			if (xTouch > xCoord)
-				xCoord+=5;
-			else if (xTouch < xCoord)
-				xCoord-=5;
+			if (xTouch > centerxCoord && !(xTouch-moveSpeed<centerxCoord && xTouch+moveSpeed>centerxCoord))
+				xCoord+=moveSpeed;
+			else if (xTouch < centerxCoord&& !(xTouch-moveSpeed>centerxCoord && xTouch+moveSpeed<centerxCoord))
+				xCoord-=moveSpeed;
 		} else {
-			if (yTouch > yCoord)
-				yCoord+=5;
-			else if (yTouch < yCoord)
-				yCoord-=5;
+			if (yTouch > centeryCoord && !(yTouch-moveSpeed<centeryCoord && yTouch+moveSpeed>centeryCoord))
+				yCoord+=moveSpeed;
+			else if (yTouch < centeryCoord&& !(yTouch-moveSpeed>centeryCoord && yTouch+moveSpeed<centeryCoord))
+				yCoord-=moveSpeed;
 		}
 	}
 }
