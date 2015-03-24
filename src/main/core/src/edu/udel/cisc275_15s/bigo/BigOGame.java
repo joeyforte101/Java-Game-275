@@ -15,7 +15,7 @@ public class BigOGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 	}
-	//hello
+	//this works
 	@Override
 	public void render () {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
