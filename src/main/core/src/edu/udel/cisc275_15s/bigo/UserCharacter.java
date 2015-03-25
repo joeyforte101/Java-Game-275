@@ -11,7 +11,8 @@ public class UserCharacter {
 	SpriteBatch batch = new SpriteBatch();
 	private int moveSpeed = 5;
 	public final int WIDTH = Gdx.graphics.getWidth(),HEIGHT = Gdx.graphics.getHeight();
-	Texture userText = new Texture("badlogic.jpg");
+	Texture userText = new Texture("playerBack.png");
+	Texture mapBackground = new Texture("background.png");
 
 	public UserCharacter(int x, int y) {
 		xCoord = x;
@@ -20,6 +21,7 @@ public class UserCharacter {
 
 	public void draw() {
 		batch.begin();
+		batch.draw(mapBackground, 0,0);
 		batch.draw(userText, xCoord, yCoord, xScale, yScale);
 		batch.end();
 	}
