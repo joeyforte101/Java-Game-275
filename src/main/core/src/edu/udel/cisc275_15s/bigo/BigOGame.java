@@ -32,6 +32,7 @@ public class BigOGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		mainGuy.draw();
+		
 		//draws most recent mouse click coordinate to the screen for testing
 		batch.begin();
 		font.draw(batch,coords,30,30);
