@@ -1,13 +1,16 @@
 package edu.udel.cisc275_15s.bigo;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class UserCharacter {
 	private int xCoord, yCoord;
 	private int xScale = 32, yScale = 32;
+	private boolean moveHoriz = true;
 	SpriteBatch batch = new SpriteBatch();
 	private int moveSpeed = 5;
+	public final int WIDTH = Gdx.graphics.getWidth(),HEIGHT = Gdx.graphics.getHeight();
 	Texture userText = new Texture("badlogic.jpg");
 
 	public UserCharacter(int x, int y) {
@@ -21,22 +24,33 @@ public class UserCharacter {
 		batch.end();
 	}
 
-	public void move(int xTouch, int yTouch) {
+	//character movement
+	public void move(int xTouch, int yTouch, boolean changeDirec) {
 		yTouch=Mapping.yScreenToText(yTouch);
 		int centerxCoord = xCoord+xScale/2;
 		int centeryCoord = yCoord+yScale/2;
 		boolean xBigger = (Math.abs(xTouch - centerxCoord) > Math.abs(yTouch - centeryCoord));
-
-		if (xBigger) {
-			if (xTouch > centerxCoord && !(xTouch-moveSpeed<centerxCoord && xTouch+moveSpeed>centerxCoord))
+		//makes sure horizontal or vertical movement is done first
+		if(!changeDirec){
+			if(xBigger) moveHoriz = true;
+			else moveHoriz = false;
+		}
+		if (moveHoriz) {
+			//move right
+			if (xTouch > centerxCoord && !(xTouch-moveSpeed<centerxCoord && xTouch+moveSpeed>centerxCoord) && xCoord+xScale+moveSpeed<WIDTH)
 				xCoord+=moveSpeed;
-			else if (xTouch < centerxCoord&& !(xTouch-moveSpeed>centerxCoord && xTouch+moveSpeed<centerxCoord))
+			//move left
+			else if (xTouch < centerxCoord&& !(xTouch-moveSpeed>centerxCoord && xTouch+moveSpeed<centerxCoord) &&xCoord-moveSpeed>0)
 				xCoord-=moveSpeed;
+			else moveHoriz = false;
 		} else {
-			if (yTouch > centeryCoord && !(yTouch-moveSpeed<centeryCoord && yTouch+moveSpeed>centeryCoord))
+			//move up
+			if (yTouch > centeryCoord && !(yTouch-moveSpeed<centeryCoord && yTouch+moveSpeed>centeryCoord)&& yCoord+yScale+moveSpeed<HEIGHT)
 				yCoord+=moveSpeed;
-			else if (yTouch < centeryCoord&& !(yTouch-moveSpeed>centeryCoord && yTouch+moveSpeed<centeryCoord))
+			//move down
+			else if (yTouch < centeryCoord&& !(yTouch-moveSpeed>centeryCoord && yTouch+moveSpeed<centeryCoord)&&yCoord-moveSpeed>0)
 				yCoord-=moveSpeed;
+			else moveHoriz = true;
 		}
 	}
 }
