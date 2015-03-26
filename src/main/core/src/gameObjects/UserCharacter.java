@@ -72,6 +72,6 @@ public class UserCharacter {
 				yCoord-=moveSpeed;
 			else moveHoriz = true;
 		}
-		boundingCircle.set(xCoord+xScale/2,yCoord+yScale/2,xScale/2-3);
+		boundingCircle.set(xCoord+xScale/2,yCoord+yScale/2,xScale/2);
 	}
 }

@@ -1,5 +1,6 @@
 package edu.udel.cisc275_15s.bigo;
 
+import gameObjects.ImmovableObstacle;
 import gameObjects.UserCharacter;
 import helperClasses.Mapping;
 
@@ -21,13 +22,14 @@ public class BigOGame extends ApplicationAdapter {
 	private BitmapFont font;
 	boolean tapLock= false;
 	Texture mapBackground;
-
+	ImmovableObstacle someGuy;
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		mainGuy = new UserCharacter(0,0);
 		coords = "start";
 		font = new BitmapFont();
+		someGuy = new ImmovableObstacle(300, 300, 32, 32, "playerBack.png");
 	    mapBackground = new Texture("background.png");
 		final int WIDTH = Gdx.graphics.getWidth();
 		final int HEIGHT = Gdx.graphics.getHeight();
@@ -44,7 +46,7 @@ public class BigOGame extends ApplicationAdapter {
 		batch.end();
 		
 		mainGuy.draw();
-		
+		someGuy.draw();
 		//Checks if screen is tapped in a different place so movement direction priority can be calculated
 		if(Gdx.input.isTouched() && !tapLock){ 
 			coords=Integer.toString(Gdx.input.getX())+":"+Integer.toString(Mapping.yScreenToText(Gdx.input.getY()));
