@@ -1,4 +1,4 @@
-package edu.udel.cisc275_15s.bigo;
+package helperClasses;
 
 import com.badlogic.gdx.Gdx;
 

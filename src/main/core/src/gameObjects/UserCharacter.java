@@ -1,8 +1,12 @@
-package edu.udel.cisc275_15s.bigo;
+package gameObjects;
+
+
+import helperClasses.Mapping;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Circle;
 
 public class UserCharacter {
 	private int xCoord, yCoord;
@@ -12,8 +16,9 @@ public class UserCharacter {
 	private int moveSpeed = 5;
 	public final int WIDTH = Gdx.graphics.getWidth(),HEIGHT = Gdx.graphics.getHeight();
 	Texture userText = new Texture("playerBack.png");
-	Texture mapBackground = new Texture("background.png");
-
+	//for collision
+	private Circle boundingCircle;
+	
 	public UserCharacter(int x, int y) {
 		xCoord = x;
 		yCoord = y;
@@ -21,7 +26,6 @@ public class UserCharacter {
 
 	public void draw() {
 		batch.begin();
-		batch.draw(mapBackground, 0,0);
 		batch.draw(userText, xCoord, yCoord, xScale, yScale);
 		batch.end();
 	}

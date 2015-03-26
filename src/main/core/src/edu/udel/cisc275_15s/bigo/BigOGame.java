@@ -1,5 +1,8 @@
 package edu.udel.cisc275_15s.bigo;
 
+import gameObjects.UserCharacter;
+import helperClasses.Mapping;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -17,27 +20,30 @@ public class BigOGame extends ApplicationAdapter {
 	UserCharacter mainGuy;
 	private BitmapFont font;
 	boolean tapLock= false;
+	Texture mapBackground;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		mainGuy = new UserCharacter(0,0);
 		coords = "start";
 		font = new BitmapFont();
+	    mapBackground = new Texture("background.png");
 		final int WIDTH = Gdx.graphics.getWidth();
 		final int HEIGHT = Gdx.graphics.getHeight();
 		font.setColor(Color.BLACK);
 	}
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		mainGuy.draw();
-		
-		//draws most recent mouse click coordinate to the screen for testing
+//		Gdx.gl.glClearColor(1, 0, 0, 1);
+//		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
+		batch.draw(mapBackground, 0,0);
+		//draws most recent mouse click coordinate to the screen for testing
 		font.draw(batch,coords,30,30);
 		batch.end();
-		//^testing logic ends here
+		
+		mainGuy.draw();
 		
 		//Checks if screen is tapped in a different place so movement direction priority can be calculated
 		if(Gdx.input.isTouched() && !tapLock){ 
