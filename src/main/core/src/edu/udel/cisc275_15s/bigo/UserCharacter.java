@@ -31,6 +31,11 @@ public class UserCharacter {
 		yTouch=Mapping.yScreenToText(yTouch);
 		int centerxCoord = xCoord+xScale/2;
 		int centeryCoord = yCoord+yScale/2;
+		//boundaries
+		boolean rightBound = xCoord+xScale+moveSpeed<WIDTH;
+		boolean leftBound = xCoord-moveSpeed>0;
+		boolean topBound =  yCoord+yScale+moveSpeed<HEIGHT;
+		boolean bottomBound = yCoord-moveSpeed>0;
 		boolean xBigger = (Math.abs(xTouch - centerxCoord) > Math.abs(yTouch - centeryCoord));
 		//makes sure horizontal or vertical movement is done first
 		if(!changeDirec){
@@ -39,18 +44,18 @@ public class UserCharacter {
 		}
 		if (moveHoriz) {
 			//move right
-			if (xTouch > centerxCoord && !(xTouch-moveSpeed<centerxCoord && xTouch+moveSpeed>centerxCoord) && xCoord+xScale+moveSpeed<WIDTH)
+			if (xTouch > centerxCoord && !(xTouch-moveSpeed<centerxCoord && xTouch+moveSpeed>centerxCoord) && rightBound)
 				xCoord+=moveSpeed;
 			//move left
-			else if (xTouch < centerxCoord&& !(xTouch-moveSpeed>centerxCoord && xTouch+moveSpeed<centerxCoord) &&xCoord-moveSpeed>0)
+			else if (xTouch < centerxCoord&& !(xTouch-moveSpeed>centerxCoord && xTouch+moveSpeed<centerxCoord) &&leftBound)
 				xCoord-=moveSpeed;
 			else moveHoriz = false;
 		} else {
 			//move up
-			if (yTouch > centeryCoord && !(yTouch-moveSpeed<centeryCoord && yTouch+moveSpeed>centeryCoord)&& yCoord+yScale+moveSpeed<HEIGHT)
+			if (yTouch > centeryCoord && !(yTouch-moveSpeed<centeryCoord && yTouch+moveSpeed>centeryCoord)&& topBound)
 				yCoord+=moveSpeed;
 			//move down
-			else if (yTouch < centeryCoord&& !(yTouch-moveSpeed>centeryCoord && yTouch+moveSpeed<centeryCoord)&&yCoord-moveSpeed>0)
+			else if (yTouch < centeryCoord&& !(yTouch-moveSpeed>centeryCoord && yTouch+moveSpeed<centeryCoord)&&bottomBound)
 				yCoord-=moveSpeed;
 			else moveHoriz = true;
 		}
