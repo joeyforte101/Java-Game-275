@@ -4,8 +4,11 @@ package gameObjects;
 import helperClasses.Mapping;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Circle;
 
 public class UserCharacter {
@@ -22,12 +25,18 @@ public class UserCharacter {
 	public UserCharacter(int x, int y) {
 		xCoord = x;
 		yCoord = y;
+		boundingCircle = new Circle();
 	}
 
 	public void draw() {
 		batch.begin();
 		batch.draw(userText, xCoord, yCoord, xScale, yScale);
 		batch.end();
+		ShapeRenderer shapeRenderer = new ShapeRenderer();
+		shapeRenderer.begin(ShapeType.Filled);
+		shapeRenderer.setColor(Color.RED);
+		shapeRenderer.circle(boundingCircle.x, boundingCircle.y, boundingCircle.radius);
+		shapeRenderer.end();
 	}
 
 	//character movement
@@ -63,5 +72,6 @@ public class UserCharacter {
 				yCoord-=moveSpeed;
 			else moveHoriz = true;
 		}
+		boundingCircle.set(xCoord+xScale/2,yCoord+yScale/2,xScale/2-3);
 	}
 }
