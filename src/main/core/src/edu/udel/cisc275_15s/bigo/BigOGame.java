@@ -1,6 +1,9 @@
 package edu.udel.cisc275_15s.bigo;
 
+import java.util.ArrayList;
+
 import gameObjects.ImmovableObstacle;
+import gameObjects.Obstacle;
 import gameObjects.UserCharacter;
 import helperClasses.Mapping;
 
@@ -23,6 +26,7 @@ public class BigOGame extends ApplicationAdapter {
 	boolean tapLock= false;
 	Texture mapBackground;
 	ImmovableObstacle someGuy;
+	ArrayList<Obstacle> obstacles;
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -34,6 +38,8 @@ public class BigOGame extends ApplicationAdapter {
 		final int WIDTH = Gdx.graphics.getWidth();
 		final int HEIGHT = Gdx.graphics.getHeight();
 		font.setColor(Color.BLACK);
+		obstacles = new ArrayList<Obstacle>();
+		obstacles.add(someGuy);
 	}
 	@Override
 	public void render () {
@@ -49,14 +55,14 @@ public class BigOGame extends ApplicationAdapter {
 		someGuy.draw();
 		//Checks if screen is tapped in a different place so movement direction priority can be calculated
 		if(Gdx.input.isTouched() && !tapLock){ 
-			coords=Integer.toString(Gdx.input.getX())+":"+Integer.toString(Mapping.yScreenToText(Gdx.input.getY()));
-			mainGuy.move(Gdx.input.getX(),Gdx.input.getY(),tapLock);
+			coords=Integer.toString((int)mainGuy.getRect().y)+":"+Integer.toString((int)someGuy.getHitBox().y);
+			mainGuy.move(Gdx.input.getX(),Gdx.input.getY(),tapLock,obstacles);
 			tapLock = true;
 		}
 		//moves as long as screen is tapped
 		else if(Gdx.input.isTouched()){
-			coords=Integer.toString(Gdx.input.getX())+":"+Integer.toString(Mapping.yScreenToText(Gdx.input.getY()));
-			mainGuy.move(Gdx.input.getX(),Gdx.input.getY(),tapLock);
+			coords=Integer.toString((int)mainGuy.getRect().y)+":"+Integer.toString((int)someGuy.getHitBox().y);
+			mainGuy.move(Gdx.input.getX(),Gdx.input.getY(),tapLock,obstacles);
 		}
 		if(!Gdx.input.isTouched())tapLock=false;
 	}
