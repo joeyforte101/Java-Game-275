@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
-public class ImmovableObstacle extends Obstacle{
+public class ImmovableObstacle extends Obstacle {
 //	protected int xCoord, yCoord;
 //	protected int xScale, yScale;
 //	SpriteBatch batch = new SpriteBatch();
@@ -18,16 +18,16 @@ public class ImmovableObstacle extends Obstacle{
 	public ImmovableObstacle(int xLoc, int yLoc,int width,int height,String textureName){
 		xCoord = xLoc;
 		yCoord = yLoc;
-		image = new Texture(textureName);
+		texture = new Texture(textureName);
 		xScale = width;
 		yScale = height;
 		int rectScaler = 4;
-		boundingRectangle = new Rectangle(xCoord-rectScaler,yCoord-rectScaler,xScale+2*rectScaler,yScale+2*rectScaler);
+		hitBox = new Rectangle(xCoord-rectScaler,yCoord-rectScaler,xScale+2*rectScaler,yScale+2*rectScaler);
 	}
 
 	public void draw() {
 		batch.begin();
-		batch.draw(image, xCoord, yCoord, xScale, yScale);
+		batch.draw(texture, xCoord, yCoord, xScale, yScale);
 		batch.end();
 //		ShapeRenderer shapeRenderer = new ShapeRenderer();
 //		shapeRenderer.begin(ShapeType.Filled);
