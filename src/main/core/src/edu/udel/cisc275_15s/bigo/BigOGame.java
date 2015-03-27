@@ -96,6 +96,7 @@ public class BigOGame extends ApplicationAdapter {
 	{
 		  String fileName = "test.txt";
 		  String line = null;
+		  int x;
 		  Question testquestion;
 		  try{
 		  FileReader fileReader = new FileReader(fileName);
