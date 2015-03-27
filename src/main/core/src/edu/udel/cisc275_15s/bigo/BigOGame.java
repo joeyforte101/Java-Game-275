@@ -1,12 +1,23 @@
 package edu.udel.cisc275_15s.bigo;
 
+
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import gameObjects.AdvisementQuestion;
+import gameObjects.DropAddQuestion;
 import gameObjects.Entity;
 //import gameObjects.ImmovableObstacle;
 import gameObjects.Obstacle;
+import gameObjects.Question;
 import gameObjects.Trainer;
+import gameObjects.UDSISQuestion;
 import gameObjects.UserCharacter;
+import gameObjects.QuestionFactory;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -28,6 +39,9 @@ public class BigOGame extends ApplicationAdapter {
 	Texture mapBackground;
 	Trainer someGuy;
 	ArrayList<Obstacle> obstacles;
+	ArrayList<AdvisementQuestion> AdvisementQuestionList;
+	ArrayList<DropAddQuestion> DropAddQuestionList;
+	ArrayList<UDSISQuestion> UDSISQuestionList;
 	
 	@Override
 	public void create () {
@@ -43,6 +57,7 @@ public class BigOGame extends ApplicationAdapter {
 		font.setColor(Color.BLACK);
 		obstacles = new ArrayList<Obstacle>();
 		obstacles.add(someGuy);
+		buildquestionlists();
 	}
 	
 	@Override
@@ -76,5 +91,40 @@ public class BigOGame extends ApplicationAdapter {
 //		shapeRenderer.rect(e.hitBox.x, e.hitBox.y, e.hitBox.width, e.hitBox.height);
 //		shapeRenderer.end();
 		batch.draw(e.texture, e.x, e.y, e.width, e.height);
+	}
+	private void buildquestionlists()
+	{
+		  String fileName = "test.txt";
+		  String line = null;
+		  Question testquestion;
+		  try{
+		  FileReader fileReader = new FileReader(fileName);
+		  BufferedReader bufferedReader = new BufferedReader(fileReader);
+		  
+		    while((line = bufferedReader.readLine()) != null) {
+		        testquestion = QuestionFactory.getQuestion(line);
+		        if(testquestion.type() == "UDSIS")
+		        	UDSISQuestionList.add((UDSISQuestion) testquestion);
+		        else if(testquestion.type() == "Drop Add")
+		        	DropAddQuestionList.add((DropAddQuestion) testquestion);
+		        else
+		        	AdvisementQuestionList.add((AdvisementQuestion) testquestion);
+		        
+		    }
+		  }
+		  catch(FileNotFoundException ex) {
+			    System.out.println(
+			        "Unable to open file '" + 
+			        fileName + "'");                
+			}
+			catch(IOException ex) {
+			    System.out.println(
+			        "Error reading file '" 
+			        + fileName + "'");                   
+			    
+			}
+		  //System.out.println(UDSISQuestionList.get(0));
+		  //System.out.println(DropAddQuestionList.get(0));
+		  //System.out.println(AdvisementQuestionList.get(0));
 	}
 }
