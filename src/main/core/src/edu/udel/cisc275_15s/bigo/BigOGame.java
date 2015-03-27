@@ -56,8 +56,6 @@ public class BigOGame extends ApplicationAdapter {
 		draw(mainGuy);
 		draw(someGuy);
 		batch.end();
-//		mainGuy.draw();
-//		someGuy.draw();
 		//Checks if screen is tapped in a different place so movement direction priority can be calculated
 		if(Gdx.input.isTouched() && !tapLock){ 
 			mainGuy.move(Gdx.input.getX(),Gdx.input.getY(),tapLock,obstacles);

@@ -15,5 +15,9 @@ public class Trainer extends Obstacle {
 		width = texture.getWidth();
 		height = texture.getHeight();
 		hitBox = new Rectangle(x, y, width, height);
+		int rectScaler = 7;
+		int stoppingScaler = 4;
+		intersectingRectangle = new Rectangle(x-rectScaler,y-rectScaler,width+2*rectScaler,height+2*rectScaler);
+		stoppingRectangle = new Rectangle(x-stoppingScaler,y-stoppingScaler,width+2*stoppingScaler,height+2*stoppingScaler);
 	}
 }

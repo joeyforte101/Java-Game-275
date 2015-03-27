@@ -1,34 +1,45 @@
 package gameObjects;
-
+//obstacle
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
-public abstract class Obstacle extends Entity {
-	protected int xCoord, yCoord;
-	protected int xScale, yScale;
+public abstract class Obstacle extends Entity{
 	SpriteBatch batch = new SpriteBatch();
 	public final int WIDTH = Gdx.graphics.getWidth(),HEIGHT = Gdx.graphics.getHeight();
-//	protected Texture image;
-//	protected Rectangle boundingRectangle;
+	protected Texture image;
+	protected Rectangle intersectingRectangle;
+	protected Rectangle boundingRectangle;
+	protected Rectangle stoppingRectangle;
 	
 	public void draw() {
 		batch.begin();
 		batch.setColor(Color.BLUE);
-		batch.draw(texture, xCoord, yCoord, xScale, yScale);
+		batch.draw(image, x, y, width, height);
 		batch.end();
 	}
-	
+	//was using these for collision will probably remove later
+	public Rectangle getProximityRect(){
+		return intersectingRectangle;
+	}
+	public Rectangle getStoppingRect(){
+		return stoppingRectangle;
+	}
+	public Rectangle getHitBox(){
+		return hitBox;
+	}
 	public int getWidth(){
-		return xScale;
+		return x;
 	}
 	public int getHeight(){
-		return yScale;
+		return y;
 	}
 	public int getXCoord(){
-		return xCoord;
+		return width;
 	}
 	public int getYCoord(){
-		return yCoord;
+		return height;
 	}
 }
