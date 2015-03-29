@@ -39,9 +39,9 @@ public class BigOGame extends ApplicationAdapter {
 	Texture mapBackground;
 	Trainer someGuy;
 	ArrayList<Obstacle> obstacles;
-	ArrayList<AdvisementQuestion> AdvisementQuestionList;
-	ArrayList<DropAddQuestion> DropAddQuestionList;
-	ArrayList<UDSISQuestion> UDSISQuestionList;
+	ArrayList<AdvisementQuestion> AdvisementQuestionList = new ArrayList<AdvisementQuestion>();
+	ArrayList<DropAddQuestion> DropAddQuestionList = new ArrayList<DropAddQuestion>();
+	ArrayList<UDSISQuestion> UDSISQuestionList = new ArrayList<UDSISQuestion>();
 	
 	@Override
 	public void create () {
@@ -124,8 +124,8 @@ public class BigOGame extends ApplicationAdapter {
 			        + fileName + "'");                   
 			    
 			}
-		  //System.out.println(UDSISQuestionList.get(0));
-		  //System.out.println(DropAddQuestionList.get(0));
-		  //System.out.println(AdvisementQuestionList.get(0));
+		  System.out.println(UDSISQuestionList.get(0));
+		  System.out.println(DropAddQuestionList.get(0));
+		  System.out.println(AdvisementQuestionList.get(0));
 	}
 }
