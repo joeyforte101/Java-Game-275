@@ -11,9 +11,11 @@ import java.util.ArrayList;
 import gameObjects.AdvisementQuestion;
 import gameObjects.DropAddQuestion;
 import gameObjects.Entity;
+import gameObjects.InfoNPC;
 //import gameObjects.ImmovableObstacle;
 import gameObjects.Obstacle;
 import gameObjects.Question;
+import gameObjects.TextBox;
 import gameObjects.Trainer;
 import gameObjects.UDSISQuestion;
 import gameObjects.UserCharacter;
@@ -38,6 +40,8 @@ public class BigOGame extends ApplicationAdapter {
 	boolean tapLock= false;
 	Texture mapBackground;
 	Trainer someGuy;
+	TextBox currenttext = null;
+	InfoNPC infoGuy;
 	ArrayList<Obstacle> obstacles;
 	ArrayList<AdvisementQuestion> AdvisementQuestionList = new ArrayList<AdvisementQuestion>();
 	ArrayList<DropAddQuestion> DropAddQuestionList = new ArrayList<DropAddQuestion>();
@@ -50,6 +54,7 @@ public class BigOGame extends ApplicationAdapter {
 		debugString = "start";
 		font = new BitmapFont();
 		someGuy = new Trainer("trainer.png", 300, 300);
+		infoGuy = new InfoNPC("trainer.png",400, 400, "Hey Did You know the DeadLine for Drop/Add is 2 Weeks?");
 //		someGuy = new ImmovableObstacle(300, 300, 32, 32, "playerBack.png");
 	    mapBackground = new Texture("background.png");
 //		final int WIDTH = Gdx.graphics.getWidth();
@@ -57,6 +62,7 @@ public class BigOGame extends ApplicationAdapter {
 		font.setColor(Color.BLACK);
 		obstacles = new ArrayList<Obstacle>();
 		obstacles.add(someGuy);
+		obstacles.add(infoGuy);
 		buildquestionlists();
 	}
 	
@@ -68,9 +74,20 @@ public class BigOGame extends ApplicationAdapter {
 		batch.draw(mapBackground, 0,0);
 		//draws most recent mouse click coordinate to the screen for testing
 		font.draw(batch,debugString,30,30);
-		draw(mainGuy);
+		
+	
+		
+		draw(infoGuy);
 		draw(someGuy);
+		
+		draw(mainGuy);
+		
+	
+		
+		
+		
 		batch.end();
+		drawcurrenttexts();
 		//Checks if screen is tapped in a different place so movement direction priority can be calculated
 		if(Gdx.input.isTouched() && !tapLock){ 
 			mainGuy.move(Gdx.input.getX(),Gdx.input.getY(),tapLock,obstacles);
@@ -125,7 +142,61 @@ public class BigOGame extends ApplicationAdapter {
 			    
 			}
 		  System.out.println(UDSISQuestionList.get(0));
-		  System.out.println(DropAddQuestionList.get(0));
+ 		  System.out.println(DropAddQuestionList.get(0));
 		  System.out.println(AdvisementQuestionList.get(0));
+	}
+	
+	private void drawcurrenttexts()
+	{
+		for(Obstacle o : obstacles)
+		{
+			
+			if(o instanceof InfoNPC)
+			{
+				boolean inrange =	Math.abs(o.getWidth() - mainGuy.getx()) < 75 &&
+						Math.abs(o.getHeight() - mainGuy.gety()) < 75;
+				
+				if(((InfoNPC) o).getjusttalked() && inrange)
+				{
+					mainGuy.settalkingfalse();
+					((InfoNPC) o).displaypromptfalse();
+				}
+				else
+					((InfoNPC) o).setjusttalkedfalse();
+				
+				if(((InfoNPC) o).getprompt() && !((InfoNPC) o).getjusttalked())
+				{
+				mainGuy.settalkingtrue();
+				((InfoNPC) o).displaypromptfalse();
+				currenttext = new TextBox(1,1,((InfoNPC)o).getinfo());
+				}
+				
+			
+	
+	
+					
+				
+				
+		
+				
+			
+				
+					
+					
+				 if(Gdx.input.justTouched() && !((InfoNPC) o).getjusttalked() && mainGuy.gettalking())
+				{
+						mainGuy.settalkingfalse();
+						((InfoNPC) o).setjusttalkedtrue();
+				}
+				
+				
+			
+					
+			}
+		}
+			if(mainGuy.gettalking() == true)
+				currenttext.displaytextbox();
+			
+			
 	}
 }

@@ -15,6 +15,7 @@ public class UserCharacter extends Entity {
 	int moveSpeed = 4;
 	public final int WIDTH = Gdx.graphics.getWidth();
 	public final int HEIGHT = Gdx.graphics.getHeight();
+	boolean nottalking = true;
 	//for collision
 	// private Rectangle hitBox;
 	
@@ -66,10 +67,17 @@ public class UserCharacter extends Entity {
 				boolean yCheck = (hitBox.y > botCoord&&hitBox.y<topCoord);
 				boolean xCheck = (hitBox.x >leftCoord &&hitBox.x<rightCoord);
 				//movement stopping logic
+				
+				
+				
 				if(hitBox.x+width<o.getHitBox().x && yCheck)rightBound=false;
 				else if(hitBox.x>o.getHitBox().x+o.getHitBox().width && yCheck)leftBound=false;
 				if(o.getHitBox().y-o.getHitBox().height> hitBox.y && xCheck) topBound=false;
 				else if(o.getHitBox().y> hitBox.y-height && hitBox.y>o.getHitBox().y&& xCheck)bottomBound=false;
+				if((!rightBound || !leftBound||!topBound||!bottomBound) && (o instanceof InfoNPC)){
+			
+					((InfoNPC) o).displayprompttrue();
+				}
 			}
 		}
 		for(Obstacle o : obstacles){
@@ -82,8 +90,10 @@ public class UserCharacter extends Entity {
 				if(o.hitBox.x < hitBox.x+width && yCheck)leftBound=false;
 				if(o.hitBox.y-o.hitBox.height+12> hitBox.y && xCheck)topBound=false;
 				if(o.hitBox.y +12> hitBox.y-height && hitBox.y>o.hitBox.y&& xCheck)bottomBound=false;
+				
 			}
 		}
+	if(nottalking){
 		if (moveHoriz) {
 			//move right
 			if (xTouch > centerx && !(xTouch-moveSpeed<centerx && xTouch+moveSpeed>centerx) && rightBound)
@@ -102,8 +112,26 @@ public class UserCharacter extends Entity {
 			else moveHoriz = true;
 		}
 		hitBox.set(x, y, width, height);
+		
 	}
-
+	}
+	public void settalkingtrue(){
+		nottalking = false;
+	}
+	public void settalkingfalse(){
+		nottalking = true;
+	}
+	public boolean gettalking(){
+		return !nottalking;
+	}
+	public int getx(){
+		return x;
+	}
+	public int gety(){
+		return y;
+	}
+	
+	
 //	@Override
 //	public Rectangle getHitBox() {
 //		return hitBox;
