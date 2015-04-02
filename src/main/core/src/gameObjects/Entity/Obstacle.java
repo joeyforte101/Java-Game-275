@@ -1,4 +1,4 @@
-package gameObjects;
+package gameObjects.Entity;
 //obstacle
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;

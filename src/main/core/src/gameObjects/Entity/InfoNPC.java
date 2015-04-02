@@ -1,9 +1,9 @@
-package gameObjects;
+package gameObjects.Entity;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 
-public class InfoNPC extends Obstacle {
+public class InfoNPC extends NPC {
 private String info;
 private boolean talking = false;
 private boolean justrecentlytalked = false;
@@ -29,19 +29,24 @@ public InfoNPC (String t, int xpos, int ypos, String text) {
 	{
 		talking = true;
 	}
+	
 	public void displaypromptfalse()
 	{
 		talking = false;
 	}
+	
 	public boolean getprompt(){
 		return talking;
 	}
+	
 	public boolean getjusttalked(){
 		return justrecentlytalked;
 	}
+	
 	public void setjusttalkedtrue(){
 		justrecentlytalked = true;
 	}
+	
 	public void setjusttalkedfalse(){
 		justrecentlytalked = false;
 	}

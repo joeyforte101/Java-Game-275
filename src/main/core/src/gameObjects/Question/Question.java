@@ -1,4 +1,4 @@
-package gameObjects;
+package gameObjects.Question;
 
 public abstract class Question {
 private int timesused;

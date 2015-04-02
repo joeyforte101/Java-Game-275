@@ -1,4 +1,6 @@
-package gameObjects;
+package gameObjects.Question;
+
+import gameObjects.UDSISQuestion;
 
 public class QuestionFactory {
 public static Question getQuestion(String line)

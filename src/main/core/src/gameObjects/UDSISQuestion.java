@@ -1,5 +1,7 @@
 package gameObjects;
 
+import gameObjects.Question.Question;
+
 public class UDSISQuestion extends Question {
 
 	public UDSISQuestion(String q, String a1, String a2, String a3, String a4,

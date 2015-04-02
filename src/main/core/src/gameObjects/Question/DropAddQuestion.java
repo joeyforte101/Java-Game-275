@@ -1,4 +1,5 @@
-package gameObjects;
+package gameObjects.Question;
+
 
 public class DropAddQuestion extends Question {
 

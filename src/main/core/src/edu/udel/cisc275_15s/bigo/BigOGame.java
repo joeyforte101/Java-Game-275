@@ -8,18 +8,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import gameObjects.AdvisementQuestion;
-import gameObjects.DropAddQuestion;
-import gameObjects.Entity;
-import gameObjects.InfoNPC;
-//import gameObjects.ImmovableObstacle;
-import gameObjects.Obstacle;
-import gameObjects.Question;
 import gameObjects.TextBox;
-import gameObjects.Trainer;
 import gameObjects.UDSISQuestion;
-import gameObjects.UserCharacter;
-import gameObjects.QuestionFactory;
+import gameObjects.Entity.Entity;
+import gameObjects.Entity.InfoNPC;
+import gameObjects.Entity.Obstacle;
+import gameObjects.Entity.Trainer;
+import gameObjects.Entity.UserCharacter;
+import gameObjects.Question.AdvisementQuestion;
+import gameObjects.Question.DropAddQuestion;
+import gameObjects.Question.Question;
+import gameObjects.Question.QuestionFactory;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;

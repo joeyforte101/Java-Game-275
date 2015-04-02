@@ -1,4 +1,4 @@
-package gameObjects;
+package gameObjects.Entity;
 //imovable
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
