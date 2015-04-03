@@ -1,6 +1,7 @@
 package gameObjects.Entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import helperClasses.Mapping;
 
@@ -40,7 +41,7 @@ public class UserCharacter extends Entity {
 //	}
 
 	//character movement
-	public void move(int xTouch, int yTouch, boolean changeDirec,ArrayList<Obstacle> obstacles) {
+	public void move(int xTouch, int yTouch, boolean changeDirec,List<NPC> npcs) {
 		yTouch=Mapping.yScreenToText(yTouch);
 		int centerx = x+width/2;
 		int centery = y+height/2;
@@ -55,7 +56,7 @@ public class UserCharacter extends Entity {
 			if(xBigger) moveHoriz = true;
 			else moveHoriz = false;
 		}
-		for(Obstacle o : obstacles){
+		for(Obstacle o : npcs){
 			if(Intersector.overlaps(hitBox, o.getProximityRect()))
 			{
 				//calculates coordinates for which an intersection would occur
@@ -80,7 +81,7 @@ public class UserCharacter extends Entity {
 				}
 			}
 		}
-		for(Obstacle o : obstacles){
+		for(Obstacle o : npcs){
 			if(Intersector.overlaps(hitBox, o.hitBox))
 			{
 				// What side of the obstacle am I on

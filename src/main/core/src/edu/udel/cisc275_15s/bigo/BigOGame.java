@@ -7,11 +7,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
+import gameObjects.Room;
 import gameObjects.TextBox;
 import gameObjects.UDSISQuestion;
 import gameObjects.Entity.Entity;
 import gameObjects.Entity.InfoNPC;
+import gameObjects.Entity.NPC;
 import gameObjects.Entity.Obstacle;
 import gameObjects.Entity.Trainer;
 import gameObjects.Entity.UserCharacter;
@@ -37,11 +40,15 @@ public class BigOGame extends ApplicationAdapter {
 	UserCharacter mainGuy;
 	BitmapFont font;
 	boolean tapLock= false;
+	
+	Room currentRoom;
 	Texture mapBackground;
+	
 	Trainer someGuy;
 	TextBox currenttext = null;
 	InfoNPC infoGuy;
-	ArrayList<Obstacle> obstacles;
+	
+//	ArrayList<Obstacle> obstacles;
 	ArrayList<AdvisementQuestion> AdvisementQuestionList = new ArrayList<AdvisementQuestion>();
 	ArrayList<DropAddQuestion> DropAddQuestionList = new ArrayList<DropAddQuestion>();
 	ArrayList<UDSISQuestion> UDSISQuestionList = new ArrayList<UDSISQuestion>();
@@ -55,13 +62,17 @@ public class BigOGame extends ApplicationAdapter {
 		someGuy = new Trainer("trainer.png", 300, 300);
 		infoGuy = new InfoNPC("trainer.png",400, 400, "Hey Did You know the DeadLine for Drop/Add is 2 Weeks?");
 //		someGuy = new ImmovableObstacle(300, 300, 32, 32, "playerBack.png");
-	    mapBackground = new Texture("background.png");
+		LinkedList<NPC> temp = new LinkedList<NPC>();
+		temp.add(someGuy);
+		temp.add(infoGuy);
+		currentRoom = new Room("background.png", temp);
+//	    mapBackground = new Texture("background.png");
 //		final int WIDTH = Gdx.graphics.getWidth();
 //		final int HEIGHT = Gdx.graphics.getHeight();
 		font.setColor(Color.BLACK);
-		obstacles = new ArrayList<Obstacle>();
-		obstacles.add(someGuy);
-		obstacles.add(infoGuy);
+//		obstacles = new ArrayList<Obstacle>();
+//		obstacles.add(someGuy);
+//		obstacles.add(infoGuy);
 		buildquestionlists();
 	}
 	
@@ -70,14 +81,17 @@ public class BigOGame extends ApplicationAdapter {
 //		Gdx.gl.glClearColor(1, 0, 0, 1);
 //		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(mapBackground, 0,0);
+		batch.draw(currentRoom.background, 0,0);
 		//draws most recent mouse click coordinate to the screen for testing
 		font.draw(batch,debugString,30,30);
 		
-	
+		for (NPC guy : currentRoom.npcs)
+		{
+			draw(guy);
+		}
 		
-		draw(infoGuy);
-		draw(someGuy);
+//		draw(infoGuy);
+//		draw(someGuy);
 		
 		draw(mainGuy);
 		
@@ -89,12 +103,12 @@ public class BigOGame extends ApplicationAdapter {
 		drawcurrenttexts();
 		//Checks if screen is tapped in a different place so movement direction priority can be calculated
 		if(Gdx.input.isTouched() && !tapLock){ 
-			mainGuy.move(Gdx.input.getX(),Gdx.input.getY(),tapLock,obstacles);
+			mainGuy.move(Gdx.input.getX(),Gdx.input.getY(),tapLock,currentRoom.npcs);
 			tapLock = true;
 		}
 		//moves as long as screen is tapped
 		else if(Gdx.input.isTouched()){
-			mainGuy.move(Gdx.input.getX(),Gdx.input.getY(),tapLock,obstacles);
+			mainGuy.move(Gdx.input.getX(),Gdx.input.getY(),tapLock,currentRoom.npcs);
 		}
 		debugString=Integer.toString((int)mainGuy.hitBox.x)+":"+Integer.toString((int)mainGuy.hitBox.y);
 		if(!Gdx.input.isTouched())tapLock=false;
@@ -147,7 +161,7 @@ public class BigOGame extends ApplicationAdapter {
 	
 	private void drawcurrenttexts()
 	{
-		for(Obstacle o : obstacles)
+		for(Obstacle o : currentRoom.npcs)
 		{
 			
 			if(o instanceof InfoNPC)

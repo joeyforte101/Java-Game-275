@@ -3,7 +3,7 @@ package gameObjects.Entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 
-public class Trainer extends Obstacle {
+public class Trainer extends NPC {
 	
 	//placeholder for the question class or w/e
 	String question = "";
