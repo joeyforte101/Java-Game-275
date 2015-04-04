@@ -36,13 +36,18 @@ public class BigOGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 	int x=0,y=0;
+	int WIDTH = 0;
+	int HEIGHT = 0;
 	String debugString;
 	UserCharacter mainGuy;
 	BitmapFont font;
 	boolean tapLock= false;
+	boolean leftDoor = true;
 	
 	Room currentRoom;
-	Texture mapBackground;
+	Room roomOne;
+	Room roomTwo;
+//	Texture mapBackground;
 	
 	Trainer someGuy;
 	TextBox currenttext = null;
@@ -65,39 +70,31 @@ public class BigOGame extends ApplicationAdapter {
 		LinkedList<NPC> temp = new LinkedList<NPC>();
 		temp.add(someGuy);
 		temp.add(infoGuy);
-		currentRoom = new Room("background.png", temp);
+		roomOne = new Room("background.png", temp);
+		roomTwo = new Room("background2.png", new LinkedList<NPC>());
+		currentRoom = roomOne;
 //	    mapBackground = new Texture("background.png");
-//		final int WIDTH = Gdx.graphics.getWidth();
-//		final int HEIGHT = Gdx.graphics.getHeight();
 		font.setColor(Color.BLACK);
 //		obstacles = new ArrayList<Obstacle>();
 //		obstacles.add(someGuy);
 //		obstacles.add(infoGuy);
+		WIDTH = Gdx.graphics.getWidth();
+		HEIGHT = Gdx.graphics.getHeight();
 		buildquestionlists();
 	}
 	
 	@Override
 	public void render () {
-//		Gdx.gl.glClearColor(1, 0, 0, 1);
-//		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		batch.draw(currentRoom.background, 0,0);
-		//draws most recent mouse click coordinate to the screen for testing
+		
 		font.draw(batch,debugString,30,30);
 		
 		for (NPC guy : currentRoom.npcs)
 		{
 			draw(guy);
-		}
-		
-//		draw(infoGuy);
-//		draw(someGuy);
-		
-		draw(mainGuy);
-		
-	
-		
-		
+		}		
+		draw(mainGuy);		
 		
 		batch.end();
 		drawcurrenttexts();
@@ -110,7 +107,22 @@ public class BigOGame extends ApplicationAdapter {
 		else if(Gdx.input.isTouched()){
 			mainGuy.move(Gdx.input.getX(),Gdx.input.getY(),tapLock,currentRoom.npcs);
 		}
-		debugString=Integer.toString((int)mainGuy.hitBox.x)+":"+Integer.toString((int)mainGuy.hitBox.y);
+		// this is a bad place but its a rapid prototype
+		if (mainGuy.x > 20 && mainGuy.x < WIDTH - 45 && mainGuy.y > 20 && mainGuy.y < HEIGHT - 45) {
+			leftDoor = true;
+		}
+		if (mainGuy.y > 250 && mainGuy.y < 300) {
+			if (mainGuy.x < 20 && leftDoor) {
+				currentRoom = roomTwo;
+				leftDoor = false;
+				mainGuy.x = WIDTH - 40;
+			} else if (mainGuy.x > WIDTH - 45 && leftDoor) {
+				currentRoom = roomOne;
+				leftDoor = false;	
+				mainGuy.x = 0;		
+			}	
+		}
+		debugString=Integer.toString((int)mainGuy.hitBox.x)+":"+Integer.toString((int)mainGuy.hitBox.y) +" "+Integer.toString(WIDTH)+"/"+Integer.toString(HEIGHT);
 		if(!Gdx.input.isTouched())tapLock=false;
 	}
 	
@@ -122,6 +134,7 @@ public class BigOGame extends ApplicationAdapter {
 //		shapeRenderer.end();
 		batch.draw(e.texture, e.x, e.y, e.width, e.height);
 	}
+	
 	private void buildquestionlists()
 	{
 		  String fileName = "test.txt";
@@ -182,34 +195,16 @@ public class BigOGame extends ApplicationAdapter {
 				mainGuy.settalkingtrue();
 				((InfoNPC) o).displaypromptfalse();
 				currenttext = new TextBox(1,1,((InfoNPC)o).getinfo());
-				}
-				
-			
-	
-	
-					
-				
-				
-		
-				
-			
-				
-					
+				}					
 					
 				 if(Gdx.input.justTouched() && !((InfoNPC) o).getjusttalked() && mainGuy.gettalking())
 				{
 						mainGuy.settalkingfalse();
 						((InfoNPC) o).setjusttalkedtrue();
-				}
-				
-				
-			
-					
+				}					
 			}
 		}
 			if(mainGuy.gettalking() == true)
 				currenttext.displaytextbox();
-			
-			
 	}
 }
