@@ -25,6 +25,7 @@ import gameObjects.Question.QuestionFactory;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -32,7 +33,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
-public class BigOGame extends ApplicationAdapter {
+public class BigOGame extends ApplicationAdapter implements Screen {
 	SpriteBatch batch;
 	Texture img;
 	int x=0,y=0;
@@ -43,6 +44,7 @@ public class BigOGame extends ApplicationAdapter {
 	BitmapFont font;
 	boolean tapLock= false;
 	boolean leftDoor = true;
+	MainClass mainClass;
 	
 	Room currentRoom;
 	Room roomOne;
@@ -57,7 +59,10 @@ public class BigOGame extends ApplicationAdapter {
 	ArrayList<AdvisementQuestion> AdvisementQuestionList = new ArrayList<AdvisementQuestion>();
 	ArrayList<DropAddQuestion> DropAddQuestionList = new ArrayList<DropAddQuestion>();
 	ArrayList<UDSISQuestion> UDSISQuestionList = new ArrayList<UDSISQuestion>();
-	
+// Constructor needed for screens
+	public BigOGame(MainClass mc){
+		mainClass = mc;
+	}
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -206,5 +211,20 @@ public class BigOGame extends ApplicationAdapter {
 		}
 			if(mainGuy.gettalking() == true)
 				currenttext.displaytextbox();
+	}
+	@Override
+	public void show() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void render(float delta) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void hide() {
+		// TODO Auto-generated method stub
+		
 	}
 }
