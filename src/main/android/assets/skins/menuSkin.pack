@@ -1,0 +1,26 @@
+
+menuSkin.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+font
+  rotate: false
+  xy: 1, 103
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+blue_button2
+  rotate: false
+  xy: 1, 1
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+blue_button3
+  rotate: false
+  xy: 1, 1
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
