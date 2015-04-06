@@ -117,11 +117,11 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 			mainGuy.move(Gdx.input.getX(),Gdx.input.getY(),tapLock,currentRoom.npcs);
 		}
 		// this is a bad place but its a rapid prototype
-		if (mainGuy.x > 20 && mainGuy.x < WIDTH - 45 && mainGuy.y > 20 && mainGuy.y < HEIGHT - 45) {
+		if (mainGuy.x > 100 && mainGuy.x < WIDTH - 45 && mainGuy.y > 20 && mainGuy.y < HEIGHT - 45) {
 			leftDoor = true;
 		}
-		if (mainGuy.y > 250 && mainGuy.y < 300) {
-			if (mainGuy.x < 20 && leftDoor) {
+		if (mainGuy.y > 380 && mainGuy.y < 420) {
+			if (mainGuy.x < 100 && leftDoor) {
 				currentRoom = roomTwo;
 				leftDoor = false;
 				mainGuy.x = WIDTH - 40;
