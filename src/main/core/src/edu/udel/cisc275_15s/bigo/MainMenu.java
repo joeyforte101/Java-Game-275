@@ -3,6 +3,7 @@ package edu.udel.cisc275_15s.bigo;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -17,13 +18,15 @@ public class MainMenu implements Screen {
 
     private Stage stage = new Stage();
     private Table table = new Table();
-    private MainClass mc;
+    Music music = Gdx.audio.newMusic(Gdx.files.internal("mymusic.mp3"));
+    
 
     private Skin skin = new Skin(Gdx.files.internal("skins/menuSkin.json"),
         new TextureAtlas(Gdx.files.internal("skins/menuSkin.pack")));
 
     private TextButton buttonPlay = new TextButton("Play", skin),
-        buttonExit = new TextButton("Exit", skin);
+        buttonExit = new TextButton("Exit", skin),
+        buttonHelp = new TextButton("Help", skin);
     private Label title = new Label("Big O Game",skin);
 
     @Override
@@ -40,6 +43,7 @@ public class MainMenu implements Screen {
 
     @Override
     public void show() {
+    	music.play();
         buttonPlay.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -57,12 +61,20 @@ public class MainMenu implements Screen {
                 // or System.exit(0);
             }
         });
+        buttonHelp.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+                //We will save this help button for our tutorial
+            }
+        });
 
         //The elements are displayed in the order you add them.
         //The first appear on top, the last at the bottom.
         table.add(title).padBottom(40).row();
         table.add(buttonPlay).size(150,60).padBottom(20).row();
         table.add(buttonExit).size(150,60).padBottom(20).row();
+        table.add(buttonHelp).size(150,60).padBottom(20).row();
 
         table.setFillParent(true);
         stage.addActor(table);
@@ -87,6 +99,7 @@ public class MainMenu implements Screen {
     public void dispose() {
         stage.dispose();
         skin.dispose();
+        music.dispose();
     }
 
 }
