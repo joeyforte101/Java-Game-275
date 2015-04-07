@@ -28,7 +28,8 @@ public class MainMenu implements Screen {
         buttonExit = new TextButton("Exit", skin),
         buttonHelp = new TextButton("Help", skin);
     private Label title = new Label("Big O Game",skin);
-
+    private Label hint = new Label("Hit the 'Help' button for first time players",skin);
+    
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -71,7 +72,9 @@ public class MainMenu implements Screen {
 
         //The elements are displayed in the order you add them.
         //The first appear on top, the last at the bottom.
+       
         table.add(title).padBottom(40).row();
+        table.add(hint).padBottom(50).row();
         table.add(buttonPlay).size(150,60).padBottom(20).row();
         table.add(buttonExit).size(150,60).padBottom(20).row();
         table.add(buttonHelp).size(150,60).padBottom(20).row();

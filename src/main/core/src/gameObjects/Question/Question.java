@@ -57,7 +57,7 @@ return "The Question is: " + question + "\n"+
  "The First Answer is: " + answer1 + "\n" +
  "The Second Answer is: " + answer2 + "\n" +
  "The Third Answer is: " + answer3 + "\n" +
- "The Fourth Answer is: " + answer3 + "\n" +
+ "The Fourth Answer is: " + answer4 + "\n" +
  "The Correct Answer is: " + rightanswer + "\n" +
  "And this Question is of Type: " + this.type();
 	
