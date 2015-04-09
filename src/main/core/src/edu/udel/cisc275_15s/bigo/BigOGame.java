@@ -24,6 +24,7 @@ import gameObjects.Question.Question;
 import gameObjects.Question.QuestionFactory;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -31,8 +32,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class BigOGame extends ApplicationAdapter implements Screen {
 	SpriteBatch batch;
@@ -46,6 +53,8 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	boolean tapLock= false;
 	boolean leftDoor = true;
 	MainClass mainClass;
+	
+
 	
 	Room currentRoom;
 	Room roomOne;
@@ -81,7 +90,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		roomTwo = new Room("background2.png", new LinkedList<NPC>());
 		currentRoom = roomOne;
 //	    mapBackground = new Texture("background.png");
-		font.setColor(Color.BLACK);
+		font.setColor(Color.BLACK);		
 //		obstacles = new ArrayList<Obstacle>();
 //		obstacles.add(someGuy);
 //		obstacles.add(infoGuy);
@@ -94,6 +103,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	public void render (float deltaTime) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        
 		batch.begin();
 		batch.draw(currentRoom.background, 0,0);
 		
@@ -227,4 +237,5 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		// TODO Auto-generated method stub
 		
 	}
+
 }

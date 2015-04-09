@@ -2,6 +2,7 @@ package edu.udel.cisc275_15s.bigo;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.TextInputListener;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,12 +13,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-public class MainMenu implements Screen {
+public class MainMenu implements Screen, TextInputListener {
 
     private Stage stage = new Stage();
     private Table table = new Table();
+    TextInputListener listener;
     Music music = Gdx.audio.newMusic(Gdx.files.internal("mymusic.mp3"));
     
 
@@ -27,6 +30,7 @@ public class MainMenu implements Screen {
     private TextButton buttonPlay = new TextButton("Play", skin),
         buttonExit = new TextButton("Exit", skin),
         buttonHelp = new TextButton("Help", skin);
+    private TextField userName = new TextField("Enter Username", skin);
     private Label title = new Label("Big O Game",skin);
     private Label hint = new Label("Hit the 'Help' button for first time players",skin);
     
@@ -45,6 +49,7 @@ public class MainMenu implements Screen {
     @Override
     public void show() {
     	music.play();
+    	//Gdx.input.getTextInput(listener, "Enter Username", "", null);
         buttonPlay.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -52,7 +57,7 @@ public class MainMenu implements Screen {
                 //We set it to new Splash because we got no other screens
                 //otherwise you put the screen there where you want to go
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new BigOGame());
-            	
+                
             }
         });
         buttonExit.addListener(new ClickListener(){
@@ -72,12 +77,16 @@ public class MainMenu implements Screen {
 
         //The elements are displayed in the order you add them.
         //The first appear on top, the last at the bottom.
-       
+        title.setFontScale(1.3f);
         table.add(title).padBottom(40).row();
-        table.add(hint).padBottom(50).row();
+        //esttable.add(hint).padBottom(50).row(); 
+        table.add(userName).size(250,60).padBottom(20).row();
+       //userName.setPosition(150, 50);
+        //mStage.addActor(userName);
         table.add(buttonPlay).size(150,60).padBottom(20).row();
-        table.add(buttonExit).size(150,60).padBottom(20).row();
         table.add(buttonHelp).size(150,60).padBottom(20).row();
+        table.add(buttonExit).size(150,60).padBottom(30).row();
+        
 
         table.setFillParent(true);
         stage.addActor(table);
@@ -104,5 +113,17 @@ public class MainMenu implements Screen {
         skin.dispose();
         music.dispose();
     }
+
+	@Override
+	public void input(String text) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void canceled() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
