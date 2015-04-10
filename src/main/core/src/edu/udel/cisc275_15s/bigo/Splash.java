@@ -26,8 +26,8 @@ public class Splash implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
-        //stage.act();
-        //stage.draw();
+        stage.act();
+        stage.draw();
         batch.begin();
         batch.draw(animation.getKeyFrame((time += delta), true), 0, 0);
         batch.end();
@@ -40,7 +40,7 @@ public class Splash implements Screen {
 
     @Override
     public void show() {
-        //stage.addActor(splashImage);
+        stage.addActor(splashImage);
     	batch = new SpriteBatch();
         animation = new Animation(1/18f, new TextureRegion(new Texture("bigOTitle/TheBigO#1.jpg")), new TextureRegion(new Texture("bigOTitle/TheBigO#2.jpg")),
         		new TextureRegion(new Texture("bigOTitle/TheBigO#3.jpg")),new TextureRegion(new Texture("bigOTitle/TheBigO#4.jpg")),
@@ -54,14 +54,14 @@ public class Splash implements Screen {
         
         
         //((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenu());
-        /*//animation.setPlayMode(Animation);
+        //animation.setPlayMode(Animation);
         splashImage.addAction(Actions.sequence(Actions.alpha(0)
-                       ,Actions.fadeIn(.5f),Actions.delay(6),Actions.run(new Runnable() {
+                       ,Actions.fadeIn(.5f),Actions.delay(2),Actions.run(new Runnable() {
             @Override
             public void run() {
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenu());
             }
-        })));*/
+        })));
     }
 
     @Override
