@@ -1,5 +1,7 @@
 package edu.udel.cisc275_15s.bigo;
 
+import javax.swing.GroupLayout.Alignment;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.TextInputListener;
@@ -30,7 +32,7 @@ public class MainMenu implements Screen, TextInputListener {
     private TextButton buttonPlay = new TextButton("Play", skin),
         buttonExit = new TextButton("Exit", skin),
         buttonHelp = new TextButton("Help", skin);
-    private TextField userName = new TextField("Enter Username", skin);
+    private TextField userName = new TextField("", skin);
     private Label title = new Label("Big O Game",skin);
     private Label hint = new Label("Hit the 'Help' button for first time players",skin);
     
@@ -48,7 +50,9 @@ public class MainMenu implements Screen, TextInputListener {
 
     @Override
     public void show() {
-    	music.play();
+    	userName.setAlignment(1);
+    	userName.setMessageText(" Enter Username");
+    	music.play(); 
     	//Gdx.input.getTextInput(listener, "Enter Username", "", null);
         buttonPlay.addListener(new ClickListener(){
             @Override
