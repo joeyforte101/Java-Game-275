@@ -1,23 +1,29 @@
 package gameObjects.Entity;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
-
 public class Trainer extends NPC {
 	
-	//placeholder for the question class or w/e
-	String question = "";
+	private String question;
+	private String[] answers;
+	private final int sightRange = 50;
 	
-	public Trainer (String t, int xpos, int ypos) {
-		x = xpos;
-		y = ypos;
-		texture = new Texture(t);
-		width = texture.getWidth();
-		height = texture.getHeight();
-		hitBox = new Rectangle(x, y, width, height);
-		int rectScaler = 7;
-		int stoppingScaler = 4;
-		intersectingRectangle = new Rectangle(x-rectScaler,y-rectScaler,width+2*rectScaler,height+2*rectScaler);
-		stoppingRectangle = new Rectangle(x-stoppingScaler,y-stoppingScaler,width+2*stoppingScaler,height+2*stoppingScaler);
+	public Trainer (Position position, String sprite, String question, String[] answers){
+		
+		super(position, sprite);
+		this.question = question;
+		this.answers = answers;
+		
 	}
+	
+	public boolean playerInRange(UserCharacter player){
+		
+		if((this.position.getX() == player.position.getX()) && (Math.abs(this.position.getY() - player.position.getY()) < this.sightRange)){
+			return true;
+		}
+		else if((this.position.getY() == player.position.getY()) && (Math.abs(this.position.getX() - player.position.getX()) < this.sightRange)){
+			return true;
+		}
+		
+		return false;
+	}
+	
 }

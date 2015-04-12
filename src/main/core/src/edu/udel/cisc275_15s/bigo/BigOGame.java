@@ -1,5 +1,7 @@
 package edu.udel.cisc275_15s.bigo;
 
+
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -10,10 +12,12 @@ import java.util.LinkedList;
 import gameObjects.Room;
 import gameObjects.TextBox;
 import gameObjects.UDSISQuestion;
+import gameObjects.Entity.Battle;
 import gameObjects.Entity.Entity;
 import gameObjects.Entity.InfoNPC;
 import gameObjects.Entity.NPC;
 import gameObjects.Entity.Obstacle;
+import gameObjects.Entity.Position;
 import gameObjects.Entity.Trainer;
 import gameObjects.Entity.UserCharacter;
 import gameObjects.Question.AdvisementQuestion;
@@ -39,45 +43,66 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+
+/*
+ * This creates an instance of the BigOGame
+ * The game contains:
+ * - A User Character
+ * - A current screen
+ * - *A current level 
+ * 
+ * The class renders:
+ * - The current screen
+ */
 public class BigOGame extends ApplicationAdapter implements Screen {
-	int x = 0, y = 0, WIDTH = 0, HEIGHT = 0;
 	SpriteBatch batch;
-	BitmapFont font;
+	Texture img;
+	int x=0,y=0;
+	int WIDTH = 0;
+	int HEIGHT = 0;
 	String debugString;
-	boolean tapLock = false;
+	UserCharacter player;
+	boolean tapLock= false;
 	boolean leftDoor = true;
-	
 	MainClass mainClass;
-	UserCharacter mainGuy;
-	
 	Room currentRoom;
+	Screen currentScreen;
+	boolean inBattle;
+	Battle battle;
+	
+	
+	InfoNPC infoGuy;
+	Trainer trainer1;
 	Room roomOne;
 	Room roomTwo;
+	ArrayList<NPC> temp;
 	
-	TextBox currenttext = null;
-	
-	ArrayList<AdvisementQuestion> AdvisementQuestionList = new ArrayList<AdvisementQuestion>();
-	ArrayList<DropAddQuestion> DropAddQuestionList = new ArrayList<DropAddQuestion>();
-	ArrayList<UDSISQuestion> UDSISQuestionList = new ArrayList<UDSISQuestion>();
+	/*
+	public BigOGame(){
+		create();
+		render();
+	}
+	*/
 	
 	@Override
 	public void create () {
-		WIDTH = Gdx.graphics.getWidth();
-		HEIGHT = Gdx.graphics.getHeight();
 		batch = new SpriteBatch();
-		font = new BitmapFont();
-		font.setColor(Color.BLACK);		
+		player = new UserCharacter(new Position(0,0));
 		debugString = "start";
 		
-		mainGuy = new UserCharacter(0,0);
-		roomOne = new Room("background.png", new LinkedList<NPC>());
-		roomOne.npcs.add(new Trainer("trainer.png", 300, 300));
-		roomOne.npcs.add(new InfoNPC("trainer.png",400, 400, "Hey Did You know the DeadLine for Drop/Add is 2 Weeks?"));
-		
-		roomTwo = new Room("background2.png", new LinkedList<NPC>());
+		trainer1 = new Trainer(new Position(300, 300), "trainer.png", "What is the Drop/Add Deadline?" ,new String[]{"1 week", "2 weeks", "3 weeks", "4 weeks", "2 weeks"});
+		infoGuy = new InfoNPC(new Position(400, 400), "trainer.png", "Hey Did You know the DeadLine for Drop/Add is 2 Weeks?");
+		temp = new ArrayList<NPC>();
+		temp.add(trainer1);
+		temp.add(infoGuy);
+		roomOne = new Room("background.png", temp);
+		roomTwo = new Room("background2.png", new ArrayList<NPC>());
 		currentRoom = roomOne;
 		
-		buildquestionlists();
+		
+		WIDTH = Gdx.graphics.getWidth();
+		HEIGHT = Gdx.graphics.getHeight();
+
 	}
 	
 	@Override
@@ -85,45 +110,52 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
+        checkForBattle();
+        
 		batch.begin();
-		batch.draw(currentRoom.background, 0,0);
+		//batch.draw(currentScreen);
+		batch.draw(currentRoom.background, 0, 0);
 		
-		font.draw(batch,debugString,30,30);
-		
-		for (NPC guy : currentRoom.npcs)
+		for (NPC npc : currentRoom.npcs)
 		{
-			draw(guy);
+			draw(npc);
 		}		
-		draw(mainGuy);		
+		
+		draw(player);
 		
 		batch.end();
-		drawcurrenttexts();
+		
+		//Player movement needs to be handled by a controller in a separate method/class
+		
 		//Checks if screen is tapped in a different place so movement direction priority can be calculated
 		if(Gdx.input.isTouched() && !tapLock){ 
-			mainGuy.move(Gdx.input.getX(),Gdx.input.getY(),tapLock,currentRoom.npcs);
+			player.move(Gdx.input.getX(),Gdx.input.getY(),tapLock,currentRoom.npcs);
 			tapLock = true;
 		}
+		
 		//moves as long as screen is tapped
 		else if(Gdx.input.isTouched()){
-			mainGuy.move(Gdx.input.getX(),Gdx.input.getY(),tapLock,currentRoom.npcs);
+			player.move(Gdx.input.getX(),Gdx.input.getY(),tapLock,currentRoom.npcs);
 		}
+		
 		// this is a bad place but its a rapid prototype
-		if (mainGuy.x > 100 && mainGuy.x < WIDTH - 45 && mainGuy.y > 20 && mainGuy.y < HEIGHT - 45) {
+		if (player.getX() > 100 && player.getX() < WIDTH - 45 && player.getY() > 20 && player.getY() < HEIGHT - 45) {
 			leftDoor = true;
 		}
-		if (mainGuy.y > 380 && mainGuy.y < 420) {
-			if (mainGuy.x < 100 && leftDoor) {
+		if (player.getY() > 380 && player.getY() < 420) {
+			if (player.getX() < 100 && leftDoor) {
 				currentRoom = roomTwo;
 				leftDoor = false;
-				mainGuy.x = WIDTH - 40;
-			} else if (mainGuy.x > WIDTH - 45 && leftDoor) {
+				player.setX(WIDTH - 40);
+			} else if (player.getX() > WIDTH - 45 && leftDoor) {
 				currentRoom = roomOne;
 				leftDoor = false;	
-				mainGuy.x = 0;		
+				player.setX(0);		
 			}	
 		}
-		debugString=Integer.toString((int)mainGuy.hitBox.x)+":"+Integer.toString((int)mainGuy.hitBox.y) +" "+Integer.toString(WIDTH)+"/"+Integer.toString(HEIGHT);
+		debugString=Integer.toString((int)player.hitBox.x)+":"+Integer.toString((int)player.hitBox.y) +" "+Integer.toString(WIDTH)+"/"+Integer.toString(HEIGHT);
 		if(!Gdx.input.isTouched())tapLock=false;
+		
 	}
 	
 	void draw(Entity e) {
@@ -132,55 +164,23 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 //		shapeRenderer.setColor(Color.RED);
 //		shapeRenderer.rect(e.hitBox.x, e.hitBox.y, e.hitBox.width, e.hitBox.height);
 //		shapeRenderer.end();
-		batch.draw(e.texture, e.x, e.y, e.width, e.height);
+		batch.draw(e.texture, e.position.getX(), e.position.getY(), e.width, e.height);
 	}
 	
-	private void buildquestionlists()
-	{
-		  String fileName = "test.txt";
-		  String line = null;
-		  int x;
-		  Question testquestion;
-		  try{
-		  FileReader fileReader = new FileReader(fileName);
-		  BufferedReader bufferedReader = new BufferedReader(fileReader);
-		  
-		    while((line = bufferedReader.readLine()) != null) {
-		        testquestion = QuestionFactory.getQuestion(line);
-		        if(testquestion.type() == "UDSIS")
-		        	UDSISQuestionList.add((UDSISQuestion) testquestion);
-		        else if(testquestion.type() == "Drop Add")
-		        	DropAddQuestionList.add((DropAddQuestion) testquestion);
-		        else
-		        	AdvisementQuestionList.add((AdvisementQuestion) testquestion);
-		        
-		    }
-		  }
-		  catch(FileNotFoundException ex) {
-			    System.out.println(
-			        "Unable to open file '" + 
-			        fileName + "'");                
-			}
-			catch(IOException ex) {
-			    System.out.println(
-			        "Error reading file '" 
-			        + fileName + "'");                   
-			    
-			}
-		  System.out.println(UDSISQuestionList.get(0));
- 		  System.out.println(DropAddQuestionList.get(0));
-		  System.out.println(AdvisementQuestionList.get(0));
-	}
 	
-	private void drawcurrenttexts()
+	
+	private void checkForBattle()
 	{
-		for(Obstacle o : currentRoom.npcs)
+		for(NPC npc : currentRoom.npcs)
 		{
+			if(npc instanceof Trainer && ((Trainer)npc).playerInRange(player)){
+				inBattle = true;
+				battle = new Battle(npc);
+			}
+		}
 			
-			if(o instanceof InfoNPC)
-			{
-				boolean inrange =	Math.abs(o.getWidth() - mainGuy.getx()) < 75 &&
-						Math.abs(o.getHeight() - mainGuy.gety()) < 75;
+			/*
+			 // OLD STUFF
 				
 				if(((InfoNPC) o).getjusttalked() && inrange)
 				{
@@ -203,10 +203,12 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 						((InfoNPC) o).setjusttalkedtrue();
 				}					
 			}
-		}
+		
 			if(mainGuy.gettalking() == true)
 				currenttext.displaytextbox();
+				*/
 	}
+		
 	@Override
 	public void show() {
 		create();

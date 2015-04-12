@@ -17,12 +17,13 @@ public class UserCharacter extends Entity {
 	public final int WIDTH = Gdx.graphics.getWidth();
 	public final int HEIGHT = Gdx.graphics.getHeight();
 	boolean nottalking = true;
+	
 	//for collision
 	// private Rectangle hitBox;
 	
-	public UserCharacter(int xpos, int ypos) {
-		x = xpos;
-		y = ypos;
+	public UserCharacter(Position position) {
+		
+		this.position = position;
 		width = 32;
 		height = 32;
 		texture = new Texture("playerBack.png");
@@ -41,95 +42,127 @@ public class UserCharacter extends Entity {
 //	}
 
 	//character movement
-	public void move(int xTouch, int yTouch, boolean changeDirec,List<NPC> npcs) {
-		yTouch=Mapping.yScreenToText(yTouch);
-		int centerx = x+width/2;
-		int centery = y+height/2;
+	public void move(int xTouch, int yTouch, boolean changeDirec, List<NPC> npcs) {
+		
+		yTouch = Mapping.yScreenToText(yTouch);
+		int centerx = position.getX() + width/2;
+		int centery = position.getY() + height/2;
+		
 		//boundaries
-		boolean rightBound = x+width+moveSpeed<WIDTH;
-		boolean leftBound = x-moveSpeed>0;
-		boolean topBound =  y+height+moveSpeed<HEIGHT;
-		boolean bottomBound = y-moveSpeed>0;
+		boolean rightBound = (position.getX() + width + moveSpeed) < WIDTH;
+		boolean leftBound = (position.getX() - moveSpeed) > 0;
+		boolean topBound =  (position.getY() + height + moveSpeed) < HEIGHT;
+		boolean bottomBound = (position.getY() - moveSpeed) > 0;
 		boolean xBigger = (Math.abs(xTouch - centerx) > Math.abs(yTouch - centery));
+		
 		//makes sure horizontal or vertical movement is done first
 		if(!changeDirec){
 			if(xBigger) moveHoriz = true;
 			else moveHoriz = false;
 		}
-		for(Obstacle o : npcs){
+		
+		for(NPC o : npcs){
+			
 			if(Intersector.overlaps(hitBox, o.getProximityRect()))
 			{
 				//calculates coordinates for which an intersection would occur
-				int botCoord = (int) (o.getHitBox().y-hitBox.height);
-				int topCoord = (int) (o.getHitBox().y+o.getHitBox().height);
-				int leftCoord = (int)(o.getHitBox().y-hitBox.width);
-				int rightCoord = (int) (o.getHitBox().y+o.getHitBox().width);
+				int botCoord = (int) (o.getHitBox().y - hitBox.height);
+				int topCoord = (int) (o.getHitBox().y + o.getHitBox().height);
+				int leftCoord = (int)(o.getHitBox().y - hitBox.width);
+				int rightCoord = (int) (o.getHitBox().y + o.getHitBox().width);
+				
 				//xCheck and yCheck are used to see if the character is on the same plane as the 
-				boolean yCheck = (hitBox.y > botCoord&&hitBox.y<topCoord);
-				boolean xCheck = (hitBox.x >leftCoord &&hitBox.x<rightCoord);
+				boolean yCheck = (hitBox.y > botCoord && hitBox.y < topCoord);
+				boolean xCheck = (hitBox.x >leftCoord && hitBox.x < rightCoord);
+				
+				
 				//movement stopping logic
-				
-				
-				
-				if(hitBox.x+width<o.getHitBox().x && yCheck)rightBound=false;
-				else if(hitBox.x>o.getHitBox().x+o.getHitBox().width && yCheck)leftBound=false;
-				if(o.getHitBox().y-o.getHitBox().height> hitBox.y && xCheck) topBound=false;
-				else if(o.getHitBox().y> hitBox.y-height && hitBox.y>o.getHitBox().y&& xCheck)bottomBound=false;
-				if((!rightBound || !leftBound||!topBound||!bottomBound) && (o instanceof InfoNPC)){
-			
-					((InfoNPC) o).displayprompttrue();
+				if(hitBox.x + width < o.getHitBox().x && yCheck){
+					rightBound=false;
+				}
+				else if(hitBox.x > o.getHitBox().x + o.getHitBox().width && yCheck){
+					leftBound=false;
+				}
+				if(o.getHitBox().y - o.getHitBox().height > hitBox.y && xCheck){
+					topBound=false;
+				}
+				else if(o.getHitBox().y > hitBox.y - height && hitBox.y > o.getHitBox().y && xCheck){
+					bottomBound=false;
 				}
 			}
 		}
+		
 		for(Obstacle o : npcs){
-			if(Intersector.overlaps(hitBox, o.hitBox))
-			{
+			if(Intersector.overlaps(hitBox, o.hitBox)){
 				// What side of the obstacle am I on
-				boolean yCheck = (hitBox.y > o.y-height && hitBox.y<o.y+height+o.height);
-				boolean xCheck = (hitBox.x >= o.x-width && hitBox.x<=o.x+width+o.width);
-				if(o.hitBox.x > hitBox.x && yCheck)rightBound=false;
-				if(o.hitBox.x < hitBox.x+width && yCheck)leftBound=false;
-				if(o.hitBox.y-o.hitBox.height+12> hitBox.y && xCheck)topBound=false;
-				if(o.hitBox.y +12> hitBox.y-height && hitBox.y>o.hitBox.y&& xCheck)bottomBound=false;
+				boolean yCheck = (hitBox.y > o.position.getY()-height && hitBox.y < o.position.getY() + height + o.height);
+				boolean xCheck = (hitBox.x >= o.position.getX()-width && hitBox.x <= o.position.getX() + width + o.width);
+				
+				if(o.hitBox.x > hitBox.x && yCheck){
+					rightBound=false;
+				}
+				if(o.hitBox.x < hitBox.x+width && yCheck){
+					leftBound=false;
+				}
+				if(o.hitBox.y-o.hitBox.height+12> hitBox.y && xCheck){
+					topBound=false;
+				}
+				if(o.hitBox.y +12> hitBox.y-height && hitBox.y>o.hitBox.y&& xCheck){
+					bottomBound=false;
+				}
 				
 			}
 		}
+	
 	if(nottalking){
 		if (moveHoriz) {
 			//move right
 			if (xTouch > centerx && !(xTouch-moveSpeed<centerx && xTouch+moveSpeed>centerx) && rightBound)
-				x+=moveSpeed;
+				position.setX(position.getX() + moveSpeed);
 			//move left
 			else if (xTouch < centerx&& !(xTouch-moveSpeed>centerx && xTouch+moveSpeed<centerx) &&leftBound)
-				x-=moveSpeed;
+				position.setX(position.getX() - moveSpeed);
 			else moveHoriz = false;
 		} else if(!moveHoriz) {
 			//move up
 			if (yTouch > centery && !(yTouch-moveSpeed<centery && yTouch+moveSpeed>centery)&& topBound)
-				y+=moveSpeed;
+				position.setY(position.getY() + moveSpeed);
 			//move down
 			else if (yTouch < centery&& !(yTouch-moveSpeed>centery && yTouch+moveSpeed<centery)&&bottomBound)
-				y-=moveSpeed;
+				position.setY(position.getY() - moveSpeed);
 			else moveHoriz = true;
 		}
-		hitBox.set(x, y, width, height);
+		hitBox.set(position.getX(), position.getY(), width, height);
 		
 	}
+	
 	}
-	public void settalkingtrue(){
+	public void setTalkingTrue(){
 		nottalking = false;
 	}
-	public void settalkingfalse(){
+	
+	public void setTalkingFalse(){
 		nottalking = true;
 	}
-	public boolean gettalking(){
+	
+	public boolean getTalking(){
 		return !nottalking;
 	}
-	public int getx(){
-		return x;
+	
+	public int getX(){
+		return position.getX();
 	}
-	public int gety(){
-		return y;
+	
+	public int getY(){
+		return position.getY();
+	}
+	
+	public void setX(int x){
+		position.setX(x);
+	}
+	
+	public void setY(int y){
+		position.setY(y);
 	}
 	
 	
