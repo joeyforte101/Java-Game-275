@@ -1,7 +1,5 @@
 package edu.udel.cisc275_15s.bigo;
 
-
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -42,60 +40,43 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class BigOGame extends ApplicationAdapter implements Screen {
+	int x = 0, y = 0, WIDTH = 0, HEIGHT = 0;
 	SpriteBatch batch;
-	Texture img;
-	int x=0,y=0;
-	int WIDTH = 0;
-	int HEIGHT = 0;
-	String debugString;
-	UserCharacter mainGuy;
 	BitmapFont font;
-	boolean tapLock= false;
+	String debugString;
+	boolean tapLock = false;
 	boolean leftDoor = true;
-	MainClass mainClass;
 	
-
+	MainClass mainClass;
+	UserCharacter mainGuy;
 	
 	Room currentRoom;
 	Room roomOne;
 	Room roomTwo;
-//	Texture mapBackground;
 	
-	Trainer someGuy;
 	TextBox currenttext = null;
-	InfoNPC infoGuy;
 	
-//	ArrayList<Obstacle> obstacles;
 	ArrayList<AdvisementQuestion> AdvisementQuestionList = new ArrayList<AdvisementQuestion>();
 	ArrayList<DropAddQuestion> DropAddQuestionList = new ArrayList<DropAddQuestion>();
 	ArrayList<UDSISQuestion> UDSISQuestionList = new ArrayList<UDSISQuestion>();
-// Constructor needed for screens
-	//public BigOGame(){
-	//	create();
-	//	render();
-	//}
+	
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-		mainGuy = new UserCharacter(0,0);
-		debugString = "start";
-		font = new BitmapFont();
-		someGuy = new Trainer("trainer.png", 300, 300);
-		infoGuy = new InfoNPC("trainer.png",400, 400, "Hey Did You know the DeadLine for Drop/Add is 2 Weeks?");
-//		someGuy = new ImmovableObstacle(300, 300, 32, 32, "playerBack.png");
-		LinkedList<NPC> temp = new LinkedList<NPC>();
-		temp.add(someGuy);
-		temp.add(infoGuy);
-		roomOne = new Room("background.png", temp);
-		roomTwo = new Room("background2.png", new LinkedList<NPC>());
-		currentRoom = roomOne;
-//	    mapBackground = new Texture("background.png");
-		font.setColor(Color.BLACK);		
-//		obstacles = new ArrayList<Obstacle>();
-//		obstacles.add(someGuy);
-//		obstacles.add(infoGuy);
 		WIDTH = Gdx.graphics.getWidth();
 		HEIGHT = Gdx.graphics.getHeight();
+		batch = new SpriteBatch();
+		font = new BitmapFont();
+		font.setColor(Color.BLACK);		
+		debugString = "start";
+		
+		mainGuy = new UserCharacter(0,0);
+		roomOne = new Room("background.png", new LinkedList<NPC>());
+		roomOne.npcs.add(new Trainer("trainer.png", 300, 300));
+		roomOne.npcs.add(new InfoNPC("trainer.png",400, 400, "Hey Did You know the DeadLine for Drop/Add is 2 Weeks?"));
+		
+		roomTwo = new Room("background2.png", new LinkedList<NPC>());
+		currentRoom = roomOne;
+		
 		buildquestionlists();
 	}
 	
