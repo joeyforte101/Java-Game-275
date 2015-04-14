@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class NPC extends Obstacle {
@@ -39,26 +40,36 @@ public class NPC extends Obstacle {
 	}
 	
 	
-	private void buildquestionlists(String file)
+	private NPC parseScript(String file)
 	{
+		  //name of file
 		  String fileName = file;
+		  
+		  //current line being read
 		  String line = null;
 		  int x;
-		  Question testquestion;
+		  
+		  //NPC to be generated from script
+		  NPC newNPC = null;
+		  String npcType;
 		  
 		  try{
 		  FileReader fileReader = new FileReader(fileName);
 		  BufferedReader bufferedReader = new BufferedReader(fileReader);
 		  
+		  //sets line to first line of the file.
+		  line = bufferedReader.readLine();
+		  if(line.length() > 5 || line.charAt(0) != '#' || line == null){
+	    	  System.out.println("Script syntax error");
+	    	  //throw new Exception();
+	      }
+		  npcType = line.substring(1, 5);
+		  
+		  
 		    while((line = bufferedReader.readLine()) != null) {
-		        testquestion = QuestionFactory.getQuestion(line);
-		        //if(testquestion.type() == "UDSIS")
-		        	//UDSISQuestionList.add((UDSISQuestion) testquestion);
-		        //else if(testquestion.type() == "Drop Add")
-		        	//DropAddQuestionList.add((DropAddQuestion) testquestion);
-		        //else
-		        	//AdvisementQuestionList.add((AdvisementQuestion) testquestion);
-		        
+		      if(line.length() > 5 || line.charAt(0) != '#'){
+		    	  
+		      }
 		    }
 		  }
 		  catch(FileNotFoundException ex) {
@@ -72,6 +83,18 @@ public class NPC extends Obstacle {
 			        + fileName + "'");                   
 			    
 			}
+		  
+		  return newNPC;
+	}
+	
+	/*
+	 *  Takes in an ArrayList of Strings that are the file names of NPc scripts;
+	 */
+	public static ArrayList<NPC> generateNPCs(ArrayList<String> scripts){
+		
+		
+		
+		return null;
 	}
 
 }
