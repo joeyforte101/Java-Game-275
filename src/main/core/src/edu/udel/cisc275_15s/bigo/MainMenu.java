@@ -60,7 +60,8 @@ public class MainMenu implements Screen, TextInputListener {
                 //Same way we moved here from the Splash Screen
                 //We set it to new Splash because we got no other screens
                 //otherwise you put the screen there where you want to go
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new BigOGame());
+            	MainClass.Game = new BigOGame();
+                ((Game)Gdx.app.getApplicationListener()).setScreen(MainClass.Game);
                 
             }
         });

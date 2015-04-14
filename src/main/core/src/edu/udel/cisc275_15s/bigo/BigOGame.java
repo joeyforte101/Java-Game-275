@@ -29,6 +29,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.TextInputListener;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -41,6 +42,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 
@@ -55,6 +59,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
  * - The current screen
  */
 public class BigOGame extends ApplicationAdapter implements Screen {
+	
+	 private Stage stage = new Stage();
+	 private Table table = new Table();
+	 TextInputListener listener; 
+	 private Skin skin = new Skin(Gdx.files.internal("skins/menuSkin.json"),
+	  new TextureAtlas(Gdx.files.internal("skins/menuSkin.pack")));
+	  private TextButton NotesButton = (TextButton) new TextButton("Notes",skin).align(Align.topRight);
+	
+	
+	
+	
 	SpriteBatch batch;
 	Texture img;
 	int x=0,y=0;
@@ -102,6 +117,9 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		
 		WIDTH = Gdx.graphics.getWidth();
 		HEIGHT = Gdx.graphics.getHeight();
+		
+		
+		
 
 	}
 	
@@ -155,6 +173,9 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		}
 		debugString=Integer.toString((int)player.hitBox.x)+":"+Integer.toString((int)player.hitBox.y) +" "+Integer.toString(WIDTH)+"/"+Integer.toString(HEIGHT);
 		if(!Gdx.input.isTouched())tapLock=false;
+		
+		  stage.act();
+	      stage.draw();
 		
 	}
 	
@@ -212,6 +233,20 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	@Override
 	public void show() {
 		create();
+		
+		NotesButton.addListener(new ClickListener(){
+			 public void clicked(InputEvent event, float x, float y) {
+				 ((Game)Gdx.app.getApplicationListener()).setScreen(new Notes());
+				
+			 }
+		});
+		
+		   table.add(NotesButton).size(250,50);
+		   table.align(Align.bottomRight);
+		   table.setFillParent(true);
+	       stage.addActor(table);
+
+	        Gdx.input.setInputProcessor(stage);
 		
 	}
 	
