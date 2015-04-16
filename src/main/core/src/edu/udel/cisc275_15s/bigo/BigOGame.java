@@ -69,7 +69,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	
 	
 	
-	
+	int startCount = 0;
 	SpriteBatch batch;
 	Texture img;
 	int x=0,y=0;
@@ -232,7 +232,10 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		
 	@Override
 	public void show() {
-		create();
+		if (startCount == 0){
+			create();
+			startCount++;
+		}
 		
 		NotesButton.addListener(new ClickListener(){
 			 public void clicked(InputEvent event, float x, float y) {
