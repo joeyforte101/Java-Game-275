@@ -3,38 +3,40 @@ package gameObjects.Question;
 import gameObjects.UDSISQuestion;
 
 public class QuestionFactory {
-public static Question getQuestion(String line)
-{
-	char[] LineArray = line.toCharArray();
-	int startpos = 0;
-
-	String Question = null;
-	String answer1 = null;
-	String answer2 = null;
-	String answer3 = null;
-	String answer4 = null;
-	String rightanswer = null;
-	boolean RA = false;
 	
-	//getting the question from line
-	for(int i = 0; i < line.length(); i++)
-	{
-		if(LineArray[i] == '|')
+	public static Question getQuestion(String line){
+		
+		char[] LineArray = line.toCharArray();
+		int startpos = 0;
+
+		String Question = null;
+		String answer1 = null;
+		String answer2 = null;
+		String answer3 = null;
+		String answer4 = null;
+		String rightanswer = null;
+		boolean RA = false;
+	
+		//getting the question from line
+		for(int i = 0; i < line.length(); i++)
 		{
-			Question = line.substring(startpos,i);
-			startpos = i + 1;
-			break;
+			if(LineArray[i] == '|')
+			{
+				Question = line.substring(startpos,i);
+				startpos = i + 1;
+				break;
+			}
 		}
-	}
-	for(int i = startpos; i < line.length(); i++)
-	{
-		if(LineArray[i] == '[')
-		{
-			RA = true;
-			startpos = startpos + 3;	
-		}
-		if(LineArray[i] == '|')
-		{
+		
+		for(int i = startpos; i < line.length(); i++)
+		{	
+			if(LineArray[i] == '[')
+			{
+				RA = true;
+				startpos = startpos + 3;	
+			}
+			if(LineArray[i] == '|')
+			{
 			answer1 = line.substring(startpos,i);
 			
 			if(RA)
@@ -86,42 +88,45 @@ public static Question getQuestion(String line)
 				RA = false;
 				}
 				
-			startpos = i + 1;
-			break;
-		}
-	}
-	for(int i = startpos; i < line.length(); i++)
-	{
+				startpos = i + 1;
+				break;
+			}
+		}	
+	
+		for(int i = startpos; i < line.length(); i++)
+		{
+		
 		if(LineArray[i] == '[')
 		{
-			RA = true;
-			startpos = startpos + 3;		
-		}
-		if(LineArray[i] == '|')
-		{
-			answer4 = line.substring(startpos,i);
+			RA =true;
+				startpos = startpos + 3;		
+			}
+		
+			if(LineArray[i] == '|')
+			{
+				answer4 = line.substring(startpos,i);
 			
-			if(RA)
+				if(RA)
 				{
-				rightanswer = answer4;
-				RA = false;
+					rightanswer = answer4;
+					RA = false;
 				}
 				
-			startpos = i + 1;
-			break;
+				startpos = i + 1;
+				break;
+			}
 		}
+	
+		if(LineArray[startpos] == 'D')
+			return new DropAddQuestion(Question,answer1,answer2,answer3,answer4,rightanswer);
+		if(LineArray[startpos] == 'A')
+			return new AdvisementQuestion(Question,answer1,answer2,answer3,answer4,rightanswer);
+		if(LineArray[startpos] == 'U')
+			return new UDSISQuestion(Question,answer1,answer2,answer3,answer4,rightanswer);
+	
+	
+		return null;
 	}
-	
-	if(LineArray[startpos] == 'D')
-		return new DropAddQuestion(Question,answer1,answer2,answer3,answer4,rightanswer);
-	if(LineArray[startpos] == 'A')
-		return new AdvisementQuestion(Question,answer1,answer2,answer3,answer4,rightanswer);
-	if(LineArray[startpos] == 'U')
-		return new UDSISQuestion(Question,answer1,answer2,answer3,answer4,rightanswer);
-	
-	
-	return null;
-}
 
 
 }

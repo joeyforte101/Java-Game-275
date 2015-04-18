@@ -10,10 +10,13 @@ private String message;
 		this.message = message;
 	
 	}
-	
-	public String talk(){
+
+	public String getMessage() {
 		return message;
 	}
-	
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
 	
 }

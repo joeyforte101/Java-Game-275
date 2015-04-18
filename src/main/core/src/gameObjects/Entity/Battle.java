@@ -33,6 +33,7 @@ public class Battle implements ApplicationListener, InputProcessor{
 	public Battle(NPC opponent, String location){
 		this.opponent = opponent;
 		this.location = location;
+		
 	}
 	
 	public boolean battleLoop(){

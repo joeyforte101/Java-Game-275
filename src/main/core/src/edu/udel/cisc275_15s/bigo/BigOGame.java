@@ -105,11 +105,11 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		player = new UserCharacter(new Position(0,0));
 		debugString = "start";
 		
-		trainer1 = new Trainer(new Position(300, 300), "trainer.png", "What is the Drop/Add Deadline?" ,new String[]{"1 week", "2 weeks", "3 weeks", "4 weeks", "2 weeks"});
-		infoGuy = new InfoNPC(new Position(400, 400), "trainer.png", "Hey Did You know the DeadLine for Drop/Add is 2 Weeks?");
-		temp = new ArrayList<NPC>();
-		temp.add(trainer1);
-		temp.add(infoGuy);
+		//trainer1 = new Trainer(new Position(300, 300), "trainer.png", "What is the Drop/Add Deadline?", "Hello" ,new String[]{"1 week", "2 weeks", "3 weeks", "4 weeks", "2 weeks"});
+		//infoGuy = new InfoNPC(new Position(400, 400), "trainer.png", "Hey Did You know the DeadLine for Drop/Add is 2 Weeks?");
+		temp = NPC.generateNPCs(new String[]{"sprite1.pks","sprite2.pks","sprite 3.pks"});
+		//temp.add(trainer1);
+		//temp.add(infoGuy);
 		roomOne = new Room("background.png", temp);
 		roomTwo = new Room("background2.png", new ArrayList<NPC>());
 		currentRoom = roomOne;
@@ -129,7 +129,10 @@ public class BigOGame extends ApplicationAdapter implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         checkForBattle();
-        
+        if(inBattle){
+        	battle.draw();
+        }
+        else{
 		batch.begin();
 		//batch.draw(currentScreen);
 		batch.draw(currentRoom.background, 0, 0);
@@ -176,7 +179,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		
 		  stage.act();
 	      stage.draw();
-		
+        }
 	}
 	
 	void draw(Entity e) {
@@ -190,7 +193,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	
 	
 	
-	private void checkForBattle()
+	private boolean checkForBattle()
 	{
 		for(NPC npc : currentRoom.npcs)
 		{
@@ -200,34 +203,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 			}
 		}
 			
-			/*
-			 // OLD STUFF
-				
-				if(((InfoNPC) o).getjusttalked() && inrange)
-				{
-					mainGuy.settalkingfalse();
-					((InfoNPC) o).displaypromptfalse();
-				}
-				else
-					((InfoNPC) o).setjusttalkedfalse();
-				
-				if(((InfoNPC) o).getprompt() && !((InfoNPC) o).getjusttalked())
-				{
-				mainGuy.settalkingtrue();
-				((InfoNPC) o).displaypromptfalse();
-				currenttext = new TextBox(1,1,((InfoNPC)o).getinfo());
-				}					
-					
-				 if(Gdx.input.justTouched() && !((InfoNPC) o).getjusttalked() && mainGuy.gettalking())
-				{
-						mainGuy.settalkingfalse();
-						((InfoNPC) o).setjusttalkedtrue();
-				}					
-			}
-		
-			if(mainGuy.gettalking() == true)
-				currenttext.displaytextbox();
-				*/
+		return inBattle;
 	}
 		
 	@Override

@@ -12,10 +12,21 @@ import java.util.ArrayList;
 
 public class NPC extends Obstacle {
 	
-	//May need a factory method
+	/**
+	 * Creates an instance of an NPC
+	 * 
+	 * @param position
+	 * @param sprite
+	 */
+	public NPC(Position position, String sprite){
+		
+		super(position, sprite);
+		
+	}
+
 	
 	/*
-	 *  Will add the script parsing method for creating instances of sprites. 
+	 *  Will add the script parsing method for creating instances of NPCs. 
 	 *  
 	 *  I'm thinking that all sprite information will be located in the script.
 	 *  So the script will include...
@@ -33,68 +44,145 @@ public class NPC extends Obstacle {
 	 * 
 	 */
 	
-	public NPC(Position position, String sprite){
-		
-		super(position, sprite);
-		
-	}
-	
-	
-	private NPC parseScript(String file)
+	/**
+	 * Takes in the file name of a game script with the extension ".pks"
+	 * The method return a NPC with created from the information in the 
+	 * script
+	 */
+	private static NPC parseScript(String file)
 	{
-		  //name of file
-		  String fileName = file;
+		
+		  String fileName = file; 	// Name of script file that is being parsed
+		  String cmd; 				// String representation of command being passed into the parser
+		  Command command;			// Command enumeration type
 		  
-		  //current line being read
-		  String line = null;
-		  int x;
+		  String line = null;		// Line currently being read
+
 		  
-		  //NPC to be generated from script
-		  NPC newNPC = null;
-		  String npcType;
+		  
+		  NPC newNPC = null;				// New NPC to be created
+		  NPCType npcType= null;			// Type of the NPC to be created
+		  int x = 0;						// X-coordinate of the NPC's position
+		  int y = 0;						// Y-coordinate of the NPC's position
+		  String message = null;			// X-coordinate of the NPC's position
+		  String messageY = null;			// Yes message if an InfoNPC
+		  String messageN = null;			// No message if an InfoNPC
+		  Question question = null;			// Question if Trainer
 		  
 		  try{
-		  FileReader fileReader = new FileReader(fileName);
-		  BufferedReader bufferedReader = new BufferedReader(fileReader);
+			  
+			  if(!file.substring(file.length() - 4, file.length()).equals(".pks")){
+				  throw new IncorrectFileException();	// The file does not have the correct extension
+			  }
+			  
+			  FileReader fileReader = new FileReader(fileName);
+			  BufferedReader bufferedReader = new BufferedReader(fileReader);
 		  
-		  //sets line to first line of the file.
-		  line = bufferedReader.readLine();
-		  if(line.length() > 5 || line.charAt(0) != '#' || line == null){
-	    	  System.out.println("Script syntax error");
-	    	  //throw new Exception();
-	      }
-		  npcType = line.substring(1, 5);
+			  //sets line to first line of the file.
+			  line = bufferedReader.readLine();
+			  
+			  //removes all white spaces from the line;
+			  line.replace(" ","");
+			  if(line.length() > 5 || line.charAt(0) != '#' || line == null){
+				  throw new IncorrectFileException();
+			  }
+			  
+			  // Generates the NPCType from the script
+			  npcType = NPCType.fromString(line.substring(1, 5));
 		  
-		  
-		    while((line = bufferedReader.readLine()) != null) {
-		      if(line.length() > 5 || line.charAt(0) != '#'){
-		    	  
-		      }
+			  //Iterates through each line of the script, starting with line 2
+			  while((line = bufferedReader.readLine()) != null) {
+                
+				  line.trim();	//eliminates any white space at the beginning or end of the line
+                
+				  // Reads out the x and coordinates of the NPC
+				  if(line.charAt(0) == '('){
+					  
+					  // Saves the numbers between the '(' to ',' in x and ',' to ')' in y
+					  x = Integer.parseInt(line.substring( 1, line.indexOf(',')));
+					  y = Integer.parseInt(line.substring(line.indexOf(',') + 1, line.indexOf(')')));
+		
+				  }
+				  
+				  // Since the first character of the line is not a '('
+				  // ,then the line must start with a command followed by ':'
+				  else{
+					  
+					  // Saves the characters until the ':' as the command code
+					  cmd = line.substring(0,line.indexOf(':'));
+					  System.out.println(cmd);
+					  // Converts the code to the type NPCType for the switch statement
+					  command = Command.fromString(cmd);
+		    		
+					  switch(command){
+					  	
+					  	case MESSAGE:
+					  	{
+					  		switch(npcType){
+					  			
+					  		case YSNO:
+					  		{
+					  			message = line.substring(line.indexOf(':') + 1, line.indexOf("[Y]"));
+					  			messageY = line.substring(line.indexOf("[Y]") + 3, line.indexOf("[N]"));
+					  			messageN = line.substring(line.indexOf("[N]") + 3);
+					  		}
+					  		
+					  		default: message = line.substring(line.indexOf(':') + 1);
+					  			
+					  		}
+					  	}
+					  	
+					  	case QUESTION:question = QuestionFactory.getQuestion(line.substring(line.indexOf(':')));
+		    		
+					  	default: 
+		    		
+		    		}
+		    	}
 		    }
+		    
+			bufferedReader.close();
 		  }
-		  catch(FileNotFoundException ex) {
+		  catch(IncorrectFileException ex) {
 			    System.out.println(
-			        "Unable to open file '" + 
+			        "wrong file '" + 
 			        fileName + "'");                
-			}
-			catch(IOException ex) {
+		  }
+		  catch(IOException ex) {
 			    System.out.println(
 			        "Error reading file '" 
 			        + fileName + "'");                   
 			    
-			}
+		  }
+		  
+		  // Based on npcType a different type on NPC is produced
+		  switch(npcType){
+		  
+		  	case INFO: newNPC = new InfoNPC(new Position(x,y), "trainer.png", message);
+		  	
+		  	case TRNR: newNPC = new Trainer(new Position(x,y), "trainer.png", message, new Question[]{question});
+		  	
+		  	case YSNO: newNPC = new YesNoNPC(new Position(x,y), "trainer.png", message, messageY, messageN);
+		  
+		  	default:
+		  		
+		  }
 		  
 		  return newNPC;
 	}
 	
 	/*
-	 *  Takes in an ArrayList of Strings that are the file names of NPc scripts;
+	 *  Takes in an ArrayList of Strings that are the file names of NPC scripts;
 	 */
-	public static ArrayList<NPC> generateNPCs(ArrayList<String> scripts){
+	public static ArrayList<NPC> generateNPCs(String[] scripts){
+		
+		ArrayList<NPC> npcs = new ArrayList<NPC>();
+		
+		for(int i = 0; i < scripts.length; i++){
+			npcs.add(parseScript(scripts[i]));
+		}
 		
 		
-		
-		return null;
+		return npcs;
 	}
 
 }
