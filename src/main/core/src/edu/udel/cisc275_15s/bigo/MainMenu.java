@@ -7,7 +7,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.TextInputListener;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -28,6 +32,9 @@ public class MainMenu implements Screen, TextInputListener {
 
     private Skin skin = new Skin(Gdx.files.internal("skins/menuSkin.json"),
         new TextureAtlas(Gdx.files.internal("skins/menuSkin.pack")));
+    
+    SpriteBatch batch;
+    private Texture backgroundTexture = new Texture("rsz_menu_background.jpg");
 
     private TextButton buttonPlay = new TextButton("Play", skin),
         buttonExit = new TextButton("Exit", skin),
@@ -38,8 +45,11 @@ public class MainMenu implements Screen, TextInputListener {
     
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        //Gdx.gl.glClearColor(0, 0, 0, 1);
+        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    	batch.begin();
+    	batch.draw(backgroundTexture,0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    	batch.end();
         stage.act();
         stage.draw();
     }
@@ -50,6 +60,8 @@ public class MainMenu implements Screen, TextInputListener {
 
     @Override
     public void show() {
+    	title.setColor(Color.DARK_GRAY);
+    	batch = new SpriteBatch();
     	userName.setAlignment(1);
     	userName.setMessageText(" Enter Username");
     	music.play(); 
@@ -60,8 +72,15 @@ public class MainMenu implements Screen, TextInputListener {
                 //Same way we moved here from the Splash Screen
                 //We set it to new Splash because we got no other screens
                 //otherwise you put the screen there where you want to go
-            	MainClass.Game = new BigOGame();
-                ((Game)Gdx.app.getApplicationListener()).setScreen(MainClass.Game);
+            	String name = userName.getText();
+            	if (name.equals("")){
+            		userName.setColor(Color.RED);
+            	}
+            	else{
+            		Database.createUserData(name);
+            		MainClass.Game = new BigOGame();
+            		((Game)Gdx.app.getApplicationListener()).setScreen(MainClass.Game);
+            	}
                 
             }
         });

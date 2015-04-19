@@ -9,6 +9,7 @@ import edu.udel.cisc275_15s.bigo.MainMenu;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
+		
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		
 		new LwjglApplication(new MainClass(), config);
