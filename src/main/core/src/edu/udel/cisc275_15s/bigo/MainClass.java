@@ -8,6 +8,6 @@ public class MainClass extends Game {
     public static BigOGame Game = null;
     @Override
     public void create() {
-            setScreen(new Splash());
+            setScreen(new MainMenu());
     }
 }
