@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.TextInputListener;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -17,14 +19,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 public class Notes implements Screen, TextInputListener{
     private Stage stage = new Stage();
     private Table table = new Table();
+    public static int progress = 0;
     TextInputListener listener; 
     private Skin skin = new Skin(Gdx.files.internal("skins/menuSkin.json"),
       new TextureAtlas(Gdx.files.internal("skins/menuSkin.pack")));
     private TextButton exitButton = (TextButton) new TextButton("X",skin).align(Align.topRight);
+	SpriteBatch batch;
+  
     
    
 	public void show() {
-		
+	    batch = new SpriteBatch();
 		exitButton.addListener(new ClickListener(){
 			 public void clicked(InputEvent event, float x, float y) {
 				 ((Game)Gdx.app.getApplicationListener()).setScreen(MainClass.Game);
@@ -49,6 +54,21 @@ public class Notes implements Screen, TextInputListener{
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch = new SpriteBatch();
+        batch.begin();
+        Texture img;
+        for(float i = 0; i < 5; i++){
+        	if(i < progress)
+        		img = new Texture("star1.png");
+        	else
+        		img = new Texture("star2.png");
+        	batch.draw(img,
+        			 ((float) .2 * Gdx.graphics.getWidth() * i),
+        			(float) (Gdx.graphics.getHeight()*.01), 125, 125);
+        
+        }
+        
+        batch.end();
         stage.act();
         stage.draw();
        
@@ -75,7 +95,7 @@ public class Notes implements Screen, TextInputListener{
 
 	@Override
 	public void hide() {
-		dispose();
+		//dispose();
 		
 	}
 
@@ -99,5 +119,8 @@ public class Notes implements Screen, TextInputListener{
 		// TODO Auto-generated method stub
 		
 	}
-
+	public void increaseprogress()
+	{
+		progress++;
+	}
 }
