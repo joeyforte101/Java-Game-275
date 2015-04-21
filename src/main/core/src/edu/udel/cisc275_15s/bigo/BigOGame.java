@@ -111,7 +111,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		//temp.add(trainer1);
 		//temp.add(infoGuy);
 		roomOne = new Room("World map.png", temp);
-		roomTwo = new Room("background2.png", new ArrayList<NPC>());
+		roomTwo = new Room("insideHouse.png", new ArrayList<NPC>());
 		currentRoom = roomOne;
 		
 		
