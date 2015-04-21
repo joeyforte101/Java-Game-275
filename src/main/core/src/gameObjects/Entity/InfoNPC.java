@@ -1,14 +1,12 @@
 package gameObjects.Entity;
 
 public class InfoNPC extends NPC {
-	
-private String message;
 
-	public InfoNPC (Position position, String sprite, String message) {
-	
-		super(position, sprite);
+	private String message;
+
+	public InfoNPC(int x, int y, String sprite, String message) {
+		super(x, y, sprite);
 		this.message = message;
-	
 	}
 
 	public String getMessage() {
@@ -18,5 +16,5 @@ private String message;
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	
+
 }

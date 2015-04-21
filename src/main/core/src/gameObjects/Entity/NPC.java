@@ -4,11 +4,9 @@ import gameObjects.Question.Question;
 import gameObjects.Question.QuestionFactory;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
 
 public class NPC extends Obstacle {
 	
@@ -18,12 +16,9 @@ public class NPC extends Obstacle {
 	 * @param position
 	 * @param sprite
 	 */
-	public NPC(Position position, String sprite){
-		
-		super(position, sprite);
-		
+	public NPC(int x, int y, String sprite){
+		super(x, y, sprite);		
 	}
-
 	
 	/*
 	 *  Will add the script parsing method for creating instances of NPCs. 
@@ -49,16 +44,13 @@ public class NPC extends Obstacle {
 	 * The method return a NPC with created from the information in the 
 	 * script
 	 */
-	private static NPC parseScript(String file)
-	{
+	private static NPC parseScript(String file)	{
 		
 		  String fileName = file; 	// Name of script file that is being parsed
 		  String cmd; 				// String representation of command being passed into the parser
 		  Command command;			// Command enumeration type
 		  
-		  String line = null;		// Line currently being read
-
-		  
+		  String line = null;		// Line currently being read		  
 		  
 		  NPC newNPC = null;				// New NPC to be created
 		  NPCType npcType= null;			// Type of the NPC to be created
@@ -69,7 +61,7 @@ public class NPC extends Obstacle {
 		  String messageN = null;			// No message if an InfoNPC
 		  Question question = null;			// Question if Trainer
 		  
-		  try{
+		  try {
 			  
 			  if(!file.substring(file.length() - 4, file.length()).equals(".pks")){
 				  throw new IncorrectFileException();	// The file does not have the correct extension
@@ -84,6 +76,7 @@ public class NPC extends Obstacle {
 			  //removes all white spaces from the line;
 			  line.replace(" ","");
 			  if(line.length() > 5 || line.charAt(0) != '#' || line == null){
+				  bufferedReader.close();
 				  throw new IncorrectFileException();
 			  }
 			  
@@ -157,11 +150,11 @@ public class NPC extends Obstacle {
 		  // Based on npcType a different type on NPC is produced
 		  switch(npcType){
 		  
-		  	case INFO: newNPC = new InfoNPC(new Position(x,y), "trainer.png", message);
+		  	case INFO: newNPC = new InfoNPC(x, y, "trainer.png", message);
 		  	
-		  	case TRNR: newNPC = new Trainer(new Position(x,y), "trainer.png", message, new Question[]{question});
+		  	case TRNR: newNPC = new Trainer(x, y, "trainer.png", message, new Question[]{question});
 		  	
-		  	case YSNO: newNPC = new YesNoNPC(new Position(x,y), "trainer.png", message, messageY, messageN);
+		  	case YSNO: newNPC = new YesNoNPC(x , y, "trainer.png", message, messageY, messageN);
 		  
 		  	default:
 		  		
