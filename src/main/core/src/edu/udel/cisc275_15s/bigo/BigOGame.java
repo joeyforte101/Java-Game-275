@@ -212,7 +212,8 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 			create();
 			startCount++;
 		}
-		
+		//NotesButton.setColor(Color.RED);
+		NotesButton.getLabel().setFontScale((float) 0.8);
 		NotesButton.addListener(new ClickListener(){
 			 public void clicked(InputEvent event, float x, float y) {
 				 ((Game)Gdx.app.getApplicationListener()).setScreen(new Notes());
@@ -220,7 +221,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 			 }
 		});
 		
-		   table.add(NotesButton).size(250,50);
+		   table.add(NotesButton).size(WIDTH/8,HEIGHT/7);
 		   table.align(Align.bottomRight);
 		   table.setFillParent(true);
 	       stage.addActor(table);
