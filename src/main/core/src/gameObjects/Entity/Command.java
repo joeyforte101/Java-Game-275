@@ -21,7 +21,7 @@ public enum Command {
 	public static Command fromString(String text){
 		if(text != null){
 			for(Command com: Command.values()){
-				if(text.equalsIgnoreCase(com.command)){
+				if(text.equals(com.command)){
 					return com;
 				}
 			}

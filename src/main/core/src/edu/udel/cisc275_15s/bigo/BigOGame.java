@@ -48,7 +48,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 
-/*
+/**
  * This creates an instance of the BigOGame
  * The game contains:
  * - A User Character
@@ -84,10 +84,6 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	Screen currentScreen;
 	boolean inBattle;
 	Battle battle;
-	
-	
-	InfoNPC infoGuy;
-	Trainer trainer1;
 	Room roomOne;
 	Room roomTwo;
 	ArrayList<NPC> temp;
@@ -105,11 +101,8 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		player = new UserCharacter(new Position(0,0));
 		debugString = "start";
 		
-		//trainer1 = new Trainer(new Position(300, 300), "trainer.png", "What is the Drop/Add Deadline?", "Hello" ,new String[]{"1 week", "2 weeks", "3 weeks", "4 weeks", "2 weeks"});
-		//infoGuy = new InfoNPC(new Position(400, 400), "trainer.png", "Hey Did You know the DeadLine for Drop/Add is 2 Weeks?");
 		temp = NPC.generateNPCs(new String[]{"sprite1.pks","sprite2.pks","sprite 3.pks"});
-		//temp.add(trainer1);
-		//temp.add(infoGuy);
+		
 		roomOne = new Room("World map.png", temp);
 		roomTwo = new Room("insideHouse.png", new ArrayList<NPC>());
 		currentRoom = roomOne;
@@ -134,6 +127,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
         }
         else{
 		batch.begin();
+		
 		//batch.draw(currentScreen);
 		batch.draw(currentRoom.background, 0, 0);
 		
@@ -144,7 +138,22 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		
 		draw(player);
 		
+		for(NPC npc: currentRoom.npcs){
+			if(npc.playerInRange(player)){
+				tapLock = true;
+				npc.drawText(batch);
+			}
+			if(npc instanceof Trainer &&  npc.playerInRange(player) && ((Trainer) npc).hasBattled() == false){
+				((Trainer) npc).setHasBattled(true);
+				inBattle = true;
+				battle = new Battle(player, npc);
+				//((Game)Gdx.app.getApplicationListener()).setScreen(new BattleScreen(battle));
+			}
+			tapLock = false;
+		}
+		
 		batch.end();
+		
 		
 		//Player movement needs to be handled by a controller in a separate method/class
 		
@@ -199,7 +208,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		{
 			if(npc instanceof Trainer && ((Trainer)npc).playerInRange(player)){
 				inBattle = true;
-				battle = new Battle(npc);
+				battle = new Battle(player, npc);
 			}
 		}
 			

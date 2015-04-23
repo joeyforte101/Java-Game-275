@@ -9,8 +9,19 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 
 public class NPC extends Obstacle {
+	
+	private String message;
+	private boolean isTalking;
+	
+	// How far can a trainer see in either compass direction 
+	public final int SIGHT_RANGE = 40;
 	
 	/**
 	 * Creates an instance of an NPC
@@ -18,38 +29,62 @@ public class NPC extends Obstacle {
 	 * @param position
 	 * @param sprite
 	 */
-	public NPC(Position position, String sprite){
+	public NPC(Position position, String sprite, String message){
 		
 		super(position, sprite);
+		this.isTalking = false;
+		this.message = message;
 		
 	}
-
 	
-	/*
-	 *  Will add the script parsing method for creating instances of NPCs. 
-	 *  
-	 *  I'm thinking that all sprite information will be located in the script.
-	 *  So the script will include...
-	 *  - Sprite position
-	 *  - Sprite Type
-	 *  	- INFO
-	 *  		- message
-	 *  	- YSNO
-	 *  		- initial message
-	 *  		- message if yes
-	 *  		- message if no
-	 *      - BOSS
-	 *      	- question denoted Q: or [Q]
-	 *      	- set of answers denoted A: or [A]
-	 * 
-	 */
+
+	public String getMessage() {
+		return message;
+	}
+
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
+	public void setTalking(boolean t){
+		this.isTalking = t;
+	}
+	
+	public boolean isTalking(){
+		return this.isTalking;
+	}
+	
+
+	public boolean playerInRange(UserCharacter player){
+		
+		if((this.position.getX() == player.position.getX()) && (Math.abs(this.position.getY() - player.position.getY()) <= SIGHT_RANGE)){
+			return true;
+		}
+		else if((this.position.getY() == player.position.getY()) && (Math.abs(this.position.getX() - player.position.getX()) <= SIGHT_RANGE)){
+			return true;
+		}
+		else if(Math.abs(this.position.getY() - player.position.getY()) <= SIGHT_RANGE && Math.abs(this.position.getX() - player.position.getX()) <= SIGHT_RANGE){
+			return true;
+		}
+		
+		return false;
+	}
+
+	public void drawText(SpriteBatch batch){
+		Texture textbox = new Texture("speech bubble.png");
+		BitmapFont text = new BitmapFont();
+		text.setColor(Color.BLACK);
+		batch.draw(textbox, 20, 60);
+		text.draw(batch, this.message, 30, 60 + textbox.getHeight() - 10);
+	}
 	
 	/**
 	 * Takes in the file name of a game script with the extension ".pks"
 	 * The method return a NPC with created from the information in the 
 	 * script
 	 */
-	private static NPC parseScript(String file)
+	public static NPC parseScript(String file)
 	{
 		
 		  String fileName = file; 	// Name of script file that is being parsed
@@ -84,6 +119,7 @@ public class NPC extends Obstacle {
 			  //removes all white spaces from the line;
 			  line.replace(" ","");
 			  if(line.length() > 5 || line.charAt(0) != '#' || line == null){
+				  bufferedReader.close();
 				  throw new IncorrectFileException();
 			  }
 			  
@@ -110,7 +146,8 @@ public class NPC extends Obstacle {
 					  
 					  // Saves the characters until the ':' as the command code
 					  cmd = line.substring(0,line.indexOf(':'));
-					  System.out.println(cmd);
+					  //System.out.println(cmd);
+					  
 					  // Converts the code to the type NPCType for the switch statement
 					  command = Command.fromString(cmd);
 		    		
@@ -125,6 +162,7 @@ public class NPC extends Obstacle {
 					  			message = line.substring(line.indexOf(':') + 1, line.indexOf("[Y]"));
 					  			messageY = line.substring(line.indexOf("[Y]") + 3, line.indexOf("[N]"));
 					  			messageN = line.substring(line.indexOf("[N]") + 3);
+					  			break;
 					  		}
 					  		
 					  		default: message = line.substring(line.indexOf(':') + 1);
@@ -132,7 +170,10 @@ public class NPC extends Obstacle {
 					  		}
 					  	}
 					  	
-					  	case QUESTION:question = QuestionFactory.getQuestion(line.substring(line.indexOf(':')));
+					  	case QUESTION: {question = QuestionFactory.getQuestion(line.substring(line.indexOf(':') + 1));
+					  					break;
+					  					}
+					  	
 		    		
 					  	default: 
 		    		
@@ -147,6 +188,11 @@ public class NPC extends Obstacle {
 			        "wrong file '" + 
 			        fileName + "'");                
 		  }
+		  catch(FileNotFoundException ex) {
+			    System.out.println(
+				        "The following file was not found: '" + 
+				        fileName + "'");                
+		  }
 		  catch(IOException ex) {
 			    System.out.println(
 			        "Error reading file '" 
@@ -155,17 +201,28 @@ public class NPC extends Obstacle {
 		  }
 		  
 		  // Based on npcType a different type on NPC is produced
+		  System.out.println(npcType);
+		  
 		  switch(npcType){
 		  
-		  	case INFO: newNPC = new InfoNPC(new Position(x,y), "trainer.png", message);
+		  	case INFO: {newNPC = new InfoNPC(new Position(x,y), "trainer.png", message);
+		  				System.out.println("info Was created");
+		  				break;}
 		  	
-		  	case TRNR: newNPC = new Trainer(new Position(x,y), "trainer.png", message, new Question[]{question});
+		  	case TRNR: {newNPC = new Trainer(new Position(x,y), "trainer.png",message, new Question[]{question}); 
+		  				System.out.println("trainer Was created");
+		  				break;}
+		  						
 		  	
-		  	case YSNO: newNPC = new YesNoNPC(new Position(x,y), "trainer.png", message, messageY, messageN);
+		  	case YSNO: {newNPC = new YesNoNPC(new Position(x,y), "trainer.png", message, messageY, messageN);
+		  				System.out.println("yes no  Was created");
+		  				break;}
 		  
 		  	default:
 		  		
 		  }
+		  
+		  
 		  
 		  return newNPC;
 	}
