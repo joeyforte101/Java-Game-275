@@ -29,6 +29,8 @@ import gameObjects.Question.QuestionFactory;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.TextInputListener;
 import com.badlogic.gdx.graphics.Color;
@@ -68,9 +70,10 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	 TextInputListener listener; 
 	 private Skin skin = new Skin(Gdx.files.internal("skins/menuSkin.json"),
 	  new TextureAtlas(Gdx.files.internal("skins/menuSkin.pack")));
-	 private TextButton NotesButton = (TextButton) new TextButton("Notes",skin).align(Align.topRight);
+	 private TextButton NotesButton = (TextButton) new TextButton("Notes",skin).align(Align.bottomRight);
 	 private TextButton YesButton = (TextButton) new TextButton("Yes",skin).align(Align.topLeft); 
 	 private TextButton NoButton = (TextButton) new TextButton("No",skin).align(Align.topRight);
+	 InputMultiplexer inputMultiplexer = new InputMultiplexer();
 	
 	
 	int startCount = 0;
@@ -191,10 +194,12 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		}
 		debugString=Integer.toString((int)player.hitBox.x)+":"+Integer.toString((int)player.hitBox.y) +" "+Integer.toString(WIDTH)+"/"+Integer.toString(HEIGHT);
 		if(!Gdx.input.isTouched())tapLock=false;
-		
+		   
+		  YNstage.act();
+		  
 		  stage.act();
 	      stage.draw();
-	      YNstage.act();
+	   
 	}
 	
 	void draw(Entity e) {
@@ -228,13 +233,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 			startCount++;
 		}
 		//NotesButton.setColor(Color.RED);
-		NotesButton.getLabel().setFontScale((float) 0.8);
-		NotesButton.addListener(new ClickListener(){
-			 public void clicked(InputEvent event, float x, float y) {
-				 ((Game)Gdx.app.getApplicationListener()).setScreen(new Notes());
-				
-			 }
-		});
+		
 		
 		YesButton.getLabel().setFontScale((float) 0.8);
 		YesButton.addListener(new ClickListener(){
@@ -256,20 +255,35 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 			 }
 		});
 		
-			YNTable.add(NoButton).size(100,50);
-			YNTable.add(YesButton).size(100,50);
-			YNTable.align(Align.bottom);
-			YNTable.setFillParent(true);
-			YNstage.addActor(YNTable);
-			
+		NotesButton.getLabel().setFontScale((float) 0.8);
+		NotesButton.addListener(new ClickListener(){
+			 public void clicked(InputEvent event, float x, float y) {
+				 ((Game)Gdx.app.getApplicationListener()).setScreen(new Notes());
+				
+			 }
+		});
 		
 		   table.add(NotesButton).size(WIDTH/8,HEIGHT/7);
 		   table.align(Align.bottomRight);
 		   table.setFillParent(true);
 	       stage.addActor(table);
+	       
+			YNTable.add(NoButton).size(100,50);
+			YNTable.add(YesButton).size(100,50);
+			YNTable.align(Align.bottom);
+			YNTable.setFillParent(true);
+			YNstage.addActor(YNTable);
+		
+		
+			InputProcessor inputProcessorOne = stage;
+			InputProcessor inputProcessorTwo = YNstage;
 
-	        Gdx.input.setInputProcessor(stage);
-	        Gdx.input.setInputProcessor(YNstage);
+	        //Gdx.input.setInputProcessor(stage);
+	        //Gdx.input.setInputProcessor(YNstage);
+			
+			inputMultiplexer.addProcessor(inputProcessorOne);
+			inputMultiplexer.addProcessor(inputProcessorTwo);
+			Gdx.input.setInputProcessor(inputMultiplexer);
 		
 	}
 	
