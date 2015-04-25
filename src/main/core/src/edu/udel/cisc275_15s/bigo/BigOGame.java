@@ -141,7 +141,6 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		for(NPC npc: currentRoom.npcs){
 			if(npc.playerInRange(player)){
 				focusNPC = npc;
-				tapLock = true;
 				npc.drawText(batch);
 				if(npc instanceof YesNoNPC){
 					
@@ -157,7 +156,6 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 				battle = new Battle(player, npc);
 				((Game)Gdx.app.getApplicationListener()).setScreen(new BattleScreen(battle));
 			}
-			tapLock = false;
 		}
 		
 		batch.end();
