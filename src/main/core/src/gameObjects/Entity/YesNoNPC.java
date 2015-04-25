@@ -1,10 +1,15 @@
 package gameObjects.Entity;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 public class YesNoNPC extends NPC {
 	
 	String messageYes;
 	String messageNo;
-	boolean yes;
+	boolean understood;
 	
 	//new npc
 	public YesNoNPC(Position position, String sprite,String message, String messageY, String messageN){
@@ -33,11 +38,24 @@ public class YesNoNPC extends NPC {
 	}
 
 	public boolean isYes() {
-		return yes;
+		return understood;
 	}
 
-	public void setYes(boolean yes) {
-		this.yes = yes;
+	public void setUderstood(boolean yes) {
+		this.understood = yes;
+	}
+	
+	public void drawText(SpriteBatch batch, boolean understood){
+		Texture textbox = new Texture("speech bubble.png");
+		BitmapFont text = new BitmapFont();
+		text.setColor(Color.BLACK);
+		batch.draw(textbox, 20, 60);
+		if(understood)
+			text.draw(batch, getMessageYes(), 30, 60 + textbox.getHeight() - 10);
+		else{
+			text.draw(batch, getMessageNo(), 30, 60 + textbox.getHeight() - 10);
+		}
+			
 	}
 
 }

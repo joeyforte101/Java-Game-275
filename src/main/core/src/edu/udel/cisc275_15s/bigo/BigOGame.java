@@ -20,6 +20,7 @@ import gameObjects.Entity.Obstacle;
 import gameObjects.Entity.Position;
 import gameObjects.Entity.Trainer;
 import gameObjects.Entity.UserCharacter;
+import gameObjects.Entity.YesNoNPC;
 import gameObjects.Question.AdvisementQuestion;
 import gameObjects.Question.DropAddQuestion;
 import gameObjects.Question.Question;
@@ -61,12 +62,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 public class BigOGame extends ApplicationAdapter implements Screen {
 	
 	 private Stage stage = new Stage();
+	 private Stage YNstage = new Stage();
 	 private Table table = new Table();
+	 private Table YNTable = new Table();
 	 TextInputListener listener; 
 	 private Skin skin = new Skin(Gdx.files.internal("skins/menuSkin.json"),
 	  new TextureAtlas(Gdx.files.internal("skins/menuSkin.pack")));
-	  private TextButton NotesButton = (TextButton) new TextButton("Notes",skin).align(Align.topRight);
-	
+	 private TextButton NotesButton = (TextButton) new TextButton("Notes",skin).align(Align.topRight);
+	 private TextButton YesButton = (TextButton) new TextButton("Yes",skin).align(Align.topLeft); 
+	 private TextButton NoButton = (TextButton) new TextButton("No",skin).align(Align.topRight);
 	
 	
 	int startCount = 0;
@@ -87,6 +91,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	Room roomOne;
 	Room roomTwo;
 	ArrayList<NPC> temp;
+	NPC focusNPC;
 	
 	/*
 	public BigOGame(){
@@ -120,12 +125,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	public void render (float deltaTime) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
-        checkForBattle();
-        if(inBattle){
-        	battle.draw();
-        }
-        else{
+       
 		batch.begin();
 		
 		//batch.draw(currentScreen);
@@ -140,14 +140,22 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		
 		for(NPC npc: currentRoom.npcs){
 			if(npc.playerInRange(player)){
+				focusNPC = npc;
 				tapLock = true;
 				npc.drawText(batch);
+				if(npc instanceof YesNoNPC){
+					
+					  YNstage.draw();
+				      
+				}else{
+					npc.drawText(batch);
+				}
 			}
 			if(npc instanceof Trainer &&  npc.playerInRange(player) && ((Trainer) npc).hasBattled() == false){
 				((Trainer) npc).setHasBattled(true);
 				inBattle = true;
 				battle = new Battle(player, npc);
-				//((Game)Gdx.app.getApplicationListener()).setScreen(new BattleScreen(battle));
+				((Game)Gdx.app.getApplicationListener()).setScreen(new BattleScreen(battle));
 			}
 			tapLock = false;
 		}
@@ -188,7 +196,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		
 		  stage.act();
 	      stage.draw();
-        }
+	      YNstage.act();
 	}
 	
 	void draw(Entity e) {
@@ -230,12 +238,40 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 			 }
 		});
 		
+		YesButton.getLabel().setFontScale((float) 0.8);
+		YesButton.addListener(new ClickListener(){
+			 public void clicked(InputEvent event, float x, float y) {
+				batch.begin();
+				((YesNoNPC)focusNPC).drawText(batch, false);
+				System.out.println("YES");
+				batch.end();
+			 }
+		});
+		
+		NoButton.getLabel().setFontScale((float) 0.8);
+		NoButton.addListener(new ClickListener(){
+			 public void clicked(InputEvent event, float x, float y) {
+				batch.begin();
+				((YesNoNPC)focusNPC).drawText(batch, false);
+				System.out.println("NO");
+				batch.end();
+			 }
+		});
+		
+			YNTable.add(NoButton).size(100,50);
+			YNTable.add(YesButton).size(100,50);
+			YNTable.align(Align.bottom);
+			YNTable.setFillParent(true);
+			YNstage.addActor(YNTable);
+			
+		
 		   table.add(NotesButton).size(WIDTH/8,HEIGHT/7);
 		   table.align(Align.bottomRight);
 		   table.setFillParent(true);
 	       stage.addActor(table);
 
 	        Gdx.input.setInputProcessor(stage);
+	        Gdx.input.setInputProcessor(YNstage);
 		
 	}
 	
