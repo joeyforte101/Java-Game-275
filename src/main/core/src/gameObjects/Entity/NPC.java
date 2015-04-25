@@ -1,5 +1,7 @@
 package gameObjects.Entity;
 
+import edu.udel.cisc275_15s.bigo.MainClass;
+import edu.udel.cisc275_15s.bigo.Notes;
 import gameObjects.Question.Question;
 import gameObjects.Question.QuestionFactory;
 
@@ -76,6 +78,7 @@ public class NPC extends Obstacle {
 		BitmapFont text = new BitmapFont();
 		text.setColor(Color.BLACK);
 		batch.draw(textbox, 20, 60);
+		Notes.addnote(this.message);
 		text.draw(batch, this.message, 30, 60 + textbox.getHeight() - 10);
 	}
 	

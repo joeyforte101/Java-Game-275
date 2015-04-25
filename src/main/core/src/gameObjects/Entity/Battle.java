@@ -2,7 +2,9 @@ package gameObjects.Entity;
 
 
 
+import edu.udel.cisc275_15s.bigo.MainClass;
 import gameObjects.Question.Question;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -92,6 +94,7 @@ public class Battle {
 	 */
 	public boolean giveAnswer(String ans){
 		if(questions[questionIndex].isrightanswer(ans)){
+			
 			correct[questionIndex] = 1;
 			if(questionIndex == questions.length -1){
 				questionIndex = 0;

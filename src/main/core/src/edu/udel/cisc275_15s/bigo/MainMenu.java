@@ -79,6 +79,7 @@ public class MainMenu implements Screen, TextInputListener {
             	else{
             		Database.createUserData(name);
             		MainClass.Game = new BigOGame();
+            		MainClass.Notes = new Notes();
             		((Game)Gdx.app.getApplicationListener()).setScreen(MainClass.Game);
             	}
                 

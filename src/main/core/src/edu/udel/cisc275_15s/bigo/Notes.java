@@ -1,11 +1,15 @@
 package edu.udel.cisc275_15s.bigo;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.TextInputListener;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -25,7 +29,9 @@ public class Notes implements Screen, TextInputListener{
       new TextureAtlas(Gdx.files.internal("skins/menuSkin.pack")));
     private TextButton exitButton = (TextButton) new TextButton("X",skin).align(Align.topRight);
 	SpriteBatch batch;
-  
+	private static ArrayList<String> notes = new ArrayList<String>();
+	BitmapFont text = new BitmapFont();
+
     
    
 	public void show() {
@@ -68,6 +74,10 @@ public class Notes implements Screen, TextInputListener{
         
         }
         
+    	text.setColor(Color.WHITE);
+    	for(float i = 0; i < notes.size(); i++)
+    		text.draw(batch,notes.get((int) i),30,Gdx.graphics.getHeight() - i*20 - 10);
+    	
         batch.end();
         stage.act();
         stage.draw();
@@ -122,5 +132,19 @@ public class Notes implements Screen, TextInputListener{
 	public void increaseprogress()
 	{
 		progress++;
+	}
+	
+	public static void addnote(String anote){
+		if(!repeatednote(anote))
+			notes.add(anote);
+	}
+	
+	private static boolean repeatednote(String anote)
+	{
+		for(String note: notes){
+			if(note == anote)
+				return true;
+		}
+		return false;
 	}
 }

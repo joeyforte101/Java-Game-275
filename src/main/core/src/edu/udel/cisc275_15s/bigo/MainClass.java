@@ -6,6 +6,7 @@ public class MainClass extends Game {
     public static final String TITLE="Game Project"; 
     public static final int WIDTH=480,HEIGHT=800; // used later to set window size
     public static BigOGame Game = null;
+    public static Notes Notes = null;
     @Override
     public void create() {
             setScreen(new MainMenu());
