@@ -1,7 +1,5 @@
 package gameObjects.Entity;
 
-import edu.udel.cisc275_15s.bigo.MainClass;
-import edu.udel.cisc275_15s.bigo.Notes;
 import gameObjects.Question.Question;
 import gameObjects.Question.QuestionFactory;
 
@@ -31,9 +29,9 @@ public class NPC extends Obstacle {
 	 * @param position
 	 * @param sprite
 	 */
-	public NPC(Position position, String sprite, String message){
+	public NPC(int x, int y, String sprite, String message){
 		
-		super(position, sprite);
+		super(x, y, sprite);
 		this.isTalking = false;
 		this.message = message;
 		
@@ -60,13 +58,13 @@ public class NPC extends Obstacle {
 
 	public boolean playerInRange(UserCharacter player){
 		
-		if((this.position.getX() == player.position.getX()) && (Math.abs(this.position.getY() - player.position.getY()) <= SIGHT_RANGE)){
+		if((getX() == player.getX()) && (Math.abs(getY() - player.getY()) <= SIGHT_RANGE)){
 			return true;
 		}
-		else if((this.position.getY() == player.position.getY()) && (Math.abs(this.position.getX() - player.position.getX()) <= SIGHT_RANGE)){
+		else if((getY() == getY()) && (Math.abs(getX() - player.getX()) <= SIGHT_RANGE)){
 			return true;
 		}
-		else if(Math.abs(this.position.getY() - player.position.getY()) <= SIGHT_RANGE && Math.abs(this.position.getX() - player.position.getX()) <= SIGHT_RANGE){
+		else if(Math.abs(getY() - player.getY()) <= SIGHT_RANGE && Math.abs(getX() - player.getX()) <= SIGHT_RANGE){
 			return true;
 		}
 		
@@ -78,7 +76,6 @@ public class NPC extends Obstacle {
 		BitmapFont text = new BitmapFont();
 		text.setColor(Color.BLACK);
 		batch.draw(textbox, 20, 60);
-		Notes.addnote(this.message);
 		text.draw(batch, this.message, 30, 60 + textbox.getHeight() - 10);
 	}
 	
@@ -208,16 +205,16 @@ public class NPC extends Obstacle {
 		  
 		  switch(npcType){
 		  
-		  	case INFO: {newNPC = new InfoNPC(new Position(x,y), "trainer.png", message);
+		  	case INFO: {newNPC = new InfoNPC(x, y, "trainer.png", message);
 		  				System.out.println("info Was created");
 		  				break;}
 		  	
-		  	case TRNR: {newNPC = new Trainer(new Position(x,y), "trainer.png",message, new Question[]{question}); 
+		  	case TRNR: {newNPC = new Trainer(x, y, "trainer.png",message, new Question[]{question}); 
 		  				System.out.println("trainer Was created");
 		  				break;}
 		  						
 		  	
-		  	case YSNO: {newNPC = new YesNoNPC(new Position(x,y), "trainer.png", message, messageY, messageN);
+		  	case YSNO: {newNPC = new YesNoNPC(x, y, "trainer.png", message, messageY, messageN);
 		  				System.out.println("yes no  Was created");
 		  				break;}
 		  

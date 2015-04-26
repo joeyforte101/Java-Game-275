@@ -12,9 +12,9 @@ public class YesNoNPC extends NPC {
 	boolean understood;
 	
 	//new npc
-	public YesNoNPC(Position position, String sprite,String message, String messageY, String messageN){
+	public YesNoNPC(int x, int y, String sprite,String message, String messageY, String messageN){
 		
-		super(position, sprite, message);
+		super(x, y, sprite, message);
 		this.messageYes = messageY;
 		this.messageNo = messageN;
 		

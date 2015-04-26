@@ -10,9 +10,9 @@ public class Trainer extends NPC {
 	private boolean hasBattled;
 	
 	
-	public Trainer (Position position, String sprite, String message, Question[] questions){
+	public Trainer (int x, int y, String sprite, String message, Question[] questions){
 		
-		super(position, sprite, message);
+		super(x, y, sprite, message);
 		this.hasBattled = false;
 		this.questions = questions;
 		

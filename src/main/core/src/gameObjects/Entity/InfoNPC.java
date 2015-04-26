@@ -2,9 +2,9 @@ package gameObjects.Entity;
 
 public class InfoNPC extends NPC {
 
-	public InfoNPC (Position position, String sprite, String message) {
+	public InfoNPC (int x, int y, String sprite, String message) {
 	
-		super(position, sprite, message);
+		super(x, y, sprite, message);
 	
 	}
 	
