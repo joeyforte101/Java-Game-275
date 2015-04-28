@@ -1,5 +1,6 @@
 package gameObjects.Entity;
 
+import edu.udel.cisc275_15s.bigo.Notes;
 import gameObjects.Question.Question;
 import gameObjects.Question.QuestionFactory;
 
@@ -21,7 +22,7 @@ public class NPC extends Obstacle {
 	private boolean isTalking;
 	
 	// How far can a trainer see in either compass direction 
-	public final int SIGHT_RANGE = 40;
+	public final int SIGHT_RANGE = 35;
 	
 	/**
 	 * Creates an instance of an NPC
@@ -61,7 +62,7 @@ public class NPC extends Obstacle {
 		if((getX() == player.getX()) && (Math.abs(getY() - player.getY()) <= SIGHT_RANGE)){
 			return true;
 		}
-		else if((getY() == getY()) && (Math.abs(getX() - player.getX()) <= SIGHT_RANGE)){
+		else if((getY() == player.getY()) && (Math.abs(getX() - player.getX()) <= SIGHT_RANGE)){
 			return true;
 		}
 		else if(Math.abs(getY() - player.getY()) <= SIGHT_RANGE && Math.abs(getX() - player.getX()) <= SIGHT_RANGE){
@@ -77,6 +78,7 @@ public class NPC extends Obstacle {
 		text.setColor(Color.BLACK);
 		batch.draw(textbox, 20, 60);
 		text.draw(batch, this.message, 30, 60 + textbox.getHeight() - 10);
+		Notes.addnote(this.message);
 	}
 	
 	/**

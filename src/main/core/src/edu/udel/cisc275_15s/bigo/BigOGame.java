@@ -114,7 +114,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	}
 
 	public void update() {
-		checkForBattle();
+		//checkForBattle();
 
 		if (Gdx.input.isTouched() && !tapLock) {
 			currentRoom = currentRoom.move(player, tapLock, Gdx.input.getX(),
