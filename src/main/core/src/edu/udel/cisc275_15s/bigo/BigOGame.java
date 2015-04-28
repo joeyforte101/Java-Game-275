@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import gameObjects.Door;
 import gameObjects.Room;
 import gameObjects.TextBox;
 import gameObjects.UDSISQuestion;
@@ -99,18 +100,28 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 
 		debugString = "start";
 
-		roomOne = new Room("World map.png", NPC.generateNPCs(new String[] {
-				"sprite1.pks", "sprite2.pks", "sprite 3.pks" }));
+		roomOne = new Room("World map.png", NPC.generateNPCs(new String[] {"sprite1.pks", "sprite2.pks", "sprite 3.pks" }));
 		roomTwo = new Room("insideHouse.png");
-		roomOne.addDoor(roomTwo, new int[] { 50, 300, 60, 60 }, new int[] {
-				405, 380 });
-		roomTwo.addDoor(roomOne, new int[] { 400, 380, 60, 60 }, new int[] {
-				50, 300 });
+		roomOne.addDoor(roomTwo, new int[] { 62, 320, 36, 40 }, new int[] {	405, 380 });
+		// house one
+		roomOne.addObstacle(new Obstacle(32,320,30,112));
+		roomOne.addObstacle(new Obstacle(62,360,36,72));
+		roomOne.addObstacle(new Obstacle(98,320,62,112));
+		// house two
+		roomOne.addObstacle(new Obstacle(32,129,128,112));
+		// house three
+		roomOne.addObstacle(new Obstacle(480,129,128,112));
+		// house four
+		roomOne.addObstacle(new Obstacle(480,320,128,112));
+		// big building
+		roomOne.addObstacle(new Obstacle(255,64,128,160));
+		roomTwo.addDoor(roomOne, new int[] { 400, 380, 60, 60 }, new int[] { 50, 300 });
 
 		currentRoom = roomOne;
 
 		WIDTH = Gdx.graphics.getWidth();
 		HEIGHT = Gdx.graphics.getHeight();
+
 	}
 
 	public void update() {
@@ -143,7 +154,6 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 
 		batch.begin();
 
-		// batch.draw(currentScreen);
 		batch.draw(currentRoom.background, 0, 0);
 
 		for (NPC npc : currentRoom.npcs) {
@@ -176,6 +186,15 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 
 		batch.end();
 
+//		Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+//		for(Obstacle obs : currentRoom.getObstacles()) {
+//			drawHitbox(obs);
+//		}
+//		
+//		for(Door d : currentRoom.doors) {
+//			drawDoor(d);
+//		}
+		
 		YNstage.act();
 
 		stage.act();
@@ -183,15 +202,25 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 
 	}
 
-	void draw(Entity e) {
-		// ShapeRenderer shapeRenderer = new ShapeRenderer();
-		// shapeRenderer.begin(ShapeType.Filled);
-		// shapeRenderer.setColor(Color.RED);
-		// shapeRenderer.rect(e.hitBox.x, e.hitBox.y, e.hitBox.width,
-		// e.hitBox.height);
-		// shapeRenderer.end();
+	void draw(Entity e) {		
 		batch.draw(e.texture, e.getX(), e.getY(), e.getWidth(),
 				e.getHeight());
+	}
+	
+	void drawHitbox(Entity e) {
+		ShapeRenderer shapeRenderer = new ShapeRenderer();
+		shapeRenderer.begin(ShapeType.Filled);
+		shapeRenderer.setColor(new Color(1, 0, 0, .4f));
+		shapeRenderer.rect(e.getX(), e.getY(), e.getWidth(), e.getHeight());
+		shapeRenderer.end();
+	}
+	
+	void drawDoor(Door d) {
+		ShapeRenderer shapeRenderer = new ShapeRenderer();
+		shapeRenderer.begin(ShapeType.Filled);
+		shapeRenderer.setColor(new Color(0, 0, 1, .4f));
+		shapeRenderer.rect(d.hitbox.x, d.hitbox.y, d.hitbox.width, d.hitbox.height);
+		shapeRenderer.end();
 	}
 
 	private boolean checkForBattle() {

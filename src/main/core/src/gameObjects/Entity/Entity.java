@@ -11,6 +11,10 @@ public abstract class Entity {
 	public Rectangle hitBox;
 	public Texture texture;
 	
+	public Entity(int x, int y, int w, int h) {
+		hitBox = new Rectangle(x, y, w, h);		
+	}
+	
 	public Entity (int x, int y, String sprite) {
 		texture = new Texture(sprite);
 		hitBox = new Rectangle(x, y, texture.getWidth(), texture.getHeight());
