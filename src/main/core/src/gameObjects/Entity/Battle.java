@@ -3,6 +3,7 @@ package gameObjects.Entity;
 
 
 import edu.udel.cisc275_15s.bigo.MainClass;
+import edu.udel.cisc275_15s.bigo.Notes;
 import gameObjects.Question.Question;
 
 import com.badlogic.gdx.graphics.Color;
@@ -76,6 +77,7 @@ public class Battle {
 				return false;
 			}
 		}
+		Notes.progress++;
 		return true;
 		
 	}
