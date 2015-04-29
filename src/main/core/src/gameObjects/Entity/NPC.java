@@ -77,7 +77,32 @@ public class NPC extends Obstacle {
 		BitmapFont text = new BitmapFont();
 		text.setColor(Color.BLACK);
 		batch.draw(textbox, 20, 60);
-		text.draw(batch, this.message, 30, 60 + textbox.getHeight() - 10);
+		
+		String displaymessage = "";
+		for(int i = 0; i < this.message.length(); i = i + 50){
+			int k = i + 50;
+			while(k < this.message.length()){
+				if(this.message.substring(k,k+1).equals(" "))
+					break;
+				
+					
+				k++;
+			}
+			if(this.message.length() >= i  + 50)
+			{
+		    	if(i + 50 < this.message.length())
+				displaymessage =  this.message.substring(i, k);
+				else
+				displaymessage = this.message.substring(i) +"\n";
+			}
+			else
+				displaymessage =  this.message.substring(i) + "\n";
+			
+			text.draw(batch, displaymessage, 30, 60 + textbox.getHeight() - 10 - i/3);
+		
+			i = k - 50;
+		}
+		
 		Notes.addnote(this.message);
 	}
 	

@@ -144,7 +144,36 @@ public class Battle {
 			// Draws TextBox for opponent NPC's question
 			batch.draw(oppBub, 100, background.getHeight() - opp.getHeight() - 130);
 			// Prints current question to the screen
-			text.draw(batch, questions[0].getQuestion(), 110, background.getHeight() - 50);
+			
+			String message = questions[0].getQuestion();
+			String displaymessage = "";
+			for(int i = 0; i < message.length(); i = i + 50){
+				int k = i + 50;
+				while(k < message.length()){
+					if(message.substring(k,k+1).equals(" "))
+						break;
+					
+						
+					k++;
+				}
+				if(message.length() >= i  + 50)
+				{
+			    	if(i + 50 < message.length())
+					displaymessage =  message.substring(i, k);
+					else
+					displaymessage = message.substring(i) +"\n";
+				}
+				else
+					displaymessage =  message.substring(i) + "\n";
+				
+				text.draw(batch, displaymessage, 110, background.getHeight() - 50 - i/3);
+			
+				i = k - 50;
+			}
+			
+			
+			
+			//text.draw(batch, questions[0].getQuestion(), 110, background.getHeight() - 50);
 			// Prints instructions for the player to follow
 			text.draw(batch, "Touch the correct answer", 110, 20 + pcBub.getHeight());
 			// Prints the potential answers to the question presented
