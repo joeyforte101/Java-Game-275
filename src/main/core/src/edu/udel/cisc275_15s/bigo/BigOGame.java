@@ -102,7 +102,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		debugString = "start";
 
 		roomOne = new Room("World map.png", NPC.generateNPCs(new String[] {"sprite1.pks", "sprite2.pks", "sprite 3.pks" }));
-		roomTwo = new Room("insideHouse.png");
+		roomTwo = new Room("map.png");
 		roomOne.addDoor(roomTwo, new int[] { 62, 320, 36, 40 }, new int[] {	405, 380 });
 		// house one
 		roomOne.addObstacle(new Obstacle(32,320,30,112));
