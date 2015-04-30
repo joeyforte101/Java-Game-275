@@ -43,6 +43,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -167,7 +168,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 				focusNPC = npc;
 				npc.drawText(batch);
 				if (npc instanceof YesNoNPC) {
-
+					
 					YNstage.draw();
 
 				} else {
@@ -278,6 +279,8 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 
 		YNTable.add(NoButton).size(100, 50);
 		YNTable.add(YesButton).size(100, 50);
+		Label nameLabel = new Label("2 + 2 = 4?", skin);
+		YNTable.add(nameLabel);
 		YNTable.align(Align.bottom);
 		YNTable.setFillParent(true);
 		YNstage.addActor(YNTable);
