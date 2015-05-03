@@ -85,7 +85,7 @@ public class Notes implements Screen, TextInputListener{
 		
 	}
 
-
+	
 	public void resize(int width, int height) {
 		
 		
@@ -135,16 +135,9 @@ public class Notes implements Screen, TextInputListener{
 	}
 	
 	public static void addnote(String anote){
-		if(!repeatednote(anote))
+		if(!notes.contains(anote))
 			notes.add(anote);
 	}
 	
-	private static boolean repeatednote(String anote)
-	{
-		for(String note: notes){
-			if(note == anote)
-				return true;
-		}
-		return false;
-	}
+
 }

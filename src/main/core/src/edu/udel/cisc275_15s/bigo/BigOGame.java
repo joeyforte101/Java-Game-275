@@ -116,8 +116,8 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		roomOne.addObstacle(new Obstacle(480,320,128,112));
 		// big building
 		roomOne.addObstacle(new Obstacle(255,64,128,160));
-		roomTwo.addDoor(roomOne, new int[] { 400, 380, 60, 60 }, new int[] { 50, 300 });
-
+		//roomTwo.addDoor(roomOne, new int[] { 400, 380, 60, 60 }, new int[] { 50, 300 });
+		roomTwo.addDoor(roomOne, new int[] { 0, 0, 60, 60 }, new int[] { 50, 300 });
 		currentRoom = roomOne;
 
 		WIDTH = Gdx.graphics.getWidth();
