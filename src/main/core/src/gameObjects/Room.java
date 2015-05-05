@@ -18,6 +18,7 @@ public class Room {
 	public final int HEIGHT = Gdx.graphics.getHeight();
 
 	public Texture background;
+	public int xOffset, yOffset;
 	public List<NPC> npcs;
 	public List<Door> doors;
 	public List<Obstacle> obstacles;
@@ -27,6 +28,8 @@ public class Room {
 		this.npcs = new ArrayList<NPC>();
 		this.obstacles = new ArrayList<Obstacle>();
 		this.doors = new ArrayList<Door>();
+		xOffset = 0;
+		yOffset = 0;
 	}
 
 	public Room(String background, List<NPC> npcs) {
@@ -34,6 +37,8 @@ public class Room {
 		this.npcs = npcs;
 		this.obstacles = new ArrayList<Obstacle>();
 		this.doors = new ArrayList<Door>();
+		xOffset = 0;
+		yOffset = 0;
 	}
 
 	public Room(String background, List<NPC> npcs, List<Door> doors) {
@@ -41,6 +46,8 @@ public class Room {
 		this.npcs = npcs;
 		this.obstacles = new ArrayList<Obstacle>();
 		this.doors = doors;
+		xOffset = 0;
+		yOffset = 0;
 	}
 
 	public void addDoor(Room destination, int[] position, int[] out) {
