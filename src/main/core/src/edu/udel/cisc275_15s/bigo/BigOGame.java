@@ -147,7 +147,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 
 	@Override
 	public void render(float deltaTime) {
-
+		player.setDeltaTime(deltaTime);
 		update();
 		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -160,7 +160,6 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		for (NPC npc : currentRoom.npcs) {
 			draw(npc);
 		}
-
 		draw(player);
 
 		for (NPC npc : currentRoom.npcs) {

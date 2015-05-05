@@ -88,8 +88,12 @@ public class Room {
 						&& leftBound) {
 					c.setX(c.getX() - c.moveSpeed);
 					c.direction = Directions.LEFT;
-				} else
+				} else{
+					//makes sure the guy isnt running in place and changes to standing still animation
+					c.setDeltaTime(0);
+					c.setAnimationCounter(1);
 					c.movingHorizontally = false;
+				}
 			} else if (!c.movingHorizontally) {
 				// move up
 				if (y > centery
@@ -104,10 +108,15 @@ public class Room {
 						&& bottomBound) {
 					c.setY(c.getY() - c.moveSpeed);
 					c.direction = Directions.DOWN;
-				} else
+				} else{
 					c.movingHorizontally = true;
+					//makes sure the guy isnt running in place and changes to standing still animation
+					c.setAnimationCounter(1);
+					c.setDeltaTime(0);
+				}
 			}
 			c.resetPositionAfterIntersection(getObstacles());
+			c.animate();
 		}
 
 		// check door interaction
@@ -125,7 +134,7 @@ public class Room {
 		}
 		return this;
 	}
-	
+
 	public List<Obstacle> getObstacles() {
 		ArrayList<Obstacle> result = new ArrayList<Obstacle>();
 		result.addAll(npcs);

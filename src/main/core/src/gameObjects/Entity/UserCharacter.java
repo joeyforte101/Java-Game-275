@@ -11,9 +11,10 @@ import com.badlogic.gdx.math.Intersector;
 public class UserCharacter extends Entity {
 	public final int WIDTH = Gdx.graphics.getWidth();
 	public final int HEIGHT = Gdx.graphics.getHeight();
-
-	public int moveSpeed = 4;
-	public int animationCounter = 0;
+	private float deltaTime = 0;
+	private float updateTime = 0;
+	public int moveSpeed = 3;
+	private int animationCounter = 0;
 	public Directions direction;
 	public boolean talking = false;
 	public boolean movingHorizontally = true;
@@ -38,14 +39,13 @@ public class UserCharacter extends Entity {
 	public void setTalking(boolean t) {
 		talking = t;
 	}
-
+	public void setAnimationCounter(int i){
+		animationCounter = i;
+	}
 	public void resetPositionAfterIntersection(List<Obstacle> obstacles) {
-		if (animationCounter > 2)
-			animationCounter = 0;
 		for (Obstacle o : obstacles) {
 			switch (direction) {
 			case UP:
-				texture = upTextures[animationCounter];
 				if (Intersector.overlaps(hitBox, o.getHitBox())) {
 					hitBox.y = o.getY() - getHeight() - 1;
 					movingHorizontally = true;
@@ -72,6 +72,12 @@ public class UserCharacter extends Entity {
 				break;
 			}
 		}
+	}
+
+	public void animate(){
+		//bounds the animation array
+		if (animationCounter > 2)
+			animationCounter = 0;
 		switch (direction) {
 		case UP:
 			texture = upTextures[animationCounter];
@@ -86,6 +92,14 @@ public class UserCharacter extends Entity {
 			texture = leftTextures[animationCounter];
 			break;
 		}
+		updateTime+=deltaTime;
+		if(updateTime>.08f){
 		animationCounter++;
+		updateTime=0;
+		}
+	}
+	public void setDeltaTime(float deltaTime) {
+		this.deltaTime=deltaTime;
+		
 	}
 }
