@@ -31,6 +31,12 @@ public class ContentLoader {
 		
 		ArrayList<Room> result = new ArrayList<Room>();
 		
+		// load question/message banks
+		
+		// TODO
+		
+		// load rooms
+		
 		String cwd = Paths.get("").toAbsolutePath().toString();
 		String path = cwd.substring(0, cwd.length() - 7) + "android\\assets\\rooms";
 		
