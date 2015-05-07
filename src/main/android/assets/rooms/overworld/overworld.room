@@ -1,0 +1,14 @@
+Hash = overworld
+Texture = overworld_background.png
+:DOORS:
+room_hash/x,y,width,height/outX,outY = dates_gym / 62,320,36,40 / 304,20
+:NPCS:
+npc_type/x,y = yes_no / 256,256
+:OBSTALCES:
+x,y,width,height = 32,320,30,112
+x,y,width,height = 62,360,36,72
+x,y,width,height = 98,320,62,112
+x,y,width,height = 32,129,128,112
+x,y,width,height = 480,129,128,112
+x,y,width,height = 480,320,128,112
+x,y,width,height = 255,64,128,160

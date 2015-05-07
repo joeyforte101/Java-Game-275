@@ -6,13 +6,13 @@ import gameObjects.Entity.UserCharacter;
 
 public class Door {
 
-	public Room roomTo;
+	public String roomToHash;
 	public Rectangle hitbox;
 	public Rectangle outPosition;
 	public boolean out = false;
 
-	public Door(Room room, Rectangle pos, Rectangle out) {
-		roomTo = room;
+	public Door(String hash, Rectangle pos, Rectangle out) {
+		roomToHash = hash;
 		hitbox = pos;
 		outPosition = out;
 	}

@@ -18,11 +18,20 @@ public class Room {
 	public final int HEIGHT = Gdx.graphics.getHeight();
 
 	public Texture background;
+	public String hash;
 	public int xOffset, yOffset;
 	public List<NPC> npcs;
 	public List<Door> doors;
 	public List<Obstacle> obstacles;
 
+	public Room() {
+		this.npcs = new ArrayList<NPC>();
+		this.obstacles = new ArrayList<Obstacle>();
+		this.doors = new ArrayList<Door>();
+		xOffset = 0;
+		yOffset = 0;
+	}
+	
 	public Room(String background) {
 		this.background = new Texture(background);
 		this.npcs = new ArrayList<NPC>();
@@ -50,8 +59,8 @@ public class Room {
 		yOffset = 0;
 	}
 
-	public void addDoor(Room destination, int[] position, int[] out) {
-		doors.add(new Door(destination, new Rectangle(position[0], position[1],
+	public void addDoor(String roomTo, int[] position, int[] out) {
+		doors.add(new Door(roomTo, new Rectangle(position[0], position[1],
 				position[2], position[3]), new Rectangle(out[0], out[1], 0, 0)));
 	}
 
@@ -63,7 +72,7 @@ public class Room {
 		obstacles.add(obs);
 	}
 
-	public Room move(UserCharacter c, boolean t, int x, int y) {
+	public String move(UserCharacter c, boolean t, int x, int y) {
 		y = Mapping.yScreenToText(y);
 		int centerx = c.getX() + c.getWidth() / 2;
 		int centery = c.getY() + c.getHeight() / 2;
@@ -133,13 +142,13 @@ public class Room {
 					c.setX((int) d.outPosition.x);
 					c.setY((int) d.outPosition.y);
 					d.out = false;
-					return d.roomTo;
+					return d.roomToHash;
 				}
 			} else {
 				d.out = true;
 			}
 		}
-		return this;
+		return hash;
 	}
 
 	public List<Obstacle> getObstacles() {

@@ -19,7 +19,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class NPC extends Obstacle {
 	
 	private String message;
-	private boolean isTalking;
+	private boolean isTalking = false;
 	
 	// How far can a trainer see in either compass direction 
 	public final int SIGHT_RANGE = 35;
@@ -33,8 +33,13 @@ public class NPC extends Obstacle {
 	public NPC(int x, int y, String sprite, String message){
 		
 		super(x, y, sprite);
-		this.isTalking = false;
 		this.message = message;
+		
+	}	
+	
+	public NPC(int x, int y, String sprite){
+		
+		super(x, y, sprite);
 		
 	}	
 
@@ -225,21 +230,21 @@ public class NPC extends Obstacle {
 		  }
 		  
 		  // Based on npcType a different type on NPC is produced
-		  System.out.println(npcType);
+//		  System.out.println(npcType);
 		  
 		  switch(npcType){
 		  
 		  	case INFO: {newNPC = new InfoNPC(x, y, message);
-		  				System.out.println("info Was created");
+//		  				System.out.println("info Was created");
 		  				break;}
 		  	
 		  	case TRNR: {newNPC = new Trainer(x, y, message, new Question[]{question}); 
-		  				System.out.println("trainer Was created");
+//		  				System.out.println("trainer Was created");
 		  				break;}
 		  						
 		  	
 		  	case YSNO: {newNPC = new YesNoNPC(x, y, message, messageY, messageN);
-		  				System.out.println("yes no  Was created");
+//		  				System.out.println("yes no  Was created");
 		  				break;}
 		  
 		  	default:
