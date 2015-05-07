@@ -88,9 +88,14 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	Screen currentScreen;
 	boolean inBattle;
 	Battle battle;
+	
 	Room roomOne;
 	Room roomTwo;
-	ArrayList<NPC> temp;
+	Room roomThree;
+	Room roomFour;
+	Room roomFive;
+	Room roomSix;
+	
 	NPC focusNPC;
 
 	@Override
@@ -101,28 +106,10 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 
 		debugString = "start";
 
-		roomOne = new Room("World map.png", NPC.generateNPCs(new String[] {"sprite1.pks", "sprite2.pks", "sprite 3.pks" }));
-		roomTwo = new Room("map.png");
-		roomOne.addDoor(roomTwo, new int[] { 62, 320, 36, 40 }, new int[] {	405, 380 });
-		// house one
-		roomOne.addObstacle(new Obstacle(32,320,30,112));
-		roomOne.addObstacle(new Obstacle(62,360,36,72));
-		roomOne.addObstacle(new Obstacle(98,320,62,112));
-		// house two
-		roomOne.addObstacle(new Obstacle(32,129,128,112));
-		// house three
-		roomOne.addObstacle(new Obstacle(480,129,128,112));
-		// house four
-		roomOne.addObstacle(new Obstacle(480,320,128,112));
-		// big building
-		roomOne.addObstacle(new Obstacle(255,64,128,160));
-		//roomTwo.addDoor(roomOne, new int[] { 400, 380, 60, 60 }, new int[] { 50, 300 });
-		roomTwo.addDoor(roomOne, new int[] { 0, 0, 60, 60 }, new int[] { 50, 300 });
-		currentRoom = roomOne;
+		initializeRooms();		
 
 		WIDTH = Gdx.graphics.getWidth();
 		HEIGHT = Gdx.graphics.getHeight();
-
 	}
 
 	public void update() {
@@ -199,7 +186,6 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 
 		stage.act();
 		stage.draw();
-
 	}
 
 	void draw(Entity e) {		
@@ -234,6 +220,49 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		return inBattle;
 	}
 
+	void initializeRooms() {
+
+		// THIS SHOULD ALL BE LOADED FROM FILES
+		
+		roomOne = new Room("room_backgrounds/room_one_background.png", NPC.generateNPCs(new String[] {"sprite1.pks", "sprite2.pks", "sprite 3.pks" }));
+		roomTwo = new Room("room_backgrounds/room_two_background.png");
+		roomThree = new Room("room_backgrounds/room_three_background.png");
+		roomFour = new Room("room_backgrounds/room_four_background.png");
+		roomFive = new Room("room_backgrounds/room_five_background.png");
+		roomSix = new Room("room_backgrounds/room_six_background.png");
+		
+		// Room One
+		
+		// Doors
+		roomOne.addDoor(roomTwo, new int[] { 62, 320, 36, 40 }, new int[] {	304, 20 });
+		
+		// Obstacles
+		// house one
+		roomOne.addObstacle(new Obstacle(32,320,30,112));
+		roomOne.addObstacle(new Obstacle(62,360,36,72));
+		roomOne.addObstacle(new Obstacle(98,320,62,112));
+		// house two
+		roomOne.addObstacle(new Obstacle(32,129,128,112));
+		// house three
+		roomOne.addObstacle(new Obstacle(480,129,128,112));
+		// house four
+		roomOne.addObstacle(new Obstacle(480,320,128,112));
+		// big building
+		roomOne.addObstacle(new Obstacle(255,64,128,160));
+		
+		// Room Two
+		
+		// Doors
+		roomTwo.addDoor(roomOne, new int[] { 256, 0, 129, 40 }, new int[] { 62, 278 });
+		
+		// NPCs
+		roomTwo.addNPC(new YesNoNPC(256, 256, "question", "yes", "no" ));
+		
+//		roomTwo.addNPC();
+		
+		currentRoom = roomOne;
+	}
+	
 	@Override
 	public void show() {
 		if (startCount == 0) {

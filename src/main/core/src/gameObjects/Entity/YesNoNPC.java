@@ -10,15 +10,17 @@ public class YesNoNPC extends NPC {
 	String messageYes;
 	String messageNo;
 	boolean understood;
-	
-	//new npc
-	public YesNoNPC(int x, int y, String sprite,String message, String messageY, String messageN){
-		
+
+	public YesNoNPC(int x, int y, String sprite, String message, String messageY, String messageN){
 		super(x, y, sprite, message);
 		this.messageYes = messageY;
-		this.messageNo = messageN;
-		
-		
+		this.messageNo = messageN;		
+	}
+
+	public YesNoNPC(int x, int y, String message, String messageY, String messageN){
+		super(x, y, "npc_sprites/trainer.png", message);
+		this.messageYes = messageY;
+		this.messageNo = messageN;		
 	}
 
 	public String getMessageYes() {

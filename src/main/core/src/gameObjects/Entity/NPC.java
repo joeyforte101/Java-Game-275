@@ -36,13 +36,11 @@ public class NPC extends Obstacle {
 		this.isTalking = false;
 		this.message = message;
 		
-	}
-	
+	}	
 
 	public String getMessage() {
 		return message;
 	}
-
 
 	public void setMessage(String message) {
 		this.message = message;
@@ -54,8 +52,7 @@ public class NPC extends Obstacle {
 	
 	public boolean isTalking(){
 		return this.isTalking;
-	}
-	
+	}	
 
 	public boolean playerInRange(UserCharacter player){
 		
@@ -232,16 +229,16 @@ public class NPC extends Obstacle {
 		  
 		  switch(npcType){
 		  
-		  	case INFO: {newNPC = new InfoNPC(x, y, "trainer.png", message);
+		  	case INFO: {newNPC = new InfoNPC(x, y, message);
 		  				System.out.println("info Was created");
 		  				break;}
 		  	
-		  	case TRNR: {newNPC = new Trainer(x, y, "trainer.png",message, new Question[]{question}); 
+		  	case TRNR: {newNPC = new Trainer(x, y, message, new Question[]{question}); 
 		  				System.out.println("trainer Was created");
 		  				break;}
 		  						
 		  	
-		  	case YSNO: {newNPC = new YesNoNPC(x, y, "trainer.png", message, messageY, messageN);
+		  	case YSNO: {newNPC = new YesNoNPC(x, y, message, messageY, messageN);
 		  				System.out.println("yes no  Was created");
 		  				break;}
 		  
@@ -264,7 +261,6 @@ public class NPC extends Obstacle {
 		for(int i = 0; i < scripts.length; i++){
 			npcs.add(parseScript(scripts[i]));
 		}
-		
 		
 		return npcs;
 	}

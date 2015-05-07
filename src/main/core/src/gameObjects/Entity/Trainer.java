@@ -18,6 +18,15 @@ public class Trainer extends NPC {
 		
 	}
 	
+	public Trainer (int x, int y, String message, Question[] questions){
+		
+		super(x, y, "npc_sprites/trainer.png", message);
+		this.hasBattled = false;
+		this.questions = questions;
+		
+	}
+	
+	
 	public Question[] getQuestions(){
 		return this.questions;
 	}
