@@ -5,7 +5,8 @@ public enum Command {
 	MESSAGE("MESSAGE"),
 	QUESTION("QUESTION"),
 	ANSWER("ANSWER"),
-	SOLUTION("SOLUTION");
+	SOLUTION("SOLUTION"),
+	NOTE("NOTE");
 	
 	private String command;
 	

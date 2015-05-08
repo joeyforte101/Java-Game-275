@@ -78,7 +78,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	private TextButton NoButton = (TextButton) new TextButton("No", skin)
 			.align(Align.topRight);
 	private TextButton ExitButton = (TextButton) new TextButton("X", skin)
-	.align(Align.topLeft);
+	.align(Align.topRight);
 	private TextButton TalkButton = (TextButton) new TextButton("Talk", skin)
 	.align(Align.topRight);
 	InputMultiplexer inputMultiplexer = new InputMultiplexer();
@@ -286,8 +286,10 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		TalkButton.getLabel().setFontScale((float) 0.8);
 		TalkButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				if(focusNPC != null)
+				if(focusNPC != null){
 					focusNPC.setTalking(true);
+					Notes.addnote(focusNPC.getNotes());
+				}
 			}
 		});
 		

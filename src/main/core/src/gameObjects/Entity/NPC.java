@@ -114,8 +114,6 @@ public class NPC extends Obstacle {
 		
 			i = k - 50;
 		}
-		
-		Notes.addnote(this.message);
 	}
 	
 	/**
@@ -141,6 +139,7 @@ public class NPC extends Obstacle {
 		  String message = null;			// X-coordinate of the NPC's position
 		  String messageY = null;			// Yes message if an InfoNPC
 		  String messageN = null;			// No message if an InfoNPC
+		  String note = null;				// The note that will be added to notes after the player interacts with the NPC
 		  Question question = null;			// Question if Trainer
 		  
 		  try{
@@ -212,9 +211,9 @@ public class NPC extends Obstacle {
 					  	case QUESTION: {question = QuestionFactory.getQuestion(line.substring(line.indexOf(':') + 1));
 					  					break;
 					  					}
+					  	case NOTE: note = line.substring(line.indexOf(':') + 1); break;
 					  	
-		    		
-					  	default: 
+					  	default: break;
 		    		
 		    		}
 		    	}
@@ -239,29 +238,21 @@ public class NPC extends Obstacle {
 			    
 		  }
 		  
-		  // Based on npcType a different type on NPC is produced
-//		  System.out.println(npcType);
-		  
 		  switch(npcType){
 		  
-		  	case INFO: {newNPC = new InfoNPC(x, y, message, null);
-//		  				System.out.println("info Was created");
+		  	case INFO: {newNPC = new InfoNPC(x, y, message, note);
 		  				break;}
 		  	
-		  	case TRNR: {newNPC = new Trainer(x, y, message, new Question[]{question}, null); 
-//		  				System.out.println("trainer Was created");
+		  	case TRNR: {newNPC = new Trainer(x, y, message, new Question[]{question}, note); 
 		  				break;}
 		  						
 		  	
-		  	case YSNO: {newNPC = new YesNoNPC(x, y, message, messageY, messageN, null);
-//		  				System.out.println("yes no  Was created");
+		  	case YSNO: {newNPC = new YesNoNPC(x, y, message, messageY, messageN, note);
 		  				break;}
 		  
 		  	default:
 		  		
 		  }
-		  
-		  
 		  
 		  return newNPC;
 	}
