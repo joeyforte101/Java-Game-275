@@ -9,22 +9,22 @@ public class YesNoNPC extends NPC {
 	
 	String messageYes;
 	String messageNo;
-	boolean understood;
+	int understood;
 	
-	public YesNoNPC(int x, int y, String sprite, String message, String messageY, String messageN){
-		super(x, y, sprite, message);
+	public YesNoNPC(int x, int y, String sprite, String message, String messageY, String messageN, String notes){
+		super(x, y, sprite, message, notes);
 		this.messageYes = messageY;
 		this.messageNo = messageN;		
 	}
 
-	public YesNoNPC(int[] position, String message, String messageY, String messageN){
-		super(position[0], position[1], "npc_sprites/trainer.png", message);
+	public YesNoNPC(int[] position, String message, String messageY, String messageN, String notes){
+		super(position[0], position[1], "npc_sprites/trainer.png", message, notes);
 		this.messageYes = messageY;
 		this.messageNo = messageN;		
 	}
 	
-	public YesNoNPC(int x, int y, String message, String messageY, String messageN){
-		super(x, y, "npc_sprites/trainer.png", message);
+	public YesNoNPC(int x, int y, String message, String messageY, String messageN, String notes){
+		super(x, y, "npc_sprites/trainer.png", message, notes);
 		this.messageYes = messageY;
 		this.messageNo = messageN;		
 	}
@@ -45,25 +45,26 @@ public class YesNoNPC extends NPC {
 		this.messageNo = messageNo;
 	}
 
-	public boolean isYes() {
+	public int isYes() {
 		return understood;
 	}
 
-	public void setUderstood(boolean yes) {
-		this.understood = yes;
+	public void setUnderstood(int msg) {
+		this.understood = msg;
 	}
 	
-	public void drawText(SpriteBatch batch, boolean understood){
+	public void drawText(SpriteBatch batch){
 		Texture textbox = new Texture("speech bubble.png");
 		BitmapFont text = new BitmapFont();
 		text.setColor(Color.BLACK);
 		batch.draw(textbox, 20, 60);
-		if(understood)
-			text.draw(batch, getMessageYes(), 30, 60 + textbox.getHeight() - 10);
-		else{
-			text.draw(batch, getMessageNo(), 30, 60 + textbox.getHeight() - 10);
+		
+		switch(this.understood){
+		case 0: text.draw(batch, getMessage(), 30, 60 + textbox.getHeight() - 10); break;
+		case 1: text.draw(batch, getMessageYes(), 30, 60 + textbox.getHeight() - 10); break;
+		case 2: text.draw(batch, getMessageNo(), 30, 60 + textbox.getHeight() - 10); break;
 		}
-			
+		
 	}
 
 }

@@ -121,6 +121,6 @@ public class ContentLoader {
 		String message = YesNoMessageBank[rand.nextInt(YesNoMessageBank.length)];
 		String yes = YesNoYesBank[rand.nextInt(YesNoYesBank.length)];
 		String no = YesNoNoBank[rand.nextInt(YesNoNoBank.length)];
-		return new YesNoNPC(position, message, yes, no);
+		return new YesNoNPC(position, message, yes, no, null);
 	}
 }

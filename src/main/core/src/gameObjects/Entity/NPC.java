@@ -20,6 +20,7 @@ public class NPC extends Obstacle {
 	
 	private String message;
 	private boolean isTalking = false;
+	private String notes;
 	
 	// How far can a trainer see in either compass direction 
 	public final int SIGHT_RANGE = 35;
@@ -30,10 +31,11 @@ public class NPC extends Obstacle {
 	 * @param position
 	 * @param sprite
 	 */
-	public NPC(int x, int y, String sprite, String message){
+	public NPC(int x, int y, String sprite, String message, String notes){
 		
 		super(x, y, sprite);
 		this.message = message;
+		this.notes = notes;
 		
 	}	
 	
@@ -57,7 +59,15 @@ public class NPC extends Obstacle {
 	
 	public boolean isTalking(){
 		return this.isTalking;
-	}	
+	}
+	
+	public String getNotes(){
+		return this.notes;
+	}
+	
+	public void setNotes(String notes){
+		this.notes = notes; 
+	}
 
 	public boolean playerInRange(UserCharacter player){
 		
@@ -234,16 +244,16 @@ public class NPC extends Obstacle {
 		  
 		  switch(npcType){
 		  
-		  	case INFO: {newNPC = new InfoNPC(x, y, message);
+		  	case INFO: {newNPC = new InfoNPC(x, y, message, null);
 //		  				System.out.println("info Was created");
 		  				break;}
 		  	
-		  	case TRNR: {newNPC = new Trainer(x, y, message, new Question[]{question}); 
+		  	case TRNR: {newNPC = new Trainer(x, y, message, new Question[]{question}, null); 
 //		  				System.out.println("trainer Was created");
 		  				break;}
 		  						
 		  	
-		  	case YSNO: {newNPC = new YesNoNPC(x, y, message, messageY, messageN);
+		  	case YSNO: {newNPC = new YesNoNPC(x, y, message, messageY, messageN, null);
 //		  				System.out.println("yes no  Was created");
 		  				break;}
 		  

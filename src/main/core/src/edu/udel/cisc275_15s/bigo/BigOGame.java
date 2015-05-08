@@ -60,8 +60,14 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 
 	private Stage stage = new Stage();
 	private Stage YNstage = new Stage();
+	private Stage talkStage = new Stage();
+	private Stage exitStage = new Stage();
 	private Table table = new Table();
 	private Table YNTable = new Table();
+	private Table talkTable = new Table();
+	private Table exitTable = new Table();
+	
+
 	TextInputListener listener;
 	private Skin skin = new Skin(Gdx.files.internal("skins/menuSkin.json"),
 			new TextureAtlas(Gdx.files.internal("skins/menuSkin.pack")));
@@ -71,6 +77,10 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 			.align(Align.topLeft);
 	private TextButton NoButton = (TextButton) new TextButton("No", skin)
 			.align(Align.topRight);
+	private TextButton ExitButton = (TextButton) new TextButton("X", skin)
+	.align(Align.topLeft);
+	private TextButton TalkButton = (TextButton) new TextButton("Talk", skin)
+	.align(Align.topRight);
 	InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
 	int startCount = 0;
@@ -86,6 +96,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	MainClass mainClass;
 	Screen currentScreen;
 	boolean inBattle;
+	boolean talking = false;
 	Battle battle;
 	
 	ArrayList<Room> rooms;
@@ -156,7 +167,13 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	@Override
 	public void render(float deltaTime) {
 		player.setDeltaTime(deltaTime);
+		TalkButton.setColor(Color.RED);
+		
+		if(focusNPC == null){
 		update();
+		}else if(!focusNPC.isTalking()){
+			update();
+		}
 		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -168,18 +185,39 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		for (NPC npc : currentRoom.npcs) {
 			draw(npc);
 		}
+		
 		draw(player);
 
+		batch.end();
+		
 		for (NPC npc : currentRoom.npcs) {
 			if (npc.playerInRange(player)) {
+				
 				focusNPC = npc;
-				npc.drawText(batch);
-				if (npc instanceof YesNoNPC) {
+				TalkButton.setColor(Color.GREEN);
+				
+				if(!npc.isTalking()){
+					talkStage.act();
+					talkStage.draw();
 					
-					YNstage.draw();
-
-				} else {
+				}
+				
+				
+				if (npc instanceof YesNoNPC && npc.isTalking()) {
+					batch.begin();
 					npc.drawText(batch);
+					batch.end();
+					YNstage.act();
+					YNstage.draw();
+					exitStage.act();
+					exitStage.draw();	
+				} 
+				else if(npc.isTalking()) {
+					batch.begin();
+					npc.drawText(batch);
+					batch.end();
+					exitStage.draw();
+					exitStage.act();
 				}
 			}
 			if (npc instanceof Trainer && npc.playerInRange(player)
@@ -191,8 +229,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 						.setScreen(new BattleScreen(battle));
 			}
 		}
-
-		batch.end();
+		
 
 //		Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
 //		for(Obstacle obs : currentRoom.getObstacles()) {
@@ -202,9 +239,6 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 //		for(Door d : currentRoom.doors) {
 //			drawDoor(d);
 //		}
-		
-		YNstage.act();
-
 		stage.act();
 		stage.draw();
 	}
@@ -248,24 +282,37 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 			startCount++;
 		}
 		// NotesButton.setColor(Color.RED);
+		
+		TalkButton.getLabel().setFontScale((float) 0.8);
+		TalkButton.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				if(focusNPC != null)
+					focusNPC.setTalking(true);
+			}
+		});
+		
+		ExitButton.getLabel().setFontScale((float) 0.8);
+		ExitButton.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				focusNPC.setTalking(false);
+				if(focusNPC instanceof YesNoNPC)
+					((YesNoNPC) focusNPC).setUnderstood(0);
+			}
+		});
 
 		YesButton.getLabel().setFontScale((float) 0.8);
 		YesButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				batch.begin();
-				((YesNoNPC) focusNPC).drawText(batch, false);
-				System.out.println("YES");
-				batch.end();
+				if(focusNPC instanceof YesNoNPC)
+					((YesNoNPC) focusNPC).setUnderstood(1);
 			}
 		});
 
 		NoButton.getLabel().setFontScale((float) 0.8);
 		NoButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				batch.begin();
-				((YesNoNPC) focusNPC).drawText(batch, false);
-				System.out.println("NO");
-				batch.end();
+				if(focusNPC instanceof YesNoNPC)
+					((YesNoNPC) focusNPC).setUnderstood(2);
 			}
 		});
 
@@ -285,20 +332,33 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 
 		YNTable.add(NoButton).size(100, 50);
 		YNTable.add(YesButton).size(100, 50);
-		Label nameLabel = new Label("2 + 2 = 4?", skin);
-		YNTable.add(nameLabel);
 		YNTable.align(Align.bottom);
 		YNTable.setFillParent(true);
 		YNstage.addActor(YNTable);
 
+		table.add(TalkButton).size(100, 50);
+		talkTable.align(Align.bottomLeft);
+		talkTable.setFillParent(true);
+		talkStage.addActor(talkTable);
+		
+		exitTable.add(ExitButton).size(50, 50);
+		exitTable.align(Align.topRight);
+		exitTable.setFillParent(true);
+		exitStage.addActor(exitTable);
+
 		InputProcessor inputProcessorOne = stage;
 		InputProcessor inputProcessorTwo = YNstage;
+		InputProcessor inputProcessor3 = talkStage;
+		InputProcessor inputProcessor4 = exitStage;
 
 		// Gdx.input.setInputProcessor(stage);
 		// Gdx.input.setInputProcessor(YNstage);
 
 		inputMultiplexer.addProcessor(inputProcessorOne);
 		inputMultiplexer.addProcessor(inputProcessorTwo);
+		inputMultiplexer.addProcessor(inputProcessor3);
+		inputMultiplexer.addProcessor(inputProcessor4);
+		
 		Gdx.input.setInputProcessor(inputMultiplexer);
 
 	}
