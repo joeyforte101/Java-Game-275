@@ -19,6 +19,10 @@ public abstract class Entity {
 		texture = new Texture(sprite);
 		hitBox = new Rectangle(x, y, texture.getWidth(), texture.getHeight());
 	}
+	
+	public Entity() {
+		
+	}
 
 	public int getX() {
 		return (int) hitBox.x;

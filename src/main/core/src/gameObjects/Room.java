@@ -2,6 +2,7 @@ package gameObjects;
 
 import gameObjects.Entity.NPC;
 import gameObjects.Entity.Obstacle;
+import gameObjects.Entity.Trainer;
 import gameObjects.Entity.UserCharacter;
 import helperClasses.Directions;
 import helperClasses.Mapping;
@@ -18,7 +19,7 @@ public class Room {
 	public final int HEIGHT = Gdx.graphics.getHeight();
 
 	public Texture background;
-	public String hash;
+	public String subject;
 	public int xOffset, yOffset;
 	public List<NPC> npcs;
 	public List<Door> doors;
@@ -148,13 +149,22 @@ public class Room {
 				d.out = true;
 			}
 		}
-		return hash;
+		return subject;
 	}
 
 	public List<Obstacle> getObstacles() {
 		ArrayList<Obstacle> result = new ArrayList<Obstacle>();
 		result.addAll(npcs);
 		result.addAll(obstacles);
+		return result;
+	}
+	
+	public List<Trainer> getTrainers() {
+		ArrayList<Trainer> result = new ArrayList<Trainer>();
+		for (NPC npc : npcs) {
+			if (npc instanceof Trainer)
+				result.add((Trainer)npc);
+		}
 		return result;
 	}
 }

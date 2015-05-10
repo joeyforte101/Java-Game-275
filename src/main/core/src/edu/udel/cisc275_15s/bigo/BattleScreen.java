@@ -64,33 +64,33 @@ public class BattleScreen implements Screen, TextInputListener {
 		});
 		ansA.addListener(new ClickListener(){
 			 public void clicked(InputEvent event, float x, float y) {
-				 battle.answerGiven = battle.questions[battle.questionIndex].getanswer1();
-				 if(!battle.giveAnswer(battle.answerGiven)){
+//				 battle.answerGiven = battle.questions[battle.questionIndex].getanswer1();
+				 if(!battle.isCorrectAnswer(1)){
 					 ansA.setColor(Color.RED);;
 				 }
 			 }
 		});
 		ansB.addListener(new ClickListener(){
 			 public void clicked(InputEvent event, float x, float y) {
-				 battle.answerGiven = battle.questions[battle.questionIndex].getanswer2();
-				 if(!battle.giveAnswer(battle.answerGiven)){
-					 ansB.setColor(Color.RED);
+//				 battle.answerGiven = battle.questions[battle.questionIndex].getanswer2();
+				 if(!battle.isCorrectAnswer(2)){
+					 ansB.setColor(Color.RED);;
 				 }
 			 }
 		});
 		ansC.addListener(new ClickListener(){
 			 public void clicked(InputEvent event, float x, float y) {
-				 battle.answerGiven = battle.questions[battle.questionIndex].getanswer3();
-				 if(!battle.giveAnswer(battle.answerGiven)){
-					 ansC.setColor(Color.RED);
+//				 battle.answerGiven = battle.questions[battle.questionIndex].getanswer3();
+				 if(!battle.isCorrectAnswer(3)){
+					 ansC.setColor(Color.RED);;
 				 }
 			 }
 		});
 		ansD.addListener(new ClickListener(){
 			 public void clicked(InputEvent event, float x, float y) {
-				 battle.answerGiven = battle.questions[battle.questionIndex].getanswer4();
-				 if(!battle.giveAnswer(battle.answerGiven)){
-					 ansD.setColor(Color.RED);
+//				 battle.answerGiven = battle.questions[battle.questionIndex].getanswer4();
+				 if(!battle.isCorrectAnswer(4)){
+					 ansD.setColor(Color.RED);;
 				 }
 			 }
 		});

@@ -1,0 +1,8 @@
+// either advisor, dates, overworld, resources, or udsis
+subject = dates
+texture = dates_room_background.png
+:DOORS:
+// room_subject is either advisor, dates, overworld, resources, or udsis
+room_subject/x,y,width,height/outX,outY = overworld / 62,320,36,40 / 304,20
+:NPCS:
+npc_type/x,y = yesno / 256,256

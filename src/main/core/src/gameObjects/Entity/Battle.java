@@ -5,6 +5,7 @@ package gameObjects.Entity;
 import edu.udel.cisc275_15s.bigo.MainClass;
 import edu.udel.cisc275_15s.bigo.Notes;
 import gameObjects.Question.Question;
+import gameObjects.Question.ScenarioQuestion;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,10 +15,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Battle {
 	
 	private UserCharacter player;
-	private NPC opponent;
-	private String location;		// May be initialized to produce a different background for the battle
-	public Question[] questions;	// Array of questions to be presented to the player
-	private int[] correct;			// Initialized as an array of zeros (one 0 for each question).
+	private Trainer opponent;
+//	private String location;		// May be initialized to produce a different background for the battle
+//	public Scenario[] questions;	// Array of questions to be presented to the player
+	private boolean[] correct;		// Initialized as an array of false.
 	public String answerGiven;		// Players selected response
 	boolean qpresented = false;
 	public int questionIndex = 0;
@@ -31,16 +32,15 @@ public class Battle {
 	 *  has gotten correct. </p>
 	 * 
 	 * @param player
-	 * @param opponent
+	 * @param npc
 	 */
-	public Battle(UserCharacter player,NPC opponent){
+	public Battle(UserCharacter player, Trainer npc){
 		this.player = player;
-		this.opponent = opponent;
-		this.questions = ((Trainer)opponent).getQuestions();
-		correct = new int[questions.length];
-		for(int i = 0; i < correct.length; i++){
-			correct[i] = 0;
-		}
+		this.opponent = npc;
+		correct = new boolean[npc.questions.size()];
+//		for(int i = 0; i < correct.length; i++){
+//			correct[i] = false;
+//		}
 		
 	}
 	
@@ -50,18 +50,18 @@ public class Battle {
 	 *
 	 * @param player
 	 * @param opponent
-	 * @param location
+//	 * @param location
 	 */
-	public Battle(UserCharacter player, NPC opponent, String location){
-		this.location = location;
-		this.player = player;
-		this.opponent = opponent;
-		this.questions = ((Trainer)opponent).getQuestions();
-		correct = new int[questions.length];
-		for(int i = 0; i < correct.length; i++){
-			correct[i] = 0;
-		}
-	}
+//	public Battle(UserCharacter player, Trainer opponent){
+////		this.location = location;
+//		this.player = player;
+//		this.opponent = opponent;
+////		this.questions = ((Trainer)opponent).getQuestions();
+//		correct = new int[questions.length];
+//		for(int i = 0; i < correct.length; i++){
+//			correct[i] = 0;
+//		}
+//	}
 	
 	/**
 	 * Returns true if the game is over.
@@ -72,14 +72,17 @@ public class Battle {
 	 * @return
 	 */
 	public boolean battleOver(){
-		for(int i = 0; i < correct.length ; i++){
-			if(correct[i] != 1){
+//		for(int i = 0; i < correct.length ; i++){
+//			if(correct[i] != 1){
+//				return false;
+//			}
+//		}
+		for (boolean q : correct) {
+			if (!q)
 				return false;
-			}
 		}
 		Notes.progress++;
-		return true;
-		
+		return true;		
 	}
 	
 	/**
@@ -94,16 +97,24 @@ public class Battle {
 	 * @param ans
 	 * @return
 	 */
-	public boolean giveAnswer(String ans){
-		if(questions[questionIndex].isrightanswer(ans)){
-			
-			correct[questionIndex] = 1;
-			if(questionIndex == questions.length -1){
-				questionIndex = 0;
-			}else{
-				questionIndex++;
-			}
-			return true;
+	public boolean isCorrectAnswer(int buttonIndex){
+//		if(questions[questionIndex].isrightanswer(answer)){
+//			
+//			correct[questionIndex] = 1;
+//			if(questionIndex == questions.length -1){
+//				questionIndex = 0;
+//			}else{
+//				questionIndex++;
+//			}
+//			return true;
+//		}
+		String answer = opponent.questions.get(questionIndex).options[buttonIndex];
+		for (int i = 0; i < opponent.questions.size(); i++) {
+			if (opponent.questions.get(questionIndex).answer == answer) {
+				correct[questionIndex] = true;
+				questionIndex = (questionIndex + 1) % opponent.questions.size();
+				return true;
+			}				
 		}
 		return false;
 	}
@@ -145,7 +156,7 @@ public class Battle {
 			batch.draw(oppBub, 100, background.getHeight() - opp.getHeight() - 130);
 			// Prints current question to the screen
 			
-			String message = questions[0].getQuestion();
+			String message = opponent.questions.get(questionIndex).getQuestion();
 			String displaymessage = "";
 			for(int i = 0; i < message.length(); i = i + 50){
 				int k = i + 50;
@@ -177,10 +188,12 @@ public class Battle {
 			// Prints instructions for the player to follow
 			text.draw(batch, "Touch the correct answer", 110, 20 + pcBub.getHeight());
 			// Prints the potential answers to the question presented
-			text.draw(batch, "A) " + questions[questionIndex].getanswer1(), 110, pcBub.getHeight() - 20);
-			text.draw(batch, "B) " + questions[questionIndex].getanswer2(), 110, pcBub.getHeight() - 40);
-			text.draw(batch, "C) " + questions[questionIndex].getanswer3(), 110, pcBub.getHeight() - 60);
-			text.draw(batch, "D) " + questions[questionIndex].getanswer4(), 110, pcBub.getHeight() - 80);
+			for (int i = 0; i < 4; i++)
+				text.draw(batch, opponent.questions.get(questionIndex).options[i], 110, pcBub.getHeight() - 20 + (20 * i));
+//			text.draw(batch, "A) " + questions[questionIndex].getanswer1(), 110, pcBub.getHeight() - 20);
+//			text.draw(batch, "B) " + questions[questionIndex].getanswer2(), 110, pcBub.getHeight() - 40);
+//			text.draw(batch, "C) " + questions[questionIndex].getanswer3(), 110, pcBub.getHeight() - 60);
+//			text.draw(batch, "D) " + questions[questionIndex].getanswer4(), 110, pcBub.getHeight() - 80);
 			
 		batch.end();
 	}

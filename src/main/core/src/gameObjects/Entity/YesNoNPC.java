@@ -1,5 +1,7 @@
 package gameObjects.Entity;
 
+import gameObjects.Question.YesNoQuestion;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -10,6 +12,12 @@ public class YesNoNPC extends NPC {
 	String messageYes;
 	String messageNo;
 	int understood;
+
+	public YesNoNPC(YesNoQuestion question, int[] position){
+		super(position[0], position[1], "npc_sprites/trainer.png", question.message, question.notes);
+		this.messageYes = question.yes;
+		this.messageNo = question.no;		
+	}
 	
 	public YesNoNPC(int x, int y, String sprite, String message, String messageY, String messageN, String notes){
 		super(x, y, sprite, message, notes);

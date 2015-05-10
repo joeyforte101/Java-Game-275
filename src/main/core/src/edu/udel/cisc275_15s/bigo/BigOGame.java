@@ -66,7 +66,6 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	private Table YNTable = new Table();
 	private Table talkTable = new Table();
 	private Table exitTable = new Table();
-	
 
 	TextInputListener listener;
 	private Skin skin = new Skin(Gdx.files.internal("skins/menuSkin.json"),
@@ -78,9 +77,9 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	private TextButton NoButton = (TextButton) new TextButton("No", skin)
 			.align(Align.topRight);
 	private TextButton ExitButton = (TextButton) new TextButton("X", skin)
-	.align(Align.topRight);
+			.align(Align.topRight);
 	private TextButton TalkButton = (TextButton) new TextButton("Talk", skin)
-	.align(Align.topRight);
+			.align(Align.topRight);
 	InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
 	int startCount = 0;
@@ -98,12 +97,12 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	boolean inBattle;
 	boolean talking = false;
 	Battle battle;
-	
+
 	ArrayList<Room> rooms;
-	Room roomOne;
-	Room roomTwo;
+	// Room roomOne;
+	// Room roomTwo;
 	Room currentRoom;
-	
+
 	NPC focusNPC;
 
 	@Override
@@ -111,33 +110,38 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		batch = new SpriteBatch();
 
 		player = new UserCharacter();
-		
-//		rooms = ContentLoader.load();
-//		currentRoom = rooms.get(0);
-		roomOne = new Room("room_backgrounds\\overworld_background.png", NPC.generateNPCs(new String[] {"sprite1.pks", "sprite2.pks", "sprite 3.pks" }));
-		roomOne.hash = "roomOne";
-		roomTwo = new Room("room_backgrounds\\room_two_background.png");
-		roomTwo.hash = "roomTwo";
-		roomOne.addDoor("roomTwo", new int[] { 62, 320, 36, 40 }, new int[] {	405, 380 });
-		// house one
-		roomOne.addObstacle(new Obstacle(32,320,30,112));
-		roomOne.addObstacle(new Obstacle(62,360,36,72));
-		roomOne.addObstacle(new Obstacle(98,320,62,112));
-		// house two
-		roomOne.addObstacle(new Obstacle(32,129,128,112));
-		// house three
-		roomOne.addObstacle(new Obstacle(480,129,128,112));
-		// house four
-		roomOne.addObstacle(new Obstacle(480,320,128,112));
-		// big building
-		roomOne.addObstacle(new Obstacle(255,64,128,160));
-		//roomTwo.addDoor(roomOne, new int[] { 400, 380, 60, 60 }, new int[] { 50, 300 });
-		roomTwo.addDoor("roomOne", new int[] { 0, 0, 60, 60 }, new int[] { 50, 300 });
-		currentRoom = roomOne;
 
-		rooms = new ArrayList<Room>();
-		rooms.add(roomOne);
-		rooms.add(roomTwo);
+		rooms = ContentLoader.load();
+		changeRoom("overworld");
+		// roomOne = new Room("room_backgrounds\\overworld_background.png",
+		// NPC.generateNPCs(new String[] {"sprite1.pks", "sprite2.pks",
+		// "sprite 3.pks" }));
+		// roomOne.hash = "roomOne";
+		// roomTwo = new Room("room_backgrounds\\room_two_background.png");
+		// roomTwo.hash = "roomTwo";
+		// roomOne.addDoor("roomTwo", new int[] { 62, 320, 36, 40 }, new int[] {
+		// 405, 380 });
+		// // house one
+		// roomOne.addObstacle(new Obstacle(32,320,30,112));
+		// roomOne.addObstacle(new Obstacle(62,360,36,72));
+		// roomOne.addObstacle(new Obstacle(98,320,62,112));
+		// // house two
+		// roomOne.addObstacle(new Obstacle(32,129,128,112));
+		// // house three
+		// roomOne.addObstacle(new Obstacle(480,129,128,112));
+		// // house four
+		// roomOne.addObstacle(new Obstacle(480,320,128,112));
+		// // big building
+		// roomOne.addObstacle(new Obstacle(255,64,128,160));
+		// //roomTwo.addDoor(roomOne, new int[] { 400, 380, 60, 60 }, new int[]
+		// { 50, 300 });
+		// roomTwo.addDoor("roomOne", new int[] { 0, 0, 60, 60 }, new int[] {
+		// 50, 300 });
+		// currentRoom = roomOne;
+		//
+		// rooms = new ArrayList<Room>();
+		// rooms.add(roomOne);
+		// rooms.add(roomTwo);
 
 		debugString = "start";
 
@@ -146,7 +150,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	}
 
 	public void update() {
-		//checkForBattle();
+		// checkForBattle();
 
 		if (Gdx.input.isTouched() && !tapLock) {
 			changeRoom(currentRoom.move(player, tapLock, Gdx.input.getX(),
@@ -168,12 +172,13 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	public void render(float deltaTime) {
 		player.setDeltaTime(deltaTime);
 		TalkButton.setColor(Color.RED);
-		
-		if(focusNPC == null){
+
+//		if (focusNPC == null) {
+//			update();
+//		} else if (!focusNPC.isTalking()) {
+//			update();
+//		}
 		update();
-		}else if(!focusNPC.isTalking()){
-			update();
-		}
 		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -185,24 +190,23 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		for (NPC npc : currentRoom.npcs) {
 			draw(npc);
 		}
-		
+
 		draw(player);
 
 		batch.end();
-		
+
 		for (NPC npc : currentRoom.npcs) {
 			if (npc.playerInRange(player)) {
-				
+
 				focusNPC = npc;
 				TalkButton.setColor(Color.GREEN);
-				
-				if(!npc.isTalking()){
+
+				if (!npc.isTalking()) {
 					talkStage.act();
 					talkStage.draw();
-					
+
 				}
-				
-				
+
 				if (npc instanceof YesNoNPC && npc.isTalking()) {
 					batch.begin();
 					npc.drawText(batch);
@@ -210,9 +214,8 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 					YNstage.act();
 					YNstage.draw();
 					exitStage.act();
-					exitStage.draw();	
-				} 
-				else if(npc.isTalking()) {
+					exitStage.draw();
+				} else if (npc.isTalking()) {
 					batch.begin();
 					npc.drawText(batch);
 					batch.end();
@@ -224,30 +227,28 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 					&& ((Trainer) npc).hasBattled() == false) {
 				((Trainer) npc).setHasBattled(true);
 				inBattle = true;
-				battle = new Battle(player, npc);
+				battle = new Battle(player, (Trainer) npc);
 				((Game) Gdx.app.getApplicationListener())
 						.setScreen(new BattleScreen(battle));
 			}
 		}
-		
 
-//		Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
-//		for(Obstacle obs : currentRoom.getObstacles()) {
-//			drawHitbox(obs);
-//		}
-//		
-//		for(Door d : currentRoom.doors) {
-//			drawDoor(d);
-//		}
+		// Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+		// for(Obstacle obs : currentRoom.getObstacles()) {
+		// drawHitbox(obs);
+		// }
+		//
+		// for(Door d : currentRoom.doors) {
+		// drawDoor(d);
+		// }
 		stage.act();
 		stage.draw();
 	}
 
-	void draw(Entity e) {		
-		batch.draw(e.texture, e.getX(), e.getY(), e.getWidth(),
-				e.getHeight());
+	void draw(Entity e) {
+		batch.draw(e.texture, e.getX(), e.getY(), e.getWidth(), e.getHeight());
 	}
-	
+
 	void drawHitbox(Entity e) {
 		ShapeRenderer shapeRenderer = new ShapeRenderer();
 		shapeRenderer.begin(ShapeType.Filled);
@@ -255,26 +256,16 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		shapeRenderer.rect(e.getX(), e.getY(), e.getWidth(), e.getHeight());
 		shapeRenderer.end();
 	}
-	
+
 	void drawDoor(Door d) {
 		ShapeRenderer shapeRenderer = new ShapeRenderer();
 		shapeRenderer.begin(ShapeType.Filled);
 		shapeRenderer.setColor(new Color(0, 0, 1, .4f));
-		shapeRenderer.rect(d.hitbox.x, d.hitbox.y, d.hitbox.width, d.hitbox.height);
+		shapeRenderer.rect(d.hitbox.x, d.hitbox.y, d.hitbox.width,
+				d.hitbox.height);
 		shapeRenderer.end();
 	}
 
-	private boolean checkForBattle() {
-		for (NPC npc : currentRoom.npcs) {
-			if (npc instanceof Trainer && ((Trainer) npc).playerInRange(player)) {
-				inBattle = true;
-				battle = new Battle(player, npc);
-			}
-		}
-
-		return inBattle;
-	}
-	
 	@Override
 	public void show() {
 		if (startCount == 0) {
@@ -282,22 +273,22 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 			startCount++;
 		}
 		// NotesButton.setColor(Color.RED);
-		
+
 		TalkButton.getLabel().setFontScale((float) 0.8);
 		TalkButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				if(focusNPC != null){
+				if (focusNPC != null) {
 					focusNPC.setTalking(true);
 					Notes.addnote(focusNPC.getNotes());
 				}
 			}
 		});
-		
+
 		ExitButton.getLabel().setFontScale((float) 0.8);
 		ExitButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				focusNPC.setTalking(false);
-				if(focusNPC instanceof YesNoNPC)
+				if (focusNPC instanceof YesNoNPC)
 					((YesNoNPC) focusNPC).setUnderstood(0);
 			}
 		});
@@ -305,7 +296,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		YesButton.getLabel().setFontScale((float) 0.8);
 		YesButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				if(focusNPC instanceof YesNoNPC)
+				if (focusNPC instanceof YesNoNPC)
 					((YesNoNPC) focusNPC).setUnderstood(1);
 			}
 		});
@@ -313,7 +304,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		NoButton.getLabel().setFontScale((float) 0.8);
 		NoButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				if(focusNPC instanceof YesNoNPC)
+				if (focusNPC instanceof YesNoNPC)
 					((YesNoNPC) focusNPC).setUnderstood(2);
 			}
 		});
@@ -342,7 +333,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		talkTable.align(Align.bottomLeft);
 		talkTable.setFillParent(true);
 		talkStage.addActor(talkTable);
-		
+
 		exitTable.add(ExitButton).size(50, 50);
 		exitTable.align(Align.topRight);
 		exitTable.setFillParent(true);
@@ -360,7 +351,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		inputMultiplexer.addProcessor(inputProcessorTwo);
 		inputMultiplexer.addProcessor(inputProcessor3);
 		inputMultiplexer.addProcessor(inputProcessor4);
-		
+
 		Gdx.input.setInputProcessor(inputMultiplexer);
 
 	}
@@ -369,10 +360,10 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	public void hide() {
 		// TODO Auto-generated method stub
 	}
-	
-	void changeRoom(String hash) {
+
+	void changeRoom(String roomID) {
 		for (Room room : rooms) {
-			if (room.hash == hash)
+			if (room.subject.equals(roomID))
 				currentRoom = room;
 		}
 	}

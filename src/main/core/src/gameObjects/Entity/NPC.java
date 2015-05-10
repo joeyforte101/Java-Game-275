@@ -44,6 +44,10 @@ public class NPC extends Obstacle {
 		super(x, y, sprite);
 		
 	}	
+	
+	public NPC() {
+		
+	}
 
 	public String getMessage() {
 		return message;
@@ -243,14 +247,15 @@ public class NPC extends Obstacle {
 		  	case INFO: {newNPC = new InfoNPC(x, y, message, note);
 		  				break;}
 		  	
-		  	case TRNR: {newNPC = new Trainer(x, y, message, new Question[]{question}, note); 
-		  				break;}
-		  						
+//		  	case TRNR: {newNPC = new Trainer(x, y, message, new Question[]{question}, note); 
+//		  				break;}
+//		  						
 		  	
 		  	case YSNO: {newNPC = new YesNoNPC(x, y, message, messageY, messageN, note);
 		  				break;}
 		  
 		  	default:
+		  		break;
 		  		
 		  }
 		  
