@@ -1,4 +1,2 @@
-question = When is the deadline for adding or dropping a class (free drop/add period)
-yes = You got it!
-no = err, not quite.
-notes = The drop add deadline is two weeks after the beginning of the semester.
+message = I'm not sure if I can make it through this class. I'm glad i have 2 weeks to decide if I want to drop it.
+notes = Students have 2 weeks to drop a class without consequence.

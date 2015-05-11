@@ -1,5 +1,5 @@
 question = When is the deadline for adding or dropping a class (free drop/add period)?
-option = The week after the semester ends.
-answer = 2 weeks after the semester begins.
-option = 3 weeks after the semester begins.
-option = 4 weeks after the semester begins.
+option = A) The week after the semester ends.
+answer = B) 2 weeks after the semester begins.
+option = C) 3 weeks after the semester begins.
+option = D) 4 weeks after the semester begins.
