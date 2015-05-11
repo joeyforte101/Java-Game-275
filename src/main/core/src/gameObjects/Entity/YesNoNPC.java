@@ -74,7 +74,7 @@ public class YesNoNPC extends NPC {
 		batch.draw(textbox, 20, 60);
 		
 		switch(this.understood){
-		case 0: text.draw(batch, getQuestion(), 30, 60 + textbox.getHeight() - 10); break;
+		case 0: text.drawWrapped(batch, getQuestion(), 30, 60 + textbox.getHeight() - 10, textbox.getWidth()-10); break;
 		case 1: text.draw(batch, getMessageYes(), 30, 60 + textbox.getHeight() - 10); break;
 		case 2: text.draw(batch, getMessageNo(), 30, 60 + textbox.getHeight() - 10); break;
 		}

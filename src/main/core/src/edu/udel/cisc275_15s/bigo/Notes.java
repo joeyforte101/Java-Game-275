@@ -76,7 +76,7 @@ public class Notes implements Screen, TextInputListener{
         
     	text.setColor(Color.WHITE);
     	for(float i = 0; i < notes.size(); i++)
-    		text.draw(batch,notes.get((int) i),30,Gdx.graphics.getHeight() - i*20 - 10);
+    		text.drawWrapped(batch,notes.get((int) i),30,Gdx.graphics.getHeight() - i*20 - 10,Gdx.graphics.getWidth()-100);
     	
         batch.end();
         stage.act();
