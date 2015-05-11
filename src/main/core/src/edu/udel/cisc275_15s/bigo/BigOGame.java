@@ -173,11 +173,6 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		player.setDeltaTime(deltaTime);
 		TalkButton.setColor(Color.RED);
 
-//		if (focusNPC == null) {
-//			update();
-//		} else if (!focusNPC.isTalking()) {
-//			update();
-//		}
 		update();
 		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -201,13 +196,13 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 				focusNPC = npc;
 				TalkButton.setColor(Color.GREEN);
 
-				if (!npc.isTalking()) {
+				if (!player.talking) {
 					talkStage.act();
 					talkStage.draw();
 
 				}
 
-				if (npc instanceof YesNoNPC && npc.isTalking()) {
+				if (npc instanceof YesNoNPC && player.talking) {
 					batch.begin();
 					npc.drawText(batch);
 					batch.end();
@@ -215,7 +210,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 					YNstage.draw();
 					exitStage.act();
 					exitStage.draw();
-				} else if (npc.isTalking()) {
+				} else if (player.talking) {
 					batch.begin();
 					npc.drawText(batch);
 					batch.end();
@@ -277,9 +272,10 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		TalkButton.getLabel().setFontScale((float) 0.8);
 		TalkButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				if (focusNPC != null) {
+				if (player.talking == false) {
 					focusNPC.setTalking(true);
 					Notes.addnote(focusNPC.getNotes());
+					player.talking = true;
 				}
 			}
 		});
@@ -290,6 +286,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 				focusNPC.setTalking(false);
 				if (focusNPC instanceof YesNoNPC)
 					((YesNoNPC) focusNPC).setUnderstood(0);
+				player.talking = false;
 			}
 		});
 
