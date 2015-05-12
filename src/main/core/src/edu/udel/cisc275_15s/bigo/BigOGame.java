@@ -199,7 +199,6 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 				if (!player.talking) {
 					talkStage.act();
 					talkStage.draw();
-
 				}
 
 				if (npc instanceof YesNoNPC && player.talking) {
@@ -218,13 +217,11 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 					exitStage.act();
 				}
 			}
-			if (npc instanceof Trainer && npc.playerInRange(player)
-					&& ((Trainer) npc).hasBattled() == false) {
-				((Trainer) npc).setHasBattled(true);
+			if (npc instanceof Trainer && npc.playerInRange(player)	&& ((Trainer) npc).hasBattled() == false) {
+				((Trainer)npc).setHasBattled(true);
 				inBattle = true;
-				battle = new Battle(player, (Trainer) npc);
-				((Game) Gdx.app.getApplicationListener())
-						.setScreen(new BattleScreen(battle));
+				battle = new Battle((Trainer)npc, batch);
+				((Game)Gdx.app.getApplicationListener()).setScreen(new BattleScreen(battle));
 			}
 		}
 

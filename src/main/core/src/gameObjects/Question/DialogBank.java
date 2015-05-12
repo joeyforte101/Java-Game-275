@@ -2,6 +2,7 @@ package gameObjects.Question;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Random;
 
 public class DialogBank {
@@ -42,6 +43,20 @@ public class DialogBank {
 	public ScenarioQuestion getScenarioQuestion(String subject) {
 		ArrayList<ScenarioQuestion> bank = scenarioBank.get(subject);
 		return bank.get(rand.nextInt(bank.size()));
+	}
+	
+	public ArrayList<ScenarioQuestion> getScenarioQuestions(String subject) {
+		ArrayList<ScenarioQuestion> result = new ArrayList<ScenarioQuestion>();
+		ArrayList<ScenarioQuestion> bank = scenarioBank.get(subject);
+		LinkedList<Integer> openSet = new LinkedList<Integer>();	
+		for(int i = 0; i < bank.size(); i++)
+			openSet.add(new Integer(i));
+		for(int i = 0; i < 3; i++) {
+			int index = rand.nextInt(openSet.size());
+			result.add(bank.get(index));
+			openSet.remove(index);
+		}
+		return result;
 	}
 	
 	public YesNoQuestion getYesNoQuestion(String subject) {

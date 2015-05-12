@@ -1,6 +1,7 @@
 package edu.udel.cisc275_15s.bigo;
 
 import gameObjects.Room;
+import gameObjects.Entity.Boss;
 import gameObjects.Entity.InfoNPC;
 import gameObjects.Entity.NPC;
 import gameObjects.Entity.Obstacle;
@@ -218,10 +219,17 @@ public class ContentLoader {
 			return generateYesNoNPC(subject, position);
 		} else if (npcType.equals("trainer")) {
 			return generateTrainer(subject, position);
+		} else if (npcType.equals("boss")) {
+			return generateBoss(subject, position);
 		} else {
 			return generateInfoNPC(subject, position);
 		}
 	}
+	
+	static Boss generateBoss(String subject, int[] position) {
+		ArrayList<ScenarioQuestion> questions = dialogFactory.getScenarioQuestions(subject);
+		return new Boss(questions, position);
+	}	
 	
 	static Trainer generateTrainer(String subject, int[] position) {
 		ScenarioQuestion question = dialogFactory.getScenarioQuestion(subject);

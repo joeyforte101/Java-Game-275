@@ -19,6 +19,17 @@ public class Trainer extends NPC {
 		questions = new ArrayList<ScenarioQuestion>();
 		questions.add(question);
 	}
+
+	public Trainer(ArrayList<ScenarioQuestion> questions, int[] position) {
+		super (position[0], position[1], switchNPC());
+		hasBattled = false;
+		this.questions = questions;
+	}
+	
+	public Trainer(int[] position) {
+		super (position[0], position[1], switchNPC());
+	}
+	
 	private static String switchNPC() {
 		if(i == 0){
 			i = 1;
