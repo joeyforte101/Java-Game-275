@@ -1,6 +1,6 @@
 // either advisor, dates, overworld, resources, or udsis
 subject = udsis
-texture = room_four_background.png
+texture = udsis_room_background.png
 :DOORS:
 // room_subject is either advisor, dates, overworld, resources, or udsis
 room_subject/x,y,width,height/outX,outY = overworld / 254,0,130,36 / 510,129
