@@ -18,7 +18,7 @@ public class DialogBank {
 		infoBank = new HashMap<String, ArrayList<Info>>();
 		yesnoBank = new HashMap<String, ArrayList<YesNoQuestion>>();
 		scenarioBank = new HashMap<String, ArrayList<ScenarioQuestion>>();
-		String[] subjects = {"advisor", "dates","overworld","resources","udsis"};
+		String[] subjects = {"advisor", "dates","overworld","resources","udsis","finalroom"};
 		for(String s : subjects) {
 			infoBank.put(s, new ArrayList<Info>());
 			yesnoBank.put(s, new ArrayList<YesNoQuestion>());
