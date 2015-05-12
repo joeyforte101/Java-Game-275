@@ -43,7 +43,6 @@ public class DialogBank {
 		ArrayList<Info> bank = infoBank.get(subject);
 		int num = rand.nextInt(bank.size());
 		while(infoarr[num] == 1){
-			System.out.println(num);
 			num = rand.nextInt(bank.size());
 		}
 		infoarr[num]=1;
@@ -54,7 +53,6 @@ public class DialogBank {
 		ArrayList<ScenarioQuestion> bank = scenarioBank.get(subject);
 		int num = rand.nextInt(bank.size());
 		while(trainarr[num] == 1){
-			System.out.println(num);
 			num = rand.nextInt(bank.size());
 		}
 		trainarr[num]=1;
