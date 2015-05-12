@@ -167,6 +167,7 @@ public class ContentLoader {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(path));
 			String line = reader.readLine();
+			dialogFactory.resetCount();
 			while (line != null) {
 				if (line.contains("subject ="))
 					result.subject = line.split("=")[1].replace(" ", "");

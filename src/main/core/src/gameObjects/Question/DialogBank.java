@@ -8,6 +8,8 @@ import java.util.Random;
 public class DialogBank {
 
 	Random rand;
+	static int[] infoarr;
+	static int[] trainarr;
 	
 	HashMap<String, ArrayList<Info>> infoBank;
 	HashMap<String, ArrayList<YesNoQuestion>> yesnoBank;
@@ -16,6 +18,8 @@ public class DialogBank {
 	public DialogBank () {
 		rand = new Random();
 		infoBank = new HashMap<String, ArrayList<Info>>();
+		infoarr = new int[10];
+		trainarr = new int[10];
 		yesnoBank = new HashMap<String, ArrayList<YesNoQuestion>>();
 		scenarioBank = new HashMap<String, ArrayList<ScenarioQuestion>>();
 		String[] subjects = {"advisor", "dates","overworld","resources","udsis","finalroom"};
@@ -37,12 +41,24 @@ public class DialogBank {
 	
 	public Info getInfo(String subject) {
 		ArrayList<Info> bank = infoBank.get(subject);
-		return bank.get(rand.nextInt(bank.size()));
+		int num = rand.nextInt(bank.size());
+		while(infoarr[num] == 1){
+			System.out.println(num);
+			num = rand.nextInt(bank.size());
+		}
+		infoarr[num]=1;
+		return bank.get(num);
 	}
 	
 	public ScenarioQuestion getScenarioQuestion(String subject) {
 		ArrayList<ScenarioQuestion> bank = scenarioBank.get(subject);
-		return bank.get(rand.nextInt(bank.size()));
+		int num = rand.nextInt(bank.size());
+		while(trainarr[num] == 1){
+			System.out.println(num);
+			num = rand.nextInt(bank.size());
+		}
+		trainarr[num]=1;
+		return bank.get(num);
 	}
 	
 	public ArrayList<ScenarioQuestion> getScenarioQuestions(String subject) {
@@ -64,4 +80,8 @@ public class DialogBank {
 		return bank.get(rand.nextInt(bank.size()));
 	}
 	
+	public void resetCount(){
+		infoarr= new int[10];
+		trainarr = new int[10];
+	}
 }

@@ -5,7 +5,10 @@ texture = dates_room_background.png
 // room_subject is either advisor, dates, overworld, resources, or udsis
 room_subject/x,y,width,height/outX,outY = overworld / 254,0,130,36 / 62,320
 :NPCS:
-npc_type/x,y = yesno / 256,256
-npc_type/x,y = trainer / 400,400
-npc_type/x,y = infonpc / 200,400
-npc_type/x,y = boss / 300,400
+npc_type/x,y = yesno / 100,288
+npc_type/x,y = trainer / 240,370
+npc_type/x,y = trainer / 360,370
+npc_type/x,y = infonpc / 350,200
+npc_type/x,y = infonpc / 96,124
+npc_type/x,y = infonpc / 256,256
+npc_type/x,y = boss / 302,440
