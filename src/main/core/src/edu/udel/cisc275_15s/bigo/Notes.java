@@ -38,7 +38,7 @@ public class Notes implements Screen, TextInputListener{
 	    batch = new SpriteBatch();
 		exitButton.addListener(new ClickListener(){
 			 public void clicked(InputEvent event, float x, float y) {
-				 ((Game)Gdx.app.getApplicationListener()).setScreen(MainClass.Game);
+				 ((Game)Gdx.app.getApplicationListener()).setScreen(new OverworldMenu());
 				
 			 }
 		});

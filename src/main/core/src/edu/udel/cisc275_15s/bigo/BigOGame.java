@@ -70,7 +70,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	TextInputListener listener;
 	private Skin skin = new Skin(Gdx.files.internal("skins/menuSkin.json"),
 			new TextureAtlas(Gdx.files.internal("skins/menuSkin.pack")));
-	private TextButton NotesButton = (TextButton) new TextButton("Notes", skin)
+	private TextButton NotesButton = (TextButton) new TextButton("Menu", skin)
 			.align(Align.bottomRight);
 	private TextButton YesButton = (TextButton) new TextButton("Yes", skin)
 			.align(Align.topLeft);
@@ -310,12 +310,12 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		NotesButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				((Game) Gdx.app.getApplicationListener())
-						.setScreen(new Notes());
+						.setScreen(new OverworldMenu());
 
 			}
 		});
 
-		table.add(NotesButton).size(WIDTH / 8, HEIGHT / 7);
+		table.add(NotesButton).size(WIDTH / 8, HEIGHT / 10);
 		table.align(Align.bottomRight);
 		table.setFillParent(true);
 		stage.addActor(table);
