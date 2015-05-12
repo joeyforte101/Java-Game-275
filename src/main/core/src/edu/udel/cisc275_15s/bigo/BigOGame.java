@@ -192,7 +192,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		int mouseX = Gdx.input.getX();
 		int mouseY = Gdx.input.getY();
 		yourBitmapFontName.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		yourBitmapFontName.draw(batch, mouseX+", "+mouseY, 25, 100); 
+		yourBitmapFontName.draw(batch, mouseX+", "+(480-mouseY), 25, 100); 
 
 		batch.end();
 
