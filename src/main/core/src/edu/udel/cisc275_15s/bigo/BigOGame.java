@@ -154,7 +154,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 
 	public void update() {
 		// checkForBattle();
-
+if(!(Gdx.input.getX() >= 460 & Gdx.input.getY() >= 430 )){
 		if (Gdx.input.isTouched() && !tapLock) {
 			changeRoom(currentRoom.move(player, tapLock, Gdx.input.getX(),
 					Gdx.input.getY()));
@@ -164,12 +164,14 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 					Gdx.input.getY()));
 		} else {
 			tapLock = false;
-		}
-
+	}
+}
+		
 		debugString = Integer.toString((int) player.hitBox.x) + ":"
 				+ Integer.toString((int) player.hitBox.y) + " "
 				+ Integer.toString(WIDTH) + "/" + Integer.toString(HEIGHT);
 	}
+
 
 	@Override
 	public void render(float deltaTime) {
