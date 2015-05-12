@@ -9,3 +9,18 @@ npc_type/x,y = yesno / 256,256
 npc_type/x,y = trainer / 400,400
 npc_type/x,y = infonpc / 200,400
 npc_type/x,y = boss / 300,400
+:OBSTALCES:
+//Desks
+x,y,width,height = 0,138,90,32
+x,y,width,height = 547,138,90,32
+//Books
+x,y,width,height = 0,265,58,52
+x,y,width,height = 580,265,58,52
+//Beds
+x,y,width,height = 69,393,52,78
+x,y,width,height = 487,393,52,78
+//Plants
+x,y,width,height = 44,430,10,35
+x,y,width,height = 550,430,10,35
+//Book Shelf
+x,y,width,height = 295,425,55,50

@@ -9,3 +9,24 @@ npc_type/x,y = yesno / 256,256
 npc_type/x,y = trainer / 400,400
 npc_type/x,y = infonpc / 200,400
 npc_type/x,y = boss / 300,400
+:OBSTALCES:
+//Crates in the model left corner
+x,y,width,height = 0,0,250,35
+x,y,width,height = 160,35,90,16
+x,y,width,height = 35,35,90,16
+x,y,width,height = 65,50,60,15
+x,y,width,height = 192,50,60,15
+//Fruit Stands
+x,y,width,height = 0,133,60,61
+x,y,width,height = 97,133,60,61
+x,y,width,height = 36,230,60,61
+//Cash Register 
+x,y,width,height = 0,360,155,120
+//Tables
+x,y,width,height = 388,185,55,18
+x,y,width,height = 515,248,55,16
+x,y,width,height = 484,89,55,18
+//Vending Machine
+x,y,width,height = 582,297,100,85
+//Sinks
+x,y,width,height = 420,428,118,29
