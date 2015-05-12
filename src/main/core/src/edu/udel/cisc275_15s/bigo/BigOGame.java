@@ -241,8 +241,8 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		 for(Door d : currentRoom.doors) {
 		 drawDoor(d);
 		 }
-		 asfa = 1000;
 		 */
+		 
 		stage.act();
 		stage.draw();
 	}

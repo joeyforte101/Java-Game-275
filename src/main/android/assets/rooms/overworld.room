@@ -7,7 +7,7 @@ room_subject/x,y,width,height/outX,outY = dates / 62,320,36,40 / 304,20
 room_subject/x,y,width,height/outX,outY = advisor / 510,320,36,40 / 304,20
 room_subject/x,y,width,height/outX,outY = resources / 62,129,36,40 / 304,20
 room_subject/x,y,width,height/outX,outY = udsis / 510,129,36,40 / 304,20
-room_subject/x,y,width,height/outX,outY = finalroom / 187,67,36,40 / 304,20
+room_subject/x,y,width,height/outX,outY = finalroom / 287,67,36,40 / 304,20
 
 :NPCS:
 npc_type/x,y = info / 256,256
