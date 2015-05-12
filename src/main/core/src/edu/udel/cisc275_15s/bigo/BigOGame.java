@@ -66,6 +66,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	private Table YNTable = new Table();
 	private Table talkTable = new Table();
 	private Table exitTable = new Table();
+	BitmapFont yourBitmapFontName;
 
 	TextInputListener listener;
 	private Skin skin = new Skin(Gdx.files.internal("skins/menuSkin.json"),
@@ -108,7 +109,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
-
+		yourBitmapFontName = new BitmapFont();
 		player = new UserCharacter();
 
 		rooms = ContentLoader.load();
@@ -187,6 +188,11 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		}
 
 		draw(player);
+		
+		int mouseX = Gdx.input.getX();
+		int mouseY = Gdx.input.getY();
+		yourBitmapFontName.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		yourBitmapFontName.draw(batch, mouseX+", "+mouseY, 25, 100); 
 
 		batch.end();
 
