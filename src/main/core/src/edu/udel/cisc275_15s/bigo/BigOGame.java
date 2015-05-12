@@ -281,7 +281,7 @@ if(!(Gdx.input.getX() >= 460 & Gdx.input.getY() >= 430 )){
 		TalkButton.getLabel().setFontScale((float) 0.8);
 		TalkButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				if (player.talking == false) {
+				if (player.talking == false && focusNPC != null) {
 					focusNPC.setTalking(true);
 					Notes.addnote(focusNPC.getNotes());
 					player.talking = true;

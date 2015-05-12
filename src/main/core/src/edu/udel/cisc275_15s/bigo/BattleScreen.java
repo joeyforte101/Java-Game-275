@@ -68,7 +68,7 @@ public class BattleScreen implements Screen, TextInputListener {
 		});
 		ansA.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				if (!battle.isCorrectAnswer(1)) {
+				if (!battle.isCorrectAnswer(0)) {
 					ansA.setColor(Color.RED);
 					;
 				}
@@ -76,7 +76,7 @@ public class BattleScreen implements Screen, TextInputListener {
 		});
 		ansB.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				if (!battle.isCorrectAnswer(2)) {
+				if (!battle.isCorrectAnswer(1)) {
 					ansB.setColor(Color.RED);
 					;
 				}
@@ -84,7 +84,7 @@ public class BattleScreen implements Screen, TextInputListener {
 		});
 		ansC.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				if (!battle.isCorrectAnswer(3)) {
+				if (!battle.isCorrectAnswer(2)) {
 					ansC.setColor(Color.RED);
 					;
 				}
@@ -92,7 +92,7 @@ public class BattleScreen implements Screen, TextInputListener {
 		});
 		ansD.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				if (!battle.isCorrectAnswer(4)) {
+				if (!battle.isCorrectAnswer(3)) {
 					ansD.setColor(Color.RED);
 					;
 				}
