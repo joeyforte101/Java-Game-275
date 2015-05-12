@@ -56,20 +56,22 @@ public class HelpMenu implements Screen, TextInputListener {
     	buttonNext.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                imgindex++;
             	if (imgindex == (images.length-1)){
             		imgindex = (images.length-1);
             	}
+            	else{
+            	imgindex++;}
             }
         });
     	// This will go to previous images
     	buttonPrevious.addListener(new ClickListener(){
     		 @Override
              public void clicked(InputEvent event, float x, float y) {
-                 imgindex--;
              	if (imgindex == 0){
              		imgindex = 0;
              	}
+             	else{
+             	imgindex--;}
              }
     	});
     	//This is being held which will take you back to your previous screen
