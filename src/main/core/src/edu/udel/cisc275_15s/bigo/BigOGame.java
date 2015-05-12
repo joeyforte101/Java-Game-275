@@ -82,6 +82,8 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	private TextButton TalkButton = (TextButton) new TextButton("Talk", skin)
 			.align(Align.topRight);
 	InputMultiplexer inputMultiplexer = new InputMultiplexer();
+	
+	int asfa = 1000;
 
 	int startCount = 0;
 	SpriteBatch batch;
@@ -230,15 +232,17 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 				((Game)Gdx.app.getApplicationListener()).setScreen(new BattleScreen(battle));
 			}
 		}
-
-		// Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
-		// for(Obstacle obs : currentRoom.getObstacles()) {
-		// drawHitbox(obs);
-		// }
-		//
-		// for(Door d : currentRoom.doors) {
-		// drawDoor(d);
-		// }
+		/*
+		 Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+		 for(Obstacle obs : currentRoom.getObstacles()) {
+		 drawHitbox(obs);
+		 }
+		
+		 for(Door d : currentRoom.doors) {
+		 drawDoor(d);
+		 }
+		 asfa = 1000;
+		 */
 		stage.act();
 		stage.draw();
 	}
