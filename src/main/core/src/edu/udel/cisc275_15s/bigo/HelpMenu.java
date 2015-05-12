@@ -1,5 +1,6 @@
 package edu.udel.cisc275_15s.bigo;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.TextInputListener;
 import com.badlogic.gdx.Screen;
@@ -74,11 +75,12 @@ public class HelpMenu implements Screen, TextInputListener {
              	imgindex--;}
              }
     	});
-    	//This is being held which will take you back to your previous screen
+    	
     	buttonExit.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //Needs to take you back to previous screen you were at
+            	((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenu());
+                
             }
         });
     	
