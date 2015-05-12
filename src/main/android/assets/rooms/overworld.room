@@ -10,7 +10,20 @@ npc_type/x,y = info / 256,256
 x,y,width,height = 32,320,30,112
 x,y,width,height = 62,360,36,72
 x,y,width,height = 98,320,62,112
-x,y,width,height = 32,129,128,112
-x,y,width,height = 480,129,128,112
-x,y,width,height = 480,320,128,112
-x,y,width,height = 255,64,128,160
+
+x,y,width,height = 32,128,30,112
+x,y,width,height = 62,168,36,72
+x,y,width,height = 98,128,60,112
+
+x,y,width,height = 480,129,30,112
+x,y,width,height = 510,169,36,72
+x,y,width,height = 546,129,60,112
+
+x,y,width,height = 480,320,30,112
+x,y,width,height = 510,360,36,72
+x,y,width,height = 546,320,60,112
+
+x,y,width,height = 255,64,30,160
+x,y,width,height = 285,104,36,120
+x,y,width,height = 325,64,60,160
+
