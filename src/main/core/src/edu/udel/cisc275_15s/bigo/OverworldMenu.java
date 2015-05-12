@@ -23,7 +23,6 @@ public class OverworldMenu implements Screen, TextInputListener {
 	  private Stage stage = new Stage();
 	    private Table table = new Table();
 	    private Table table2 = new Table();
-	    public static int progress = 0;
 	    TextInputListener listener; 
 	    private Skin skin = new Skin(Gdx.files.internal("skins/menuSkin.json"),
 	      new TextureAtlas(Gdx.files.internal("skins/menuSkin.pack")));
@@ -82,7 +81,7 @@ public class OverworldMenu implements Screen, TextInputListener {
 	        batch.begin();
 	        Texture img;
 	        for(float i = 0; i < 5; i++){
-	        	if(i < progress)
+	        	if(i < Notes.progress)
 	        		img = new Texture("star1.png");
 	        	else
 	        		img = new Texture("star2.png");
@@ -144,9 +143,6 @@ public class OverworldMenu implements Screen, TextInputListener {
 			// TODO Auto-generated method stub
 			
 		}
-		public void increaseprogress()
-		{
-			progress++;
-		}
+		
 		
 }

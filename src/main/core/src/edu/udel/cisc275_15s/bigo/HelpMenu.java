@@ -18,14 +18,16 @@ public class HelpMenu implements Screen, TextInputListener {
 
     private Stage stage = new Stage();
     private Table table = new Table();
-    private Table table2 = new Table();    
+    private Table table2 = new Table();
+    private Table table3 = new Table();
     SpriteBatch batch;
     private Skin skin = new Skin(Gdx.files.internal("skins/menuSkin.json"),
         new TextureAtlas(Gdx.files.internal("skins/menuSkin.pack")));
     
     //Backgrounds, along with i will load them to the array
     private Texture backgroundTexture = new Texture("rsz_menu_background.jpg");
-    private Texture[] images;
+    private Texture image2 = new Texture("background.png");
+    private Texture[] images = {backgroundTexture, image2};
     public int imgindex = 0;
     
     private TextButton buttonNext = new TextButton("Next", skin);
@@ -55,8 +57,8 @@ public class HelpMenu implements Screen, TextInputListener {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 imgindex++;
-            	if (imgindex == images.length){
-            		imgindex = images.length;
+            	if (imgindex == (images.length-1)){
+            		imgindex = (images.length-1);
             	}
             }
         });
@@ -80,16 +82,19 @@ public class HelpMenu implements Screen, TextInputListener {
     	
     	
     	//Setup the button layouts
-        table.add(buttonExit).size(50,25);
+        table.add(buttonExit).size(70,35);
         table.align(Align.topLeft);
-        table2.add(buttonNext).size(100,25);
+        table2.add(buttonNext).size(100,40);
         table2.align(Align.bottomRight);
+        table3.add(buttonPrevious).size(130,40);
+        table3.align(Align.bottomLeft);
         
 
         table.setFillParent(true);
         table2.setFillParent(true);
         stage.addActor(table);
         stage.addActor(table2);
+        stage.addActor(table3);
 
         Gdx.input.setInputProcessor(stage);
     }
