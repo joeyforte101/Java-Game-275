@@ -1,5 +1,5 @@
-question = If you don't know your advisor very well, how should you contact your advisor if you want to schedule a meeting with him/her?
-option = Stop by his/her office.
-option = Call them on the phone. 
-answer = Send them an email.
-option = Don't do anything he/she will contact you when needed.
+question = You are having troubling solving the problems on your calculus homework.  Where do you go to get help?
+answer = a.) Math Tutoring Center
+option = b.) Writing Center
+option = c.) Library
+option = d.) Academic Advisor

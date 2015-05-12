@@ -1,5 +1,5 @@
-question = When is the deadline to withdraw from a course (and receive “w”) without academic penalty?
-option = 7 weeks after the semester begins
-answer = 8 weeks after the semester begins
-option = 9 weeks after the semester begins
-option = 10 weeks after the semester begins
+question = You wake up and feel sick.  You think you have the flu.  Where do you go to get help?
+option = a.) Perkins Student Center
+option = b.) Counseling Center
+answer = c.) Student Health Center
+option = d.) Writing Center
