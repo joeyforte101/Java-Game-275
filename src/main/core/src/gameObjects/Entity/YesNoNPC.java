@@ -13,9 +13,11 @@ public class YesNoNPC extends NPC {
 	String messageNo;
 	String question;
 	int understood;
+	static int i = 0;
+	static String npcSwitch;
 
 	public YesNoNPC(YesNoQuestion question, int[] position){
-		super(position[0], position[1], "npc_sprites/trainer.png", question.message, question.notes);
+		super(position[0], position[1], switchNPC(), question.message, question.notes);
 		this.question = question.question;
 		this.messageYes = question.yes;
 		this.messageNo = question.no;	
@@ -28,17 +30,28 @@ public class YesNoNPC extends NPC {
 	}
 
 	public YesNoNPC(int[] position, String message, String messageY, String messageN, String notes){
-		super(position[0], position[1], "npc_sprites/trainer.png", message, notes);
+		super(position[0], position[1], switchNPC(), message, notes);
 		this.messageYes = messageY;
 		this.messageNo = messageN;	
 	}
 	
 	public YesNoNPC(int x, int y, String message, String messageY, String messageN, String notes){
-		super(x, y, "npc_sprites/trainer.png", message, notes);
+		super(x, y, switchNPC(), message, notes);
 		this.messageYes = messageY;
 		this.messageNo = messageN;
 	}
-
+	private static String switchNPC() {
+		if(i == 0){
+			i = 1;
+			return "Villagers-Split/Boy5.png";
+		}
+		if(i == 1){
+			i = 0;
+			return "Villagers-Split/Girl7.png";
+		}
+		return npcSwitch;
+		
+	}
 	public String getMessageYes() {
 		return messageYes;
 	}
