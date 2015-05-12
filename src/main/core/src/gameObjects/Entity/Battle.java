@@ -18,7 +18,7 @@ public class Battle {
 	Texture background;
 	Texture opp;
 	Texture pc;
-	Trainer opponent;
+	private Trainer opponent;
 	boolean[] correct; // Initialized as an array of false.
 	public String answerGiven; // Players selected response
 	boolean qpresented = false;
@@ -38,7 +38,7 @@ public class Battle {
 	 * @param npc
 	 */
 	public Battle(Trainer npc, SpriteBatch batch) {
-		opponent = npc;
+		setOpponent(npc);
 		correct = new boolean[npc.questions.size()];
 
 		this.batch = batch;
@@ -88,15 +88,19 @@ public class Battle {
 	 * @return
 	 */
 	public boolean isCorrectAnswer(int buttonIndex) {
-		String answer = opponent.questions.get(questionIndex).options[buttonIndex];
-		for (int i = 0; i < opponent.questions.size(); i++) {
-			if (opponent.questions.get(questionIndex).answer == answer) {
+		String answer = getOpponent().questions.get(questionIndex).options[buttonIndex];
+		for (int i = 0; i < getOpponent().questions.size(); i++) {
+			if (getOpponent().questions.get(questionIndex).answer == answer) {
 				correct[questionIndex] = true;
-				questionIndex = (questionIndex + 1) % opponent.questions.size();
+				nextQuestion();
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	public void nextQuestion(){
+		questionIndex = (questionIndex + 1) % getOpponent().questions.size();
 	}
 
 	public void update() {
@@ -119,7 +123,7 @@ public class Battle {
 		batch.draw(oppBub, 100, background.getHeight() - opp.getHeight() - 130);
 		
 		// Prints current question to the screen
-		String message = opponent.questions.get(questionIndex).getQuestion();
+		String message = getOpponent().questions.get(questionIndex).getQuestion();
 		String displaymessage = "";
 		for (int i = 0; i < message.length(); i = i + 50) {
 			int k = i + 50;
@@ -145,9 +149,17 @@ public class Battle {
 				20 + pcBub.getHeight());
 
 		for (int i = 0; i < 4; i++)
-			text.draw(batch, opponent.questions.get(questionIndex).options[i], 110, pcBub.getHeight() - 20 + (20 * i));
+			text.draw(batch, getOpponent().questions.get(questionIndex).options[i], 110, pcBub.getHeight() - 20 - (20 * i));
 
 		batch.end();
+	}
+
+	public Trainer getOpponent() {
+		return opponent;
+	}
+
+	public void setOpponent(Trainer opponent) {
+		this.opponent = opponent;
 	}
 
 }

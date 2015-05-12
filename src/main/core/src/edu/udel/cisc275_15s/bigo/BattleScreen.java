@@ -4,6 +4,8 @@ import gameObjects.Entity.Battle;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.TextInputListener;
 import com.badlogic.gdx.graphics.Color;
@@ -21,8 +23,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 public class BattleScreen implements Screen, TextInputListener {
 
 	private Stage stage = new Stage();
+	private Stage nextStage = new Stage();
 	private Table table = new Table();
 	private Table ansTable = new Table();
+	private Table nextTable= new Table();
 
 	TextInputListener listener;
 
@@ -45,9 +49,17 @@ public class BattleScreen implements Screen, TextInputListener {
 	// Button for selecting answer D
 	private TextButton ansD = (TextButton) new TextButton("D", skin)
 			.align(Align.bottomLeft);
-
+	// Next Question Button
+	private TextButton next = (TextButton) new TextButton("Correct!! Next->", skin)
+		.align(Align.center);
+	
+	public final Color defaultColor = ansA.getColor();
+	
+	InputMultiplexer inputMultiplexer = new InputMultiplexer();
+	
+	
 	// Battle that the screen is modeling
-	private Battle battle;
+	public Battle battle;
 	private SpriteBatch batch;
 
 	public BattleScreen(Battle battle) {
@@ -56,7 +68,6 @@ public class BattleScreen implements Screen, TextInputListener {
 
 	@Override
 	public void show() {
-		ansA.setName("Sol");
 
 		RunButton.getLabel().setFontScale((float) 0.8);
 		batch = new SpriteBatch();
@@ -70,7 +81,9 @@ public class BattleScreen implements Screen, TextInputListener {
 			public void clicked(InputEvent event, float x, float y) {
 				if (!battle.isCorrectAnswer(0)) {
 					ansA.setColor(Color.RED);
-					;
+				}else{
+					displayNext();
+					resetButtons(defaultColor);
 				}
 			}
 		});
@@ -78,7 +91,9 @@ public class BattleScreen implements Screen, TextInputListener {
 			public void clicked(InputEvent event, float x, float y) {
 				if (!battle.isCorrectAnswer(1)) {
 					ansB.setColor(Color.RED);
-					;
+				}else{
+					displayNext();
+					resetButtons(defaultColor);
 				}
 			}
 		});
@@ -86,7 +101,9 @@ public class BattleScreen implements Screen, TextInputListener {
 			public void clicked(InputEvent event, float x, float y) {
 				if (!battle.isCorrectAnswer(2)) {
 					ansC.setColor(Color.RED);
-					;
+				}else{
+					displayNext();
+					resetButtons(defaultColor);
 				}
 			}
 		});
@@ -94,8 +111,17 @@ public class BattleScreen implements Screen, TextInputListener {
 			public void clicked(InputEvent event, float x, float y) {
 				if (!battle.isCorrectAnswer(3)) {
 					ansD.setColor(Color.RED);
-					;
+				}else{
+					displayNext();
+					resetButtons(defaultColor);
 				}
+			}
+		});
+		next.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				battle.nextQuestion();
+				resetButtons(defaultColor);
+				nextStage.dispose();
 			}
 		});
 
@@ -106,13 +132,25 @@ public class BattleScreen implements Screen, TextInputListener {
 		ansTable.align(Align.center);
 		ansTable.setFillParent(true);
 		stage.addActor(ansTable);
+		
+		
+		nextTable.add(next).size(100, 300);
+		nextTable.align(Align.center);
+		nextTable.setFillParent(true);
+		nextStage.addActor(nextTable);
 
 		table.add(RunButton).size(75, 200);
 		table.align(Align.bottomRight);
 		table.setFillParent(true);
 		stage.addActor(table);
-
-		Gdx.input.setInputProcessor(stage);
+		
+		InputProcessor input1 = stage;
+		InputProcessor input2 = nextStage;
+		
+		inputMultiplexer.addProcessor(input1);
+		inputMultiplexer.addProcessor(input2);
+		
+		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 
 	@Override
@@ -133,6 +171,18 @@ public class BattleScreen implements Screen, TextInputListener {
 		stage.act();
 		stage.draw();
 
+	}
+	
+	public void displayNext(){
+		nextStage.draw();
+		nextStage.act();
+	}
+	
+	public void resetButtons(Color color){
+		ansA.setColor(color);
+		ansB.setColor(color);
+		ansC.setColor(color);
+		ansD.setColor(color);
 	}
 
 	@Override
@@ -162,6 +212,7 @@ public class BattleScreen implements Screen, TextInputListener {
 	@Override
 	public void dispose() {
 		stage.dispose();
+		nextStage.dispose();
 		skin.dispose();
 
 	}

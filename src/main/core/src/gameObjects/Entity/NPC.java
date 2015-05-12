@@ -94,6 +94,10 @@ public class NPC extends Obstacle {
 		text.setColor(Color.BLACK);
 		batch.draw(textbox, 20, 60);
 		
+		if(this instanceof Trainer){
+			this.setMessage("You Defeated Me!! I hope you Learned well my young padawon.");
+		}
+		
 		String displaymessage = "";
 		for(int i = 0; i < this.message.length(); i = i + 50){
 			int k = i + 50;
