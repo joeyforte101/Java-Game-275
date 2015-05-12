@@ -11,4 +11,4 @@ npc_type/x,y = trainer / 360,370
 npc_type/x,y = infonpc / 350,200
 npc_type/x,y = infonpc / 96,124
 npc_type/x,y = infonpc / 256,256
-npc_type/x,y = boss / 302,440
+npc_type/x,y = boss / 302,440 
