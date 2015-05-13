@@ -95,7 +95,7 @@ public class NPC extends Obstacle {
 		batch.draw(textbox, 20, 60);
 		
 		if(this instanceof Trainer){
-			this.setMessage("You Defeated Me!! I hope you Learned well my young padawon.");
+			this.setMessage("You have defeated me!! I hope you apply what you have learned.");
 		}
 		
 		String displaymessage = "";

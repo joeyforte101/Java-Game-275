@@ -135,7 +135,7 @@ public class BattleScreen implements Screen, TextInputListener {
 		
 		
 		nextTable.add(next).size(100, 300);
-		nextTable.align(Align.center);
+		nextTable.align(Align.top);
 		nextTable.setFillParent(true);
 		nextStage.addActor(nextTable);
 
