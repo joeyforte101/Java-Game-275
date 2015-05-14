@@ -32,4 +32,29 @@ public class Database {
 		}
 		
 	}
+	
+	public static void createEntry(String question, boolean result){
+		try {
+			// use FileWriter constructor that specifies open for appending
+			CsvWriter csvOutput = new CsvWriter(new FileWriter(outputFile, true), ',');
+			
+			// if the file didn't already exist then we need to write out the header line
+				csvOutput.write(question);
+				//csvOutput.endRecord();
+			// else assume that the file already has the correct header line
+				csvOutput.endRecord();
+				csvOutput.close();
+				CsvWriter csvOutput1 = new CsvWriter(new FileWriter(outputFile, true), ',');
+			// write out a few records
+			if (result)
+				csvOutput1.write("correct");
+			else
+				csvOutput1.write("incorrect");
+			csvOutput1.endRecord();
+			csvOutput1.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 }
