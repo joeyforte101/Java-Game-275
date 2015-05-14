@@ -10,7 +10,7 @@ room_subject/x,y,width,height/outX,outY = udsis / 510,129,36,40 / 304,20
 room_subject/x,y,width,height/outX,outY = finalroom / 287,67,36,40 / 304,20
 
 :NPCS:
-npc_type/x,y = info / 256,256
+npc_type/x,y = info / 300,355
 :OBSTALCES:
 x,y,width,height = 32,320,30,112
 x,y,width,height = 62,360,36,72
@@ -32,3 +32,9 @@ x,y,width,height = 255,64,30,160
 x,y,width,height = 285,104,36,120
 x,y,width,height = 325,64,60,160
 
+x,y,width,height = 335,335,30,30
+x,y,width,height = 145,45,30,30
+x,y,width,height = 160,320,25,50
+x,y,width,height = 162,262,25,25
+x,y,width,height = 385,70,25,25
+x,y,width,height = 610,130,25,50

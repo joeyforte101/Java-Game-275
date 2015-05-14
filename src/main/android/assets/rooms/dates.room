@@ -12,3 +12,14 @@ npc_type/x,y = infonpc / 350,200
 npc_type/x,y = infonpc / 96,124
 npc_type/x,y = infonpc / 256,256
 npc_type/x,y = boss / 302,440 
+
+:OBSTALCES:
+x,y,width,height = 190,0,30,125
+x,y,width,height = 0,193,225,30
+x,y,width,height = 35,35,25,45
+x,y,width,height = 65,35,60,25
+x,y,width,height = 65,130,60,30
+x,y,width,height = 0,355,132,93
+x,y,width,height = 480,260,60,60
+x,y,width,height = 455,300,25,20
+x,y,width,height = 480,450,120,30
