@@ -76,8 +76,8 @@ public class BattleScreen implements Screen, TextInputListener {
 		batch = new SpriteBatch();
 		RunButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				((Game) Gdx.app.getApplicationListener())
-						.setScreen(MainClass.Game);
+				MainClass.Game.battling = false;
+				((Game) Gdx.app.getApplicationListener()).setScreen(MainClass.Game);
 			}
 		});
 		ansA.addListener(new ClickListener() {
@@ -160,12 +160,12 @@ public class BattleScreen implements Screen, TextInputListener {
 	public void render(float delta) {
 
 		if (battle.battleOver()) {
+			MainClass.Game.battling = false;
 			((Game) Gdx.app.getApplicationListener()).setScreen(MainClass.Game);
 		}
 
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch = new SpriteBatch();
 
 		// batch.begin();
 		battle.draw();

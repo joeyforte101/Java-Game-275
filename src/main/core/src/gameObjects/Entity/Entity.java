@@ -39,6 +39,14 @@ public abstract class Entity {
 	public int getWidth() {
 		return (int) hitBox.width;
 	}
+
+	public int[] getCenter()
+	{
+		int[] result = new int[2];
+		result[0] = getX() + getWidth()/2;
+		result[1] = getY() + getHeight()/2;
+		return result;
+	}
 	
 	public void setX(int x) {
 		hitBox.x = x;

@@ -82,7 +82,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	private TextButton TalkButton = (TextButton) new TextButton("Talk", skin)
 			.align(Align.topRight);
 	InputMultiplexer inputMultiplexer = new InputMultiplexer();
-	
+
 	int asfa = 1000;
 
 	int startCount = 0;
@@ -97,16 +97,14 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	boolean leftDoor = true;
 	MainClass mainClass;
 	Screen currentScreen;
-	boolean inBattle;
-	boolean talking = false;
-	Battle battle;
+
+	boolean interacting;
+	boolean battling;
 
 	ArrayList<Room> rooms;
-	// Room roomOne;
-	// Room roomTwo;
 	Room currentRoom;
 
-	NPC focusNPC;
+	NPC nearestNPC;
 
 	@Override
 	public void create() {
@@ -116,35 +114,6 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 
 		rooms = ContentLoader.load();
 		changeRoom("overworld");
-		// roomOne = new Room("room_backgrounds\\overworld_background.png",
-		// NPC.generateNPCs(new String[] {"sprite1.pks", "sprite2.pks",
-		// "sprite 3.pks" }));
-		// roomOne.hash = "roomOne";
-		// roomTwo = new Room("room_backgrounds\\room_two_background.png");
-		// roomTwo.hash = "roomTwo";
-		// roomOne.addDoor("roomTwo", new int[] { 62, 320, 36, 40 }, new int[] {
-		// 405, 380 });
-		// // house one
-		// roomOne.addObstacle(new Obstacle(32,320,30,112));
-		// roomOne.addObstacle(new Obstacle(62,360,36,72));
-		// roomOne.addObstacle(new Obstacle(98,320,62,112));
-		// // house two
-		// roomOne.addObstacle(new Obstacle(32,129,128,112));
-		// // house three
-		// roomOne.addObstacle(new Obstacle(480,129,128,112));
-		// // house four
-		// roomOne.addObstacle(new Obstacle(480,320,128,112));
-		// // big building
-		// roomOne.addObstacle(new Obstacle(255,64,128,160));
-		// //roomTwo.addDoor(roomOne, new int[] { 400, 380, 60, 60 }, new int[]
-		// { 50, 300 });
-		// roomTwo.addDoor("roomOne", new int[] { 0, 0, 60, 60 }, new int[] {
-		// 50, 300 });
-		// currentRoom = roomOne;
-		//
-		// rooms = new ArrayList<Room>();
-		// rooms.add(roomOne);
-		// rooms.add(roomTwo);
 
 		debugString = "start";
 
@@ -152,39 +121,95 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		HEIGHT = Gdx.graphics.getHeight();
 	}
 
-	public void update() {
-		// checkForBattle();
-if(!(Gdx.input.getX() >= 460 & Gdx.input.getY() >= 430 )){
-		if (Gdx.input.isTouched() && !tapLock) {
-			changeRoom(currentRoom.move(player, tapLock, Gdx.input.getX(),
-					Gdx.input.getY()));
-			tapLock = true;
-		} else if (Gdx.input.isTouched()) {
-			changeRoom(currentRoom.move(player, tapLock, Gdx.input.getX(),
-					Gdx.input.getY()));
-		} else {
-			tapLock = false;
-	}
-}
-		
+	public void update(float deltaTime) {
+
+		player.setDeltaTime(deltaTime);
+
+		if (!(Gdx.input.getX() >= 460 & Gdx.input.getY() >= 430)) {
+			if (Gdx.input.isTouched() && !tapLock) {
+				changeRoom(currentRoom.move(player, tapLock, Gdx.input.getX(),
+						Gdx.input.getY()));
+				tapLock = true;
+			} else if (Gdx.input.isTouched()) {
+				changeRoom(currentRoom.move(player, tapLock, Gdx.input.getX(),
+						Gdx.input.getY()));
+			} else {
+				tapLock = false;
+			}
+		}
+
+		// get nearest npc
+		if (!interacting) {
+
+			// Battle Start
+			if (updateNearestNPC()) {
+				battling = true;
+				((Trainer)nearestNPC).hasBattled = true;
+				((Game) Gdx.app.getApplicationListener()).setScreen(new BattleScreen(new Battle((Trainer) nearestNPC, batch)));
+			}
+		}
+
 		debugString = Integer.toString((int) player.hitBox.x) + ":"
 				+ Integer.toString((int) player.hitBox.y) + " "
 				+ Integer.toString(WIDTH) + "/" + Integer.toString(HEIGHT);
 	}
 
+	boolean updateNearestNPC() {
+		nearestNPC = null;
+		double smallestDistance = Integer.MAX_VALUE;
+		for (NPC npc : currentRoom.npcs) {
+			double distance = distanceBetween(npc, player);
+			if (distance < smallestDistance && distance <= npc.SIGHT_RANGE) {
+				nearestNPC = npc;
+				smallestDistance = distance;
+				if (npc instanceof Trainer && !((Trainer) npc).hasBattled)
+					return true;
+			}
+		}
+		return false;
+	}
+
+	double distanceBetween(Entity a, Entity b) {
+		int x = a.getCenter()[0] - b.getCenter()[0];
+		int y = a.getCenter()[1] - b.getCenter()[1];
+		return Math.pow((Math.pow(x, 2) + Math.pow(y, 2)), .5);
+	}
 
 	@Override
 	public void render(float deltaTime) {
-		player.setDeltaTime(deltaTime);
+
+		update(deltaTime);
+
 		TalkButton.setColor(Color.RED);
 
-		update();
-		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		batch.begin();
 
+		int mouseX = Gdx.input.getX();
+		int mouseY = Gdx.input.getY();
+		yourBitmapFontName.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		yourBitmapFontName.draw(batch, mouseX + ", " + (480 - mouseY), 25, 100);
+
+		batch.end();
+
+		// if we are in a battle
+		if (!battling)
+			drawRoom();
+
+		/*
+		 * Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND); for(Obstacle obs :
+		 * currentRoom.getObstacles()) { drawHitbox(obs); }
+		 * 
+		 * for(Door d : currentRoom.doors) { drawDoor(d); }
+		 */
+		stage.act();
+		stage.draw();
+	}
+
+	void drawRoom() {
+		batch.begin();
 		batch.draw(currentRoom.background, 0, 0);
 
 		for (NPC npc : currentRoom.npcs) {
@@ -192,61 +217,32 @@ if(!(Gdx.input.getX() >= 460 & Gdx.input.getY() >= 430 )){
 		}
 
 		draw(player);
-		
-		int mouseX = Gdx.input.getX();
-		int mouseY = Gdx.input.getY();
-		yourBitmapFontName.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		yourBitmapFontName.draw(batch, mouseX+", "+(480-mouseY), 25, 100); 
-
 		batch.end();
 
-		for (NPC npc : currentRoom.npcs) {
-			if (npc.playerInRange(player)) {
+		if (interacting) {
 
-				focusNPC = npc;
-				TalkButton.setColor(Color.GREEN);
-
-				if (!player.talking) {
-					talkStage.act();
-					talkStage.draw();
-				}
-
-				if (npc instanceof YesNoNPC && player.talking) {
-					batch.begin();
-					npc.drawText(batch);
-					batch.end();
+			batch.begin();
+			if (nearestNPC instanceof YesNoNPC) {
+				((YesNoNPC) nearestNPC).drawText(batch);
+				batch.end();
+				if (!((YesNoNPC) nearestNPC).answered) {
 					YNstage.act();
 					YNstage.draw();
-					exitStage.act();
-					exitStage.draw();
-				} else if (player.talking) {
-					batch.begin();
-					npc.drawText(batch);
-					batch.end();
-					exitStage.draw();
-					exitStage.act();
 				}
+			} else {
+				((InfoNPC) nearestNPC).drawText(batch);
+				batch.end();
 			}
-			if (npc instanceof Trainer && npc.playerInRange(player)	&& ((Trainer) npc).hasBattled() == false) {
-				((Trainer)npc).setHasBattled(true);
-				inBattle = true;
-				battle = new Battle((Trainer)npc, batch);
-				((Game)Gdx.app.getApplicationListener()).setScreen(new BattleScreen(battle));
+
+			exitStage.act();
+			exitStage.draw();
+		} else {
+			if (nearestNPC != null) {
+				TalkButton.setColor(Color.GREEN);
+				stage.act();
+				stage.draw();
 			}
 		}
-		/*
-		 Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
-		 for(Obstacle obs : currentRoom.getObstacles()) {
-		 drawHitbox(obs);
-		 }
-		
-		 for(Door d : currentRoom.doors) {
-		 drawDoor(d);
-		 }
-		 */
-		 
-		stage.act();
-		stage.draw();
 	}
 
 	void draw(Entity e) {
@@ -281,10 +277,12 @@ if(!(Gdx.input.getX() >= 460 & Gdx.input.getY() >= 430 )){
 		TalkButton.getLabel().setFontScale((float) 0.8);
 		TalkButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				if (player.talking == false && focusNPC != null) {
-					focusNPC.setTalking(true);
-					Notes.addnote(focusNPC.getNotes());
-					player.talking = true;
+				if (nearestNPC != null && !(nearestNPC instanceof Trainer)) {
+					interacting = true;
+					if (nearestNPC instanceof YesNoNPC)
+						((YesNoNPC) nearestNPC).answered = false;
+					else
+						Notes.addnote(nearestNPC.getNotes());
 				}
 			}
 		});
@@ -292,35 +290,34 @@ if(!(Gdx.input.getX() >= 460 & Gdx.input.getY() >= 430 )){
 		ExitButton.getLabel().setFontScale((float) 0.8);
 		ExitButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				focusNPC.setTalking(false);
-				if (focusNPC instanceof YesNoNPC)
-					((YesNoNPC) focusNPC).setUnderstood(0);
-				player.talking = false;
+				interacting = false;
 			}
 		});
 
 		YesButton.getLabel().setFontScale((float) 0.8);
 		YesButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				if (focusNPC instanceof YesNoNPC)
-					((YesNoNPC) focusNPC).setUnderstood(1);
+				if (nearestNPC != null)
+					if (((YesNoNPC) nearestNPC).sendAnswer("yes")) {
+						Notes.addnote(nearestNPC.getNotes());						
+					}
 			}
 		});
 
 		NoButton.getLabel().setFontScale((float) 0.8);
 		NoButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				if (focusNPC instanceof YesNoNPC)
-					((YesNoNPC) focusNPC).setUnderstood(2);
+				if (nearestNPC != null)
+					if (((YesNoNPC) nearestNPC).sendAnswer("no")) {
+						Notes.addnote(nearestNPC.getNotes());
+					}
 			}
 		});
 
 		NotesButton.getLabel().setFontScale((float) 0.8);
 		NotesButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				((Game) Gdx.app.getApplicationListener())
-						.setScreen(new OverworldMenu());
-
+				((Game) Gdx.app.getApplicationListener()).setScreen(new OverworldMenu());
 			}
 		});
 
@@ -336,6 +333,7 @@ if(!(Gdx.input.getX() >= 460 & Gdx.input.getY() >= 430 )){
 		YNstage.addActor(YNTable);
 
 		table.add(TalkButton).size(100, 50);
+		// talkTable.add(TalkButton).size(100, 50);
 		talkTable.align(Align.bottomLeft);
 		talkTable.setFillParent(true);
 		talkStage.addActor(talkTable);

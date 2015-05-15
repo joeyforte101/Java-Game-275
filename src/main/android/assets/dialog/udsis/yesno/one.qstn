@@ -1,4 +1,5 @@
 question = Degree audit is a helpful UDSIS tool used to check which classes you need to take to complete your program.
-yes = Yup! I know I'm on track because I do a degree audit every semester
-no = err, not quite.  Degree audit is a very important tool and helps me keep on track.
+correct = Yup! I know I'm on track because I do a degree audit every semester
+incorrect = err, not quite.  Degree audit is a very important tool and helps me keep on track.
+answer = yes
 notes = The UDSIS Degree Audit tool helps students check which requirments they still must fill to complete their program.

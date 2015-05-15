@@ -20,6 +20,13 @@ public class Battle {
 	Texture background;
 	Texture opp;
 	Texture pc;
+	Texture lifeGuage;
+	Texture[] lifeBars;
+	Texture redLifeBar;
+	Texture yellowLifeBar;
+	Texture greenLifeBar;
+	Texture questionMark;
+	Texture questionMarkGrey;
 	private Trainer opponent;
 	boolean[] correct; // Initialized as an array of false.
 	public String answerGiven; // Players selected response
@@ -43,7 +50,12 @@ public class Battle {
 	public Battle(Trainer npc, SpriteBatch batch) {
 		setOpponent(npc);
 		correct = new boolean[npc.questions.size()];
-
+		lifeGuage = new Texture("life guage.png");
+		redLifeBar = new Texture("life bar-r.png");
+		yellowLifeBar = new Texture("life bar-y.png");
+		greenLifeBar = new Texture("life bar.png");
+		questionMark = new Texture("q-mark.png");
+		questionMarkGrey = new Texture("q-markgrey.png");
 		this.batch = batch;
 
 		text = new BitmapFont(); // Black Font for the text
@@ -175,53 +187,48 @@ public class Battle {
 	
 	public void drawQuestionMarks(){
 		
-		Texture[] qMarksTextures = new Texture[correct.length];
-		Sprite[] qMarks = new Sprite[correct.length];
+//		Texture[] qMarksTextures = new Texture[correct.length];
+//		Sprite[] qMarks = new Sprite[correct.length];
 		
-		for (int i = 0; i < qMarksTextures.length; i++){
+		for (int i = 0; i < opponent.questions.size(); i++){
 			if(correct[i]){
-				qMarksTextures[i] = new Texture("q-markgrey.png");
+				batch.draw(questionMarkGrey, 64, background.getHeight() - ((1 + i) * 32));
 			}else{
-				qMarksTextures[i] = new Texture("q-mark.png");
+				batch.draw(questionMark, 64, background.getHeight() - ((1 + i) * 32));
 			}
 				
-			qMarks[i] = new Sprite(qMarksTextures[i]);
-			
-			if(i < 7){
-				qMarks[i].setPosition(64, background.getHeight() - ((1 + i) * 32));
-			}else{
-				qMarks[i].setPosition(128, background.getHeight() - 32);
-			}
-			qMarks[i].draw(batch);
+//			qMarks[i] = new Sprite(qMarksTextures[i]);
+//			
+//			if(i < 7){
+//				qMarks[i].setPosition(64, background.getHeight() - ((1 + i) * 32));
+//			}else{
+//				qMarks[i].setPosition(128, background.getHeight() - 32);
+//			}
+//			qMarks[i].draw(batch);
 		}
-		
-		
-		
-		
-		
 	}
 	
 	public void drawLife(){
 		
-		Sprite lifeGuage = new Sprite(new Texture("life guage.png"));
-		lifeGuage.setPosition(0, pc.getHeight());
-		lifeGuage.draw(batch);
+//		lifeGuage.setPosition(0, pc.getHeight());
+//		lifeGuage.draw(batch);
 		
-		Texture[] lifeBarTextures = new Texture[life];
-		Sprite[] lifeBars = new Sprite[life];
 		
 		for(int i = 0; i < life; i++){
 			if(i < 4){
-				lifeBarTextures[i] = new Texture("life bar-r.png");
+				batch.draw(redLifeBar, 5, 20 + i * 21);
+//				lifeBars[i] = redLifeBar;
 			}else if(i >= 4 && i < 10){
-				lifeBarTextures[i] = new Texture("life bar-y.png");
+				batch.draw(yellowLifeBar, 5, 20 + i * 21);
+//				lifeBars[i] = yellowLifeBar;
 			}else{
-				lifeBarTextures[i] = new Texture("life bar.png");
+				batch.draw(greenLifeBar, 5, 20 + i * 21);
+//				lifeBars[i] = greenLifeBar;
 			}
 			
-			lifeBars[i] = new Sprite(lifeBarTextures[i]);
-			lifeBars[i].setPosition(5,pc.getHeight() + 20 + (i * 21));
-			lifeBars[i].draw(batch);
+//			lifeBars[i] = new Sprite(lifeBarTextures[i]);
+//			lifeBars[i].setPosition(5,pc.getHeight() + 20 + (i * 21));
+//			lifeBars[i].draw(batch);
 		}
 		
 	}

@@ -1,4 +1,5 @@
 question = Your Academic Advisor has the responsibility of contacting you to schedule an appointment when you need assistance.
-yes = Nope... That is up to us students.
-no = Correct.  We are responsible!
+incorrect = Nope... That is up to us students.
+correct = Correct.  We are responsible!
+answer = no
 notes = Students have the responsibility of contacting their advisor to schedule an appointment if they need assistance. 

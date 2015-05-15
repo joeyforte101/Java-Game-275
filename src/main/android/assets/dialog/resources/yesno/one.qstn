@@ -1,4 +1,5 @@
-question = While making an appointment prior to going to the Student Health Center ensures a timely visit, students have the option to awalk in and request to see a doctor at any time.
-yes = You got it!  Always make an appointment when you can though!... or you'll be stuck waiting
-no = err.. no.  While making an appointment is always a good idea, it is not required.
+question = While making an appointment prior to going to the Student Health Center ensures a timely visit, students have the option to a walk-in and request to see a doctor at any time.
+correct = You got it!  Always make an appointment when you can though!... or you'll be stuck waiting
+incorrect = err.. no.  While making an appointment is always a good idea, it is not required.
+answer = yes
 notes = Appointments are recommended, however not necessary at the student health center.

@@ -1,4 +1,5 @@
 question = Academic advisors have the responsibility of clarifying your personal values, interests, abilities, and goals.
-yes = Nope... That is up to us students.
-no = Correct.  We are responsible!
+incorrect = Nope... That is up to us students.
+correct = Correct.  We are responsible!
+answer = no
 notes = Students have the responsibility of clarifying their personal values, interests, abilities, and goals.

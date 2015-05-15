@@ -144,10 +144,12 @@ public class ContentLoader {
 						result.question = line.split("=")[1].trim();
 					else if (line.contains("notes ="))					
 						result.notes = line.split("=")[1].trim();
-					else if (line.contains("yes ="))
-						result.yes = line.split("=")[1].trim();
-					else if (line.contains("no"))
-						result.no = line.split("=")[1].trim();
+					else if (line.contains("incorrect ="))
+						result.incorrect = line.split("=")[1].trim();
+					else if (line.contains("correct ="))
+						result.correct = line.split("=")[1].trim();
+					else if (line.contains("answer ="))
+						result.answer = (line.split("=")[1].trim().equals("yes"));
 			
 					line = reader.readLine();
 				}
