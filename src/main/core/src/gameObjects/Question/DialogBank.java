@@ -67,7 +67,7 @@ public class DialogBank {
 			openSet.add(new Integer(i));
 		for(int i = 0; i < 3; i++) {
 			int index = rand.nextInt(openSet.size());
-			result.add(bank.get(index));
+			result.add(bank.get(openSet.get(index)));
 			openSet.remove(index);
 		}
 		return result;
