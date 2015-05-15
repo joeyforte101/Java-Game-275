@@ -53,7 +53,8 @@ public class BattleScreen implements Screen, TextInputListener {
 	private TextButton next = (TextButton) new TextButton("Correct!! Next->", skin)
 		.align(Align.center);
 	
-	public final Color defaultColor = ansA.getColor();
+	public final Color dColor = ansA.getColor();
+	Color defaultColor= dColor;
 	
 	InputMultiplexer inputMultiplexer = new InputMultiplexer();
 	
@@ -69,6 +70,8 @@ public class BattleScreen implements Screen, TextInputListener {
 	@Override
 	public void show() {
 
+		resetButtons(null);
+		
 		RunButton.getLabel().setFontScale((float) 0.8);
 		batch = new SpriteBatch();
 		RunButton.addListener(new ClickListener() {
@@ -179,6 +182,7 @@ public class BattleScreen implements Screen, TextInputListener {
 	}
 	
 	public void resetButtons(Color color){
+		color = Color.BLUE;
 		ansA.setColor(color);
 		ansB.setColor(color);
 		ansC.setColor(color);

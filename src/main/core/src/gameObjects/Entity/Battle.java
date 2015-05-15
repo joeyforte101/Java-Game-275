@@ -1,9 +1,11 @@
 package gameObjects.Entity;
 
 import edu.udel.cisc275_15s.bigo.Notes;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Battle {
@@ -24,6 +26,7 @@ public class Battle {
 	boolean qpresented = false;
 	public int questionIndex = 0;
 	int ansIndex = 0;
+	int life = 18;
 
 	/**
 	 * <h2>Produces an instance of the Battle Class</h2>
@@ -68,6 +71,9 @@ public class Battle {
 	 * @return
 	 */
 	public boolean battleOver() {
+		if(life <= 0){
+			return true;
+		}
 		for (boolean q : correct) {
 			if (!q)
 				return false;
@@ -96,6 +102,7 @@ public class Battle {
 				return true;
 			}
 		}
+		life--;
 		return false;
 	}
 	
@@ -111,6 +118,7 @@ public class Battle {
 
 		batch.begin();
 
+		
 		// Draws background of the battle
 		batch.draw(background, 0, 0);
 		// Draws player character
@@ -151,6 +159,9 @@ public class Battle {
 		for (int i = 0; i < 4; i++)
 			text.draw(batch, getOpponent().questions.get(questionIndex).options[i], 110, pcBub.getHeight() - 20 - (20 * i));
 
+		
+		drawLife();
+		drawQuestionMarks();
 		batch.end();
 	}
 
@@ -160,6 +171,59 @@ public class Battle {
 
 	public void setOpponent(Trainer opponent) {
 		this.opponent = opponent;
+	}
+	
+	public void drawQuestionMarks(){
+		
+		Texture[] qMarksTextures = new Texture[correct.length];
+		Sprite[] qMarks = new Sprite[correct.length];
+		
+		for (int i = 0; i < qMarksTextures.length; i++){
+			if(correct[i]){
+				qMarksTextures[i] = new Texture("q-markgrey.png");
+			}else{
+				qMarksTextures[i] = new Texture("q-mark.png");
+			}
+				
+			qMarks[i] = new Sprite(qMarksTextures[i]);
+			
+			if(i < 7){
+				qMarks[i].setPosition(64, background.getHeight() - ((1 + i) * 32));
+			}else{
+				qMarks[i].setPosition(128, background.getHeight() - 32);
+			}
+			qMarks[i].draw(batch);
+		}
+		
+		
+		
+		
+		
+	}
+	
+	public void drawLife(){
+		
+		Sprite lifeGuage = new Sprite(new Texture("life guage.png"));
+		lifeGuage.setPosition(0, pc.getHeight());
+		lifeGuage.draw(batch);
+		
+		Texture[] lifeBarTextures = new Texture[life];
+		Sprite[] lifeBars = new Sprite[life];
+		
+		for(int i = 0; i < life; i++){
+			if(i < 4){
+				lifeBarTextures[i] = new Texture("life bar-r.png");
+			}else if(i >= 4 && i < 10){
+				lifeBarTextures[i] = new Texture("life bar-y.png");
+			}else{
+				lifeBarTextures[i] = new Texture("life bar.png");
+			}
+			
+			lifeBars[i] = new Sprite(lifeBarTextures[i]);
+			lifeBars[i].setPosition(5,pc.getHeight() + 20 + (i * 21));
+			lifeBars[i].draw(batch);
+		}
+		
 	}
 
 }
