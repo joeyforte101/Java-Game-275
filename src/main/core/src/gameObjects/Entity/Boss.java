@@ -14,8 +14,8 @@ public class Boss extends Trainer {
 	@Override
 	public void setHasBattled(boolean hasBattled) {
 		this.hasBattled = hasBattled;
-		Database.createEntry(questions.get(0).question, (questions.get(0).isrightanswer(questions.get(0).answer)));
-		Database.createEntry(questions.get(1).question, (questions.get(1).isrightanswer(questions.get(1).answer)));
-		Database.createEntry(questions.get(2).question, (questions.get(2).isrightanswer(questions.get(2).answer)));
+		Database.createEntry(questions.get(0).message, (questions.get(0).isrightanswer(questions.get(0).answer)));
+		Database.createEntry(questions.get(1).message, (questions.get(1).isrightanswer(questions.get(1).answer)));
+		Database.createEntry(questions.get(2).message, (questions.get(2).isrightanswer(questions.get(2).answer)));
 	}
 }

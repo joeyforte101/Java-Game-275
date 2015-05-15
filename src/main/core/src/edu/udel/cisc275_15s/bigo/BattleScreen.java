@@ -85,6 +85,7 @@ public class BattleScreen implements Screen, TextInputListener {
 				if (!battle.isCorrectAnswer(0)) {
 					ansA.setColor(Color.RED);
 				}else{
+					battle.opponent.questions.get(battle.questionIndex).completed = true;
 					displayNext();
 					resetButtons(defaultColor);
 				}
@@ -95,6 +96,7 @@ public class BattleScreen implements Screen, TextInputListener {
 				if (!battle.isCorrectAnswer(1)) {
 					ansB.setColor(Color.RED);
 				}else{
+					battle.opponent.questions.get(battle.questionIndex).completed = true;
 					displayNext();
 					resetButtons(defaultColor);
 				}
@@ -105,6 +107,7 @@ public class BattleScreen implements Screen, TextInputListener {
 				if (!battle.isCorrectAnswer(2)) {
 					ansC.setColor(Color.RED);
 				}else{
+					battle.opponent.questions.get(battle.questionIndex).completed = true;
 					displayNext();
 					resetButtons(defaultColor);
 				}
@@ -115,6 +118,7 @@ public class BattleScreen implements Screen, TextInputListener {
 				if (!battle.isCorrectAnswer(3)) {
 					ansD.setColor(Color.RED);
 				}else{
+					battle.opponent.questions.get(battle.questionIndex).completed = true;
 					displayNext();
 					resetButtons(defaultColor);
 				}

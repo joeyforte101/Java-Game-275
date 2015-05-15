@@ -12,20 +12,20 @@ public class ScenarioQuestion extends Question {
 		
 	}
 	
-	public ScenarioQuestion(String q, String[] a,
-			String ra) {
-		timesUsed = 0;
-		question = q;
-		options = a;
-		answer = ra;
-	}
+//	public ScenarioQuestion(String q, String[] a,
+//			String ra) {
+//		timesUsed = 0;
+//		question = q;
+//		options = a;
+//		answer = ra;
+//	}
 	
 	public boolean isrightanswer(String answer) {
 		return this.answer == answer;
 	}
 
 	public String getQuestion() {
-		return question;
+		return message;
 	}
 
 	public void addOptions(LinkedList<String> answers) {

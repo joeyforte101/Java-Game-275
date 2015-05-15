@@ -108,7 +108,7 @@ public class ContentLoader {
 				String line = reader.readLine();
 				while (line != null) {
 					if (line.contains("question ="))
-						result.question = line.split("=")[1].trim();
+						result.message = line.split("=")[1].trim();
 					else if (line.contains("option =")) 
 						answers.add(line.split("=")[1].trim());
 					else if (line.contains("answer =")) {
@@ -141,7 +141,7 @@ public class ContentLoader {
 				String line = reader.readLine();
 				while (line != null) {
 					if (line.contains("question =")) 
-						result.question = line.split("=")[1].trim();
+						result.message = line.split("=")[1].trim();
 					else if (line.contains("notes ="))					
 						result.notes = line.split("=")[1].trim();
 					else if (line.contains("incorrect ="))
@@ -181,8 +181,7 @@ public class ContentLoader {
 					String[] position = trimmed.split("/")[1].split(",");
 					String[] out = trimmed.split("/")[2].split(",");
 					result.addDoor(roomID, toInt(position), toInt(out));
-				}
-				else if (line.contains("npc_type/x,y =")) {
+				} else if (line.contains("npc_type/x,y =")) {
 					String trimmed = line.split("=")[1].replace(" ", "");
 					String type = trimmed.split("/")[0];
 					String[] position = trimmed.split("/")[1].split(",");

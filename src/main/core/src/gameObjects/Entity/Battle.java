@@ -27,7 +27,7 @@ public class Battle {
 	Texture greenLifeBar;
 	Texture questionMark;
 	Texture questionMarkGrey;
-	private Trainer opponent;
+	public Trainer opponent;
 	boolean[] correct; // Initialized as an array of false.
 	public String answerGiven; // Players selected response
 	boolean qpresented = false;

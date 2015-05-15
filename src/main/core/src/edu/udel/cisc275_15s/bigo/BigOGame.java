@@ -299,6 +299,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				if (nearestNPC != null)
 					if (((YesNoNPC) nearestNPC).sendAnswer("yes")) {
+						((YesNoNPC) nearestNPC).question.completed = true;
 						Notes.addnote(nearestNPC.getNotes());						
 					}
 			}
