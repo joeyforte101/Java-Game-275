@@ -125,22 +125,22 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 
 		player.setDeltaTime(deltaTime);
 
-		if (!(Gdx.input.getX() >= 460 & Gdx.input.getY() >= 430)) {
-			if (Gdx.input.isTouched() && !tapLock) {
-				changeRoom(currentRoom.move(player, tapLock, Gdx.input.getX(),
-						Gdx.input.getY()));
-				tapLock = true;
-			} else if (Gdx.input.isTouched()) {
-				changeRoom(currentRoom.move(player, tapLock, Gdx.input.getX(),
-						Gdx.input.getY()));
-			} else {
-				tapLock = false;
-			}
-		}
-
 		// get nearest npc
 		if (!interacting) {
 
+			if (!(Gdx.input.getX() >= 460 & Gdx.input.getY() >= 430)) {
+				if (Gdx.input.isTouched() && !tapLock) {
+					changeRoom(currentRoom.move(player, tapLock, Gdx.input.getX(),
+							Gdx.input.getY()));
+					tapLock = true;
+				} else if (Gdx.input.isTouched()) {
+					changeRoom(currentRoom.move(player, tapLock, Gdx.input.getX(),
+							Gdx.input.getY()));
+				} else {
+					tapLock = false;
+				}
+			}
+			
 			// Battle Start
 			if (updateNearestNPC()) {
 				battling = true;
