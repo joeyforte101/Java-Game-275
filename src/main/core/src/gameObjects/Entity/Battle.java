@@ -64,12 +64,12 @@ public class Battle {
 		ans1 = new BitmapFont(); // Answer
 		ans1.setColor(Color.BLACK);
 
-		pcBub = new Texture("speech bubble.png"); // Text bubble Background for
+		pcBub = new Texture("Textbox.png"); // Text bubble Background for
 													// player
-		oppBub = new Texture("speech bubble.png"); // Text bubble Background for
+		oppBub = new Texture("Textbox.png"); // Text bubble Background for
 													// opponent
 
-		background = new Texture("background2.png"); // Battle
+		background = new Texture("Battle BackgroundBoy.png"); // Battle
 														// background/location
 		opp = new Texture("opponent.png"); // Opponent sprite
 		pc = new Texture("player.png"); // Player sprite
