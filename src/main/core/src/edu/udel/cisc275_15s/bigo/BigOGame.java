@@ -119,6 +119,33 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 
 		WIDTH = Gdx.graphics.getWidth();
 		HEIGHT = Gdx.graphics.getHeight();
+		
+		table.add(NotesButton).size(WIDTH / 8, HEIGHT / 10);
+		table.align(Align.bottomRight);
+		table.setFillParent(true);
+		stage.addActor(table);
+
+		YNTable.add(NoButton).size(100, 50);
+		YNTable.add(YesButton).size(100, 50);
+		YNTable.align(Align.bottom);
+		YNTable.setFillParent(true);
+		YNstage.addActor(YNTable);
+
+		table.add(TalkButton).size(100, 50);
+		// talkTable.add(TalkButton).size(100, 50);
+		talkTable.align(Align.bottomLeft);
+		talkTable.setFillParent(true);
+		talkStage.addActor(talkTable);
+
+		exitTable.add(ExitButton).size(50, 50);
+		exitTable.align(Align.topRight);
+		exitTable.setFillParent(true);
+		exitStage.addActor(exitTable);
+
+		InputProcessor inputProcessorOne = stage;
+		InputProcessor inputProcessorTwo = YNstage;
+		InputProcessor inputProcessor3 = talkStage;
+		InputProcessor inputProcessor4 = exitStage;
 	}
 
 	public void update(float deltaTime) {
@@ -318,31 +345,12 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		NotesButton.getLabel().setFontScale((float) 0.8);
 		NotesButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
+				Gdx.input.setInputProcessor(null);
 				((Game) Gdx.app.getApplicationListener()).setScreen(new OverworldMenu());
 			}
 		});
 
-		table.add(NotesButton).size(WIDTH / 8, HEIGHT / 10);
-		table.align(Align.bottomRight);
-		table.setFillParent(true);
-		stage.addActor(table);
-
-		YNTable.add(NoButton).size(100, 50);
-		YNTable.add(YesButton).size(100, 50);
-		YNTable.align(Align.bottom);
-		YNTable.setFillParent(true);
-		YNstage.addActor(YNTable);
-
-		table.add(TalkButton).size(100, 50);
-		// talkTable.add(TalkButton).size(100, 50);
-		talkTable.align(Align.bottomLeft);
-		talkTable.setFillParent(true);
-		talkStage.addActor(talkTable);
-
-		exitTable.add(ExitButton).size(50, 50);
-		exitTable.align(Align.topRight);
-		exitTable.setFillParent(true);
-		exitStage.addActor(exitTable);
+		
 
 		InputProcessor inputProcessorOne = stage;
 		InputProcessor inputProcessorTwo = YNstage;
@@ -363,7 +371,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
+		
 	}
 
 	void changeRoom(String roomID) {
