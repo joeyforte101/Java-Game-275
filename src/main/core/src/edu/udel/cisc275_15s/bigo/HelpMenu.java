@@ -26,9 +26,13 @@ public class HelpMenu implements Screen, TextInputListener {
         new TextureAtlas(Gdx.files.internal("skins/menuSkin.pack")));
     
     //Backgrounds, along with i will load them to the array
-    private Texture backgroundTexture = new Texture("rsz_menu_background.jpg");
-    private Texture image2 = new Texture("background.png");
-    private Texture[] images = {backgroundTexture, image2};
+    private Texture image1 = new Texture("Game Help Button/img1.png");
+    private Texture image2 = new Texture("Game Help Button/img2.png");
+    private Texture image3 = new Texture("Game Help Button/img3.png");
+    private Texture image4 = new Texture("Game Help Button/img4.png");
+    private Texture image5 = new Texture("Game Help Button/img5.png");
+    private Texture image6 = new Texture("Game Help Button/img6.png");
+    private Texture[] images = {image1, image2, image3, image4, image5, image6};
     public int imgindex = 0;
     
     private TextButton buttonNext = new TextButton("Next", skin);
