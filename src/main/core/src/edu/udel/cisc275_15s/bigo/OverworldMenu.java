@@ -81,7 +81,7 @@ public class OverworldMenu implements Screen, TextInputListener {
 	        batch.begin();
 	        Texture img;
 	        for(float i = 0; i < 5; i++){
-	        	if(i < Notes.progress)
+	        	if(i < Notes.starcount)
 	        		img = new Texture("star1.png");
 	        	else
 	        		img = new Texture("star2.png");

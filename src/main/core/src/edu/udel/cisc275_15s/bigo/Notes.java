@@ -25,6 +25,7 @@ public class Notes implements Screen, TextInputListener{
     private Table table = new Table();
     public static int progress = 0;
     TextInputListener listener; 
+    public static int starcount = 0;
     private Skin skin = new Skin(Gdx.files.internal("skins/menuSkin.json"),
       new TextureAtlas(Gdx.files.internal("skins/menuSkin.pack")));
     private TextButton exitButton = (TextButton) new TextButton("X",skin).align(Align.topRight);
@@ -63,8 +64,22 @@ public class Notes implements Screen, TextInputListener{
         batch = new SpriteBatch();
         batch.begin();
         Texture img;
+      
+      
+        
+        	
+        	
         for(float i = 0; i < 5; i++){
-        	if(i < progress)
+        	
+        	if(progress < 4)
+        		starcount = progress;
+        	else if (progress == 7)
+        		starcount = 5;
+        	else	
+        		starcount = 4;
+        	
+        	System.out.println(starcount);
+        	if(i < starcount)
         		img = new Texture("star1.png");
         	else
         		img = new Texture("star2.png");

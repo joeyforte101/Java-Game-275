@@ -166,8 +166,10 @@ public class BattleScreen implements Screen, TextInputListener {
 
 		if (battle.battleOver()) {
 			MainClass.Game.battling = false;
-			if (battle.opponent instanceof Boss)
+			if (battle.opponent instanceof Boss){
 				MainClass.Game.currentRoom.completed = true;
+				Notes.progress++;
+			}
 			((Game) Gdx.app.getApplicationListener()).setScreen(MainClass.Game);
 		}
 

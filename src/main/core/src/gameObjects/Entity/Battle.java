@@ -98,7 +98,7 @@ public class Battle {
 			if (!q)
 				return false;
 		}
-		Notes.progress++;
+	
 		return true;
 	}
 
