@@ -16,10 +16,11 @@ public class Battle {
 	BitmapFont ans1;
 
 	Texture pcBub;
-	Texture oppBub;
+	Texture oppBubTexture;
+	Sprite oppBub;
 	Texture background;
-	Texture opp;
-	Texture pc;
+	//Texture opp;
+	//Texture pc;
 	Texture lifeGuage;
 	Texture[] lifeBars;
 	Texture redLifeBar;
@@ -64,15 +65,22 @@ public class Battle {
 		ans1 = new BitmapFont(); // Answer
 		ans1.setColor(Color.BLACK);
 
-		pcBub = new Texture("Textbox.png"); // Text bubble Background for
+		background = new Texture("Battle BackgroundBoy.png");
+		
+		pcBub = new Texture("speech bubble.png"); // Text bubble Background for
 													// player
-		oppBub = new Texture("Textbox.png"); // Text bubble Background for
-													// opponent
-
-		background = new Texture("Battle BackgroundBoy.png"); // Battle
+		oppBubTexture = new Texture("speech bubble.png"); // Text bubble Background for
+		
+		oppBub = new Sprite(oppBubTexture);	
+		
+		oppBub.setSize(oppBub.getWidth() - 100, oppBub.getHeight());// opponent
+		
+		oppBub.setPosition(100, background.getHeight()-oppBub.getHeight());
+		
+		 // Battle
 														// background/location
-		opp = new Texture("opponent.png"); // Opponent sprite
-		pc = new Texture("player.png"); // Player sprite
+		//opp = new Texture("opponent.png"); // Opponent sprite
+		//pc = new Texture("player.png"); // Player sprite
 	}
 
 	/**
@@ -134,14 +142,14 @@ public class Battle {
 		// Draws background of the battle
 		batch.draw(background, 0, 0);
 		// Draws player character
-		batch.draw(pc, 0, 0);
+		//batch.draw(pc, 0, 0);
 		// Draws Opponent NPC
-		batch.draw(opp, background.getWidth() - opp.getWidth(),	background.getHeight() - opp.getHeight());
+		//batch.draw(opp, background.getWidth() - opp.getWidth(),	background.getHeight() - opp.getHeight());
 		// Draws TextBox for the answers
-		batch.draw(pcBub, 100, 30);
+		batch.draw(pcBub, 180, 30);
 		// Draws TextBox for opponent NPC's question
-		batch.draw(oppBub, 100, background.getHeight() - opp.getHeight() - 130);
-		
+		//batch.draw(oppBub, 100, background.getHeight() - opp.getHeight() - 130);
+		oppBub.draw(batch);
 		// Prints current question to the screen
 		String message = getOpponent().questions.get(questionIndex).getQuestion();
 		String displaymessage = "";
@@ -165,11 +173,11 @@ public class Battle {
 			i = k - 50;
 		}
 
-		text.draw(batch, "Touch the correct answer", 110,
+		text.draw(batch, "Touch the correct answer", 190,
 				20 + pcBub.getHeight());
 
 		for (int i = 0; i < 4; i++)
-			text.draw(batch, getOpponent().questions.get(questionIndex).options[i], 110, pcBub.getHeight() - 20 - (20 * i));
+			text.draw(batch, getOpponent().questions.get(questionIndex).options[i], 190, pcBub.getHeight() - 20 - (20 * i));
 
 		
 		drawLife();
@@ -210,9 +218,7 @@ public class Battle {
 	
 	public void drawLife(){
 		
-//		lifeGuage.setPosition(0, pc.getHeight());
-//		lifeGuage.draw(batch);
-		
+		//batch.draw(lifeGuage, 5,0);
 		
 		for(int i = 0; i < life; i++){
 			if(i < 4){

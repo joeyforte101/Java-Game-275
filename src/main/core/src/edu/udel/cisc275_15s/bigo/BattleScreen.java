@@ -35,7 +35,7 @@ public class BattleScreen implements Screen, TextInputListener {
 
 	// Button that allows you to run from battles
 	private TextButton RunButton = (TextButton) new TextButton("Run", skin)
-			.align(Align.bottomRight);
+			.align(Align.topRight);
 
 	// Button for selecting answer A
 	private TextButton ansA = (TextButton) new TextButton("A", skin)
@@ -48,7 +48,7 @@ public class BattleScreen implements Screen, TextInputListener {
 			.align(Align.bottomLeft);
 	// Button for selecting answer D
 	private TextButton ansD = (TextButton) new TextButton("D", skin)
-			.align(Align.bottomLeft);
+			.align(Align.bottomRight);
 	// Next Question Button
 	private TextButton next = (TextButton) new TextButton("Correct!! Next->", skin)
 		.align(Align.center);
@@ -146,8 +146,8 @@ public class BattleScreen implements Screen, TextInputListener {
 		nextTable.setFillParent(true);
 		nextStage.addActor(nextTable);
 
-		table.add(RunButton).size(75, 200);
-		table.align(Align.bottomRight);
+		table.add(RunButton).size(75, 75);
+		table.align(Align.topRight);
 		table.setFillParent(true);
 		stage.addActor(table);
 		
