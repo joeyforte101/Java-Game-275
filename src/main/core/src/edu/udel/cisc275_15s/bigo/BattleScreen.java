@@ -1,6 +1,7 @@
 package edu.udel.cisc275_15s.bigo;
 
 import gameObjects.Entity.Battle;
+import gameObjects.Entity.Boss;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -165,6 +166,8 @@ public class BattleScreen implements Screen, TextInputListener {
 
 		if (battle.battleOver()) {
 			MainClass.Game.battling = false;
+			if (battle.opponent instanceof Boss)
+				MainClass.Game.currentRoom.completed = true;
 			((Game) Gdx.app.getApplicationListener()).setScreen(MainClass.Game);
 		}
 

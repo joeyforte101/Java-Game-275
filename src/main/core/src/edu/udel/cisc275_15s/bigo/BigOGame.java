@@ -1,30 +1,15 @@
 package edu.udel.cisc275_15s.bigo;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
-
 import gameObjects.Door;
 import gameObjects.Room;
-import gameObjects.TextBox;
-import gameObjects.UDSISQuestion;
 import gameObjects.Entity.Battle;
 import gameObjects.Entity.Entity;
 import gameObjects.Entity.InfoNPC;
 import gameObjects.Entity.NPC;
-import gameObjects.Entity.Obstacle;
-import gameObjects.Entity.Position;
 import gameObjects.Entity.Trainer;
 import gameObjects.Entity.UserCharacter;
 import gameObjects.Entity.YesNoNPC;
-import gameObjects.Question.AdvisementQuestion;
-import gameObjects.Question.DropAddQuestion;
-import gameObjects.Question.Question;
-import gameObjects.Question.QuestionFactory;
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -42,8 +27,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -84,6 +67,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
 	int asfa = 1000;
+	Texture completedRoom;
 
 	int startCount = 0;
 	SpriteBatch batch;
@@ -111,6 +95,8 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		batch = new SpriteBatch();
 		yourBitmapFontName = new BitmapFont();
 		player = new UserCharacter();
+		
+		completedRoom = new Texture("completed_room.png");
 
 		rooms = ContentLoader.load();
 		changeRoom("overworld");
@@ -238,6 +224,21 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	void drawRoom() {
 		batch.begin();
 		batch.draw(currentRoom.background, 0, 0);
+		
+		if (currentRoom.subject.equals("overworld")) {
+			for(Room gym : rooms) {
+				if (gym.completed) {
+					if (gym.subject.equals("dates")) 
+						batch.draw(completedRoom, 32, 321);
+					else if (gym.subject.equals("resources"))
+						batch.draw(completedRoom, 32, 130);
+					else if (gym.subject.equals("advisor"))
+						batch.draw(completedRoom, 480, 321);
+					else if (gym.subject.equals("udsis"))
+						batch.draw(completedRoom, 480, 130);
+				}
+			}
+		}
 
 		for (NPC npc : currentRoom.npcs) {
 			draw(npc);
@@ -374,10 +375,24 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		
 	}
 
-	void changeRoom(String roomID) {
+	void changeRoom(Door door) {
+		if (door != null) {
+			for (Room room : rooms) {
+				if (room.subject.equals(door.roomToHash) && !room.completed) {
+					player.setX((int) door.outPosition.x);
+					player.setY((int) door.outPosition.y);
+					door.out = false;
+					currentRoom = room;
+				}
+			}
+		}
+	}
+	
+	void changeRoom(String destination) {
 		for (Room room : rooms) {
-			if (room.subject.equals(roomID))
+			if (room.subject.equals(destination)) {
 				currentRoom = room;
+			}
 		}
 	}
 }

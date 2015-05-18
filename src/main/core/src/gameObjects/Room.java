@@ -19,6 +19,7 @@ public class Room {
 	public final int HEIGHT = Gdx.graphics.getHeight();
 
 	public Texture background;
+	public boolean completed;
 	public String subject;
 	public int xOffset, yOffset;
 	public List<NPC> npcs;
@@ -73,7 +74,7 @@ public class Room {
 		obstacles.add(obs);
 	}
 
-	public String move(UserCharacter c, boolean t, int x, int y) {
+	public Door move(UserCharacter c, boolean t, int x, int y) {
 		y = Mapping.yScreenToText(y);
 		int centerx = c.getX() + c.getWidth() / 2;
 		int centery = c.getY() + c.getHeight() / 2;
@@ -140,16 +141,13 @@ public class Room {
 		for (Door d : doors) {
 			if (d.inMe(c)) {
 				if (d.out) {
-					c.setX((int) d.outPosition.x);
-					c.setY((int) d.outPosition.y);
-					d.out = false;
-					return d.roomToHash;
+					return d;
 				}
 			} else {
 				d.out = true;
 			}
 		}
-		return subject;
+		return null;
 	}
 
 	public List<Obstacle> getObstacles() {
