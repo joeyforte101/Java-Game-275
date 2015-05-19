@@ -335,7 +335,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		YesButton.getLabel().setFontScale((float) 0.8);
 		YesButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				if (nearestNPC != null)
+				if (nearestNPC != null && nearestNPC instanceof YesNoNPC)
 					if (((YesNoNPC) nearestNPC).sendAnswer("yes")) {
 						((YesNoNPC) nearestNPC).question.completed = true;
 						Notes.addnote(nearestNPC.getNotes());						
@@ -346,7 +346,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		NoButton.getLabel().setFontScale((float) 0.8);
 		NoButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				if (nearestNPC != null)
+				if (nearestNPC != null && nearestNPC instanceof YesNoNPC)
 					if (((YesNoNPC) nearestNPC).sendAnswer("no")) {
 						Notes.addnote(nearestNPC.getNotes());
 					}
