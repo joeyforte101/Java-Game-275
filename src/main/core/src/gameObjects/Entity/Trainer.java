@@ -9,12 +9,14 @@ public class Trainer extends NPC {
 	
 	public ArrayList<ScenarioQuestion> questions;
 	public boolean hasBattled;
+	public boolean defeated;
 	static int i = 0;
 	static String npcswitch;	
 	
 	public Trainer(ScenarioQuestion question, int[] position) {
 		super (position[0], position[1], switchNPC());
 		hasBattled = false;
+		defeated = false; 
 		questions = new ArrayList<ScenarioQuestion>();
 		questions.add(question);
 	}

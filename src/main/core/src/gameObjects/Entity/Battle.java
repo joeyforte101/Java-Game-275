@@ -98,7 +98,8 @@ public class Battle {
 			if (!q)
 				return false;
 		}
-	
+		
+		this.opponent.defeated = true;
 		return true;
 	}
 
