@@ -83,7 +83,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	Screen currentScreen;
 
 	boolean interacting;
-	boolean battling;
+	public static boolean battling;
 
 	ArrayList<Room> rooms;
 	Room currentRoom;

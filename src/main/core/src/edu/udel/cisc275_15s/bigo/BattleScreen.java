@@ -55,8 +55,6 @@ public class BattleScreen implements Screen, TextInputListener {
 	// Next Question Button
 	private TextButton next = (TextButton) new TextButton("Correct!! Next->", skin)
 		.align(Align.center);
-	private TextButton NotesButton = (TextButton) new TextButton("Menu", skin)
-	.align(Align.bottomRight);
 	
 	public final Color dColor = ansA.getColor();
 	Color defaultColor= dColor;
@@ -136,13 +134,6 @@ public class BattleScreen implements Screen, TextInputListener {
 				nextStage.dispose();
 			}
 		});
-		NotesButton.getLabel().setFontScale((float) 0.8);
-		NotesButton.addListener(new ClickListener() {
-			public void clicked(InputEvent event, float x, float y) {
-				Gdx.input.setInputProcessor(null);
-				((Game) Gdx.app.getApplicationListener()).setScreen(new OverworldMenu());
-			}
-		});
 
 		ansTable.add(ansA).size(100, 50);
 		ansTable.add(ansB).size(100, 50);
@@ -159,7 +150,6 @@ public class BattleScreen implements Screen, TextInputListener {
 		nextStage.addActor(nextTable);
 
 		table.add(RunButton).size(75, 75);
-		table.add(NotesButton).size(75,75);
 		table.align(Align.topRight);
 		table.setFillParent(true);
 		stage.addActor(table);
