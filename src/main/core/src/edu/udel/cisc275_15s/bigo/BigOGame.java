@@ -83,7 +83,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	Screen currentScreen;
 
 	boolean interacting;
-	public static boolean battling;
+	boolean battling;
 
 	ArrayList<Room> rooms;
 	Room currentRoom;
@@ -311,19 +311,10 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 					interacting = true;
 					if (nearestNPC instanceof YesNoNPC)
 						((YesNoNPC) nearestNPC).answered = false;
-					
 					else {
-					
 						String notes = nearestNPC.getNotes();
 						if (notes != "")
 							Notes.addnote(nearestNPC.getNotes());
-					}
-				}
-				else if(nearestNPC instanceof Trainer){
-					if(!((Trainer)nearestNPC).defeated){
-						battling = true;
-						((Game) Gdx.app.getApplicationListener()).setScreen(new BattleScreen(new Battle((Trainer) nearestNPC, batch)));
-						//System.out.println("i should be battling");
 					}
 				}
 			}

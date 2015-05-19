@@ -141,8 +141,7 @@ public class BattleScreen implements Screen, TextInputListener {
 		ansTable.add(ansD).size(100, 50);
 		ansTable.align(Align.center);
 		ansTable.setFillParent(true);
-		stage.addActor(ansTable);
-		
+		stage.addActor(ansTable);		
 		
 		nextTable.add(next).size(100, 300);
 		nextTable.align(Align.top);
@@ -168,11 +167,32 @@ public class BattleScreen implements Screen, TextInputListener {
 
 		if (battle.battleOver()) {
 			MainClass.Game.battling = false;
-			if (battle.opponent instanceof Boss && battle.opponent.defeated){
-				MainClass.Game.currentRoom.completed = true;
-				removeBlockingNPC();
-				Notes.progress++;
+			
+			// check if room is completed
+			
+			boolean completed = true;
+			for(NPC npc : MainClass.Game.currentRoom.npcs) {
+				if (npc instanceof Boss) {
+					if (!((Boss)npc).beaten()) {
+						completed = false;
+					}
+				}
 			}
+			
+			// if completed, update game
+			
+			if (completed) {
+				MainClass.Game.currentRoom.completed = true;
+				removeBlockingNPCCheck();
+				if (MainClass.Game.currentRoom.subject.equals("finalroom")) 
+				{
+					// game is over
+					((Game) Gdx.app.getApplicationListener()).setScreen(new WinScreen());	
+					return;
+				} 
+			}
+			
+			Notes.progress++;
 			((Game) Gdx.app.getApplicationListener()).setScreen(MainClass.Game);
 		}
 
@@ -188,7 +208,7 @@ public class BattleScreen implements Screen, TextInputListener {
 
 	}
 	
-	void removeBlockingNPC() {
+	void removeBlockingNPCCheck() {
 		int count = 0;
 		for(Room room : MainClass.Game.rooms) {
 			if (room.completed)

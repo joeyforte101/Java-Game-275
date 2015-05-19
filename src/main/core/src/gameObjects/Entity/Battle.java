@@ -1,6 +1,7 @@
 package gameObjects.Entity;
 
 import edu.udel.cisc275_15s.bigo.Notes;
+import gameObjects.Question.Question;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -19,8 +20,7 @@ public class Battle {
 	Texture oppBubTexture;
 	Sprite oppBub;
 	Texture background;
-	//Texture opp;
-	//Texture pc;
+	
 	Texture lifeGuage;
 	Texture[] lifeBars;
 	Texture redLifeBar;
@@ -29,12 +29,11 @@ public class Battle {
 	Texture questionMark;
 	Texture questionMarkGrey;
 	public Trainer opponent;
-	boolean[] correct; // Initialized as an array of false.
 	public String answerGiven; // Players selected response
 	boolean qpresented = false;
 	public int questionIndex = 0;
 	int ansIndex = 0;
-	public static int life = 18;
+	int life = 18;
 
 	/**
 	 * <h2>Produces an instance of the Battle Class</h2>
@@ -50,7 +49,6 @@ public class Battle {
 	 */
 	public Battle(Trainer npc, SpriteBatch batch) {
 		setOpponent(npc);
-		correct = new boolean[npc.questions.size()];
 		lifeGuage = new Texture("life guage.png");
 		redLifeBar = new Texture("life bar-r.png");
 		yellowLifeBar = new Texture("life bar-y.png");
@@ -91,17 +89,13 @@ public class Battle {
 	 * @return
 	 */
 	public boolean battleOver() {
-		if(life <= 0){
-			life = 18;
+		if (life <= 0)
 			return true;
-		}
-		for (boolean q : correct) {
-			if (!q)
+		for (Question q : opponent.questions) {
+			if (!q.completed)
 				return false;
 		}
-		
-		life=18;
-		this.opponent.defeated = true;
+	
 		return true;
 	}
 
@@ -120,7 +114,6 @@ public class Battle {
 		String answer = getOpponent().questions.get(questionIndex).options[buttonIndex];
 		for (int i = 0; i < getOpponent().questions.size(); i++) {
 			if (getOpponent().questions.get(questionIndex).answer == answer) {
-				correct[questionIndex] = true;
 				nextQuestion();
 				return true;
 			}
@@ -202,7 +195,7 @@ public class Battle {
 //		Sprite[] qMarks = new Sprite[correct.length];
 		
 		for (int i = 0; i < opponent.questions.size(); i++){
-			if(correct[i]){
+			if(opponent.questions.get(i).completed){
 				batch.draw(questionMarkGrey, 64, background.getHeight() - ((1 + i) * 32));
 			}else{
 				batch.draw(questionMark, 64, background.getHeight() - ((1 + i) * 32));
