@@ -317,6 +317,11 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 							Notes.addnote(nearestNPC.getNotes());
 					}
 				}
+				else if(nearestNPC instanceof Trainer && !((Trainer) nearestNPC).defeated){
+					battling = true;
+					((Game) Gdx.app.getApplicationListener()).setScreen(new BattleScreen(new Battle((Trainer) nearestNPC, batch)));
+				}
+				
 			}
 		});
 

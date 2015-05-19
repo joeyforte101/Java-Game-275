@@ -33,7 +33,7 @@ public class Battle {
 	boolean qpresented = false;
 	public int questionIndex = 0;
 	int ansIndex = 0;
-	int life = 18;
+	public static int life = 18;
 
 	/**
 	 * <h2>Produces an instance of the Battle Class</h2>
@@ -89,13 +89,18 @@ public class Battle {
 	 * @return
 	 */
 	public boolean battleOver() {
-		if (life <= 0)
+		if (life <= 0){
+			life = 18;
 			return true;
+		}
+		
 		for (Question q : opponent.questions) {
 			if (!q.completed)
 				return false;
 		}
-	
+		
+		life = 18;
+		opponent.defeated = true;
 		return true;
 	}
 
