@@ -101,6 +101,8 @@ public class Battle {
 		
 		life = 18;
 		opponent.defeated = true;
+		if(opponent.defeated && opponent instanceof Boss)
+			Notes.progress++;
 		return true;
 	}
 

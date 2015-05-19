@@ -17,5 +17,6 @@ public class Boss extends Trainer {
 		Database.createEntry(questions.get(0).message, (questions.get(0).isrightanswer(questions.get(0).answer)));
 		Database.createEntry(questions.get(1).message, (questions.get(1).isrightanswer(questions.get(1).answer)));
 		Database.createEntry(questions.get(2).message, (questions.get(2).isrightanswer(questions.get(2).answer)));
+		
 	}
 }

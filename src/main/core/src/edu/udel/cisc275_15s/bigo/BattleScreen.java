@@ -191,8 +191,7 @@ public class BattleScreen implements Screen, TextInputListener {
 					return;
 				} 
 			}
-			
-			Notes.progress++;
+		
 			((Game) Gdx.app.getApplicationListener()).setScreen(MainClass.Game);
 		}
 

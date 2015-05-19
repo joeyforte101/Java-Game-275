@@ -71,14 +71,9 @@ public class Notes implements Screen, TextInputListener{
         	
         for(float i = 0; i < 5; i++){
         	
-        	if(progress < 4)
-        		starcount = progress;
-        	else if (progress == 7)
-        		starcount = 5;
-        	else	
-        		starcount = 4;
         	
-        	System.out.println(starcount);
+        	
+        	
         	if(i < starcount)
         		img = new Texture("star1.png");
         	else
