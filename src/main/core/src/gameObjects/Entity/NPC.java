@@ -25,7 +25,7 @@ public class NPC extends Obstacle {
 	BitmapFont textFont;
 	
 	// How far can a trainer see in either compass direction 
-	public final int SIGHT_RANGE = 35;
+	public final int SIGHT_RANGE = 40;
 	
 	/**
 	 * Creates an instance of an NPC

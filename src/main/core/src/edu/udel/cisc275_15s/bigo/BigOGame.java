@@ -98,8 +98,10 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		
 		completedRoom = new Texture("completed_room.png");
 
-		rooms = ContentLoader.load();
+		rooms = ContentLoader.load();		
 		changeRoom("overworld");
+		//need this for game progression
+		currentRoom.npcs.add(new InfoNPC(287, 33, "You need to defeat all the gym bosses before you can take on the final gym!", ""));
 
 		debugString = "start";
 
@@ -309,8 +311,11 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 					interacting = true;
 					if (nearestNPC instanceof YesNoNPC)
 						((YesNoNPC) nearestNPC).answered = false;
-					else
-						Notes.addnote(nearestNPC.getNotes());
+					else {
+						String notes = nearestNPC.getNotes();
+						if (notes != "")
+							Notes.addnote(nearestNPC.getNotes());
+					}
 				}
 			}
 		});
@@ -332,7 +337,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 					}
 			}
 		});
-
+		
 		NoButton.getLabel().setFontScale((float) 0.8);
 		NoButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {

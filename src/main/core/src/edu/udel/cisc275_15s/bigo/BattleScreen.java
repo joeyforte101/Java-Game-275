@@ -1,7 +1,9 @@
 package edu.udel.cisc275_15s.bigo;
 
+import gameObjects.Room;
 import gameObjects.Entity.Battle;
 import gameObjects.Entity.Boss;
+import gameObjects.Entity.NPC;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -168,6 +170,7 @@ public class BattleScreen implements Screen, TextInputListener {
 			MainClass.Game.battling = false;
 			if (battle.opponent instanceof Boss){
 				MainClass.Game.currentRoom.completed = true;
+				removeBlockingNPC();
 				Notes.progress++;
 			}
 			((Game) Gdx.app.getApplicationListener()).setScreen(MainClass.Game);
@@ -183,6 +186,30 @@ public class BattleScreen implements Screen, TextInputListener {
 		stage.act();
 		stage.draw();
 
+	}
+	
+	void removeBlockingNPC() {
+		int count = 0;
+		for(Room room : MainClass.Game.rooms) {
+			if (room.completed)
+				count++;
+		}
+		if (count == 4) {
+			for(Room room : MainClass.Game.rooms) {
+				if (room.subject.equals("overworld")) {
+					int i;
+					boolean found = false;
+					for(i = 0; i < room.npcs.size(); i++) {
+						if (room.npcs.get(i).getNotes().equals("")) {
+							found = true;
+							break;
+						}
+					}
+					if (found)
+						room.npcs.remove(i);
+				}
+			}
+		}
 	}
 	
 	public void displayNext(){
