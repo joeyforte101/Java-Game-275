@@ -80,7 +80,7 @@ public class Notes implements Screen, TextInputListener{
         		img = new Texture("star2.png");
         	batch.draw(img,
         			 ((float) .2 * Gdx.graphics.getWidth() * i),
-        			(float) (Gdx.graphics.getHeight()*.01), 125, 125);
+        			(float) (Gdx.graphics.getHeight()*(-.05)), 125, 125);
         
         }
         
