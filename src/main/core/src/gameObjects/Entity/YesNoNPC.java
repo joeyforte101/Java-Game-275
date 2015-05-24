@@ -95,9 +95,9 @@ public class YesNoNPC extends NPC {
 		batch.draw(textboxTexture, 20, 60);
 		
 		if (question.completed) {
-			textFont.draw(batch, question.correct, 30, 60 + textboxTexture.getHeight() - 10);
+			textFont.drawWrapped(batch, question.correct, 30, 60 + textboxTexture.getHeight() - 10, textboxTexture.getWidth() - 10);
 		} else if (answered && !question.completed) {
-			textFont.draw(batch, question.incorrect, 30, 60 + textboxTexture.getHeight() - 10);
+			textFont.drawWrapped(batch, question.incorrect, 30, 60 + textboxTexture.getHeight() - 10, textboxTexture.getWidth() - 10);
 		} else
 			textFont.drawWrapped(batch, question.message, 30, 60 + textboxTexture.getHeight() - 10, textboxTexture.getWidth() - 10);
 			
