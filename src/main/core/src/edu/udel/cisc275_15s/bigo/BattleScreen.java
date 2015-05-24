@@ -30,12 +30,14 @@ public class BattleScreen implements Screen, TextInputListener {
 	private Table table = new Table();
 	private Table ansTable = new Table();
 	private Table nextTable= new Table();
-
+    
 	TextInputListener listener;
 
 	private Skin skin = new Skin(Gdx.files.internal("skins/menuSkin.json"),
 			new TextureAtlas(Gdx.files.internal("skins/menuSkin.pack")));
 
+    TextButton notesButton = (TextButton) new TextButton("Notes",skin).align(Align.topRight);
+    
 	// Button that allows you to run from battles
 	private TextButton RunButton = (TextButton) new TextButton("Run", skin)
 			.align(Align.topRight);
@@ -66,23 +68,28 @@ public class BattleScreen implements Screen, TextInputListener {
 	public Battle battle;
 	private SpriteBatch batch;
 
-	public BattleScreen(Battle battle) {
-		this.battle = battle;
-	}
-
-	@Override
-	public void show() {
+	public BattleScreen(Battle battl) {
+		this.battle = battl;
 
 		resetButtons(null);
+
+		batch = new SpriteBatch();
 		
 		RunButton.getLabel().setFontScale((float) 0.8);
-		batch = new SpriteBatch();
 		RunButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				MainClass.Game.battling = false;
 				((Game) Gdx.app.getApplicationListener()).setScreen(MainClass.Game);
 			}
 		});
+		
+		notesButton.getLabel().setFontScale((float) 0.8);
+		notesButton.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				 ((Game)Gdx.app.getApplicationListener()).setScreen(new Notes(((Game)Gdx.app.getApplicationListener()).getScreen()));
+			}
+		});
+		
 		ansA.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
 				if (!battle.isCorrectAnswer(0)) {
@@ -151,6 +158,9 @@ public class BattleScreen implements Screen, TextInputListener {
 		table.add(RunButton).size(75, 75);
 		table.align(Align.topRight);
 		table.setFillParent(true);
+		table.add(notesButton).size(75, 75);
+		table.align(Align.topRight);
+		table.setFillParent(true);
 		stage.addActor(table);
 		
 		InputProcessor input1 = stage;
@@ -158,6 +168,10 @@ public class BattleScreen implements Screen, TextInputListener {
 		
 		inputMultiplexer.addProcessor(input1);
 		inputMultiplexer.addProcessor(input2);
+	}
+
+	@Override
+	public void show() {
 		
 		Gdx.input.setInputProcessor(inputMultiplexer);
 	}

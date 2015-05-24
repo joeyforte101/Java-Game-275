@@ -32,9 +32,8 @@ public class OverworldMenu implements Screen, TextInputListener {
 		SpriteBatch batch;
 		BitmapFont text = new BitmapFont();
 
-	    
-	   
-		public void show() {
+	    public OverworldMenu() {
+
 		    batch = new SpriteBatch();
 			exitButton.addListener(new ClickListener(){
 				 public void clicked(InputEvent event, float x, float y) {
@@ -44,21 +43,14 @@ public class OverworldMenu implements Screen, TextInputListener {
 			});
 			notesButton.addListener(new ClickListener(){
 				 public void clicked(InputEvent event, float x, float y) {
-					 ((Game)Gdx.app.getApplicationListener()).setScreen(new Notes());
-					
+					 ((Game)Gdx.app.getApplicationListener()).setScreen(new Notes(((Game)Gdx.app.getApplicationListener()).getScreen()));					
 				 }
 			});
 			helpButton.addListener(new ClickListener(){
 				 public void clicked(InputEvent event, float x, float y) {
-					 ((Game)Gdx.app.getApplicationListener()).setScreen(new HelpMenu());
-					
+					 ((Game)Gdx.app.getApplicationListener()).setScreen(new HelpMenu(((Game)Gdx.app.getApplicationListener()).getScreen()));					
 				 }
-			});
-			
-				
-		
-			
-			
+			});			
 				
 			   table.add(exitButton).size(50,50);
 			   table2.add(notesButton).size(200,80).padBottom(20).row();
@@ -69,8 +61,10 @@ public class OverworldMenu implements Screen, TextInputListener {
 		       stage.addActor(table);
 		       stage.addActor(table2);
 
-		        Gdx.input.setInputProcessor(stage);
-			
+	    }
+	   
+		public void show() {
+	        Gdx.input.setInputProcessor(stage);
 		}
 
 		

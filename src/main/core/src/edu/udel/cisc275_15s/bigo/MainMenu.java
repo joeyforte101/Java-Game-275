@@ -43,23 +43,8 @@ public class MainMenu implements Screen, TextInputListener {
     private Label title = new Label("Big O Game",skin);
     private Label hint = new Label("Hit the 'Help' button for first time players",skin);
     
-    @Override
-    public void render(float delta) {
-        //Gdx.gl.glClearColor(0, 0, 0, 1);
-        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-    	batch.begin();
-    	batch.draw(backgroundTexture,0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-    	batch.end();
-        stage.act();
-        stage.draw();
-    }
+    public MainMenu() {
 
-    @Override
-    public void resize(int width, int height) {
-    }
-
-    @Override
-    public void show() {
     	title.setColor(Color.DARK_GRAY);
     	batch = new SpriteBatch();
     	userName.setAlignment(1);
@@ -79,7 +64,6 @@ public class MainMenu implements Screen, TextInputListener {
             	else{
             		Database.createUserData(name);
             		MainClass.Game = new BigOGame();
-            		MainClass.Notes = new Notes();
             		((Game)Gdx.app.getApplicationListener()).setScreen(MainClass.Game);
             	}
                 
@@ -95,7 +79,7 @@ public class MainMenu implements Screen, TextInputListener {
         buttonHelp.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            	((Game)Gdx.app.getApplicationListener()).setScreen(new HelpMenu());
+            	((Game)Gdx.app.getApplicationListener()).setScreen(new HelpMenu(((Game)Gdx.app.getApplicationListener()).getScreen()));
                 //We will save this help button for our tutorial
             }
         });
@@ -116,12 +100,31 @@ public class MainMenu implements Screen, TextInputListener {
         table.setFillParent(true);
         stage.addActor(table);
 
+    }
+    
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    	batch.begin();
+    	batch.draw(backgroundTexture,0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    	batch.end();
+        stage.act();
+        stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+    }
+
+    @Override
+    public void show() {
         Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void hide() {
-        dispose();
+//        dispose();
     }
 
     @Override
