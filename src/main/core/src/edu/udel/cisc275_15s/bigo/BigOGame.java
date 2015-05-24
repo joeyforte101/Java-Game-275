@@ -1,6 +1,7 @@
 package edu.udel.cisc275_15s.bigo;
 
 import java.util.ArrayList;
+
 import gameObjects.Door;
 import gameObjects.Room;
 import gameObjects.Entity.Battle;
@@ -10,6 +11,8 @@ import gameObjects.Entity.NPC;
 import gameObjects.Entity.Trainer;
 import gameObjects.Entity.UserCharacter;
 import gameObjects.Entity.YesNoNPC;
+import gameObjects.Question.DialogBank;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -85,6 +88,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	boolean interacting;
 	boolean battling;
 
+	DialogBank dialogFactory;
 	ArrayList<Room> rooms;
 	Room currentRoom;
 
@@ -98,7 +102,8 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		
 		completedRoom = new Texture("completed_room.png");
 
-		rooms = ContentLoader.load();		
+		dialogFactory = new DialogBank();
+		rooms = ContentLoader.load(dialogFactory);		
 		changeRoom("overworld");
 		//need this for game progression
 		currentRoom.npcs.add(new InfoNPC(287, 33, "You need to defeat all the gym bosses before you can take on the final gym!", ""));
@@ -335,21 +340,29 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		YesButton.getLabel().setFontScale((float) 0.8);
 		YesButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				if (nearestNPC != null && nearestNPC instanceof YesNoNPC)
-					if (((YesNoNPC) nearestNPC).sendAnswer("yes")) {
-						((YesNoNPC) nearestNPC).question.completed = true;
-						Notes.addnote(nearestNPC.getNotes());						
+				if (nearestNPC != null && nearestNPC instanceof YesNoNPC) {
+					if (!((YesNoNPC) nearestNPC).question.completed) {
+						((YesNoNPC) nearestNPC).question.attempts = 1;
+						if (((YesNoNPC) nearestNPC).sendAnswer("yes")) {
+							((YesNoNPC) nearestNPC).question.completed = true;
+							Notes.addnote(nearestNPC.getNotes());
+						}
 					}
+				}
 			}
 		});
 		
 		NoButton.getLabel().setFontScale((float) 0.8);
 		NoButton.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
-				if (nearestNPC != null && nearestNPC instanceof YesNoNPC)
-					if (((YesNoNPC) nearestNPC).sendAnswer("no")) {
-						Notes.addnote(nearestNPC.getNotes());
+				if (nearestNPC != null && nearestNPC instanceof YesNoNPC) {
+					if (!((YesNoNPC) nearestNPC).question.completed) {
+						((YesNoNPC) nearestNPC).question.attempts = 1;
+						if (((YesNoNPC) nearestNPC).sendAnswer("no")) {
+							Notes.addnote(nearestNPC.getNotes());
+						}
 					}
+				}
 			}
 		});
 

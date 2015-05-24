@@ -25,13 +25,11 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class ContentLoader {
 
-	static DialogBank dialogFactory;
 	static Random rand;
 	
-	public static ArrayList<Room> load() {
+	public static ArrayList<Room> load(DialogBank dialogFactory) {
 		
 		rand = new Random();
-		dialogFactory = new DialogBank();
 		
 		ArrayList<Room> result = new ArrayList<Room>();
 
@@ -45,7 +43,7 @@ public class ContentLoader {
 		for (File file : listOfFiles) {
 			if (file.isDirectory()) {
 				// add subject questions (info, scenario, yesno) to the bank
-				buildDialog(file.getAbsolutePath());
+				buildDialog(file.getAbsolutePath(), dialogFactory);
 			}
 		}
 		
@@ -54,7 +52,7 @@ public class ContentLoader {
 		String pathToRooms = cwd.substring(0, cwd.length() - 7) + "android\\assets\\rooms";		
 		listOfFiles = new File(pathToRooms).listFiles();
 		for (File file : listOfFiles) {
-			result.add(buildRoom(file.getAbsolutePath()));
+			result.add(buildRoom(file.getAbsolutePath(), dialogFactory));
 		}
 
 		return result;
@@ -65,14 +63,14 @@ public class ContentLoader {
 	    return path.substring(lastSlash + 1, path.length());
 	}
 	
-	static void buildDialog(String path) {
+	static void buildDialog(String path, DialogBank dialogFactory) {
 		String subject = getSubject(path);
-		loadInfo(subject, path);
-		loadScenario(subject, path);
-		loadYesNo(subject, path);
+		loadInfo(subject, path, dialogFactory);
+		loadScenario(subject, path, dialogFactory);
+		loadYesNo(subject, path, dialogFactory);
 	}
 	
-	static void loadInfo(String subject, String basePath) {
+	static void loadInfo(String subject, String basePath, DialogBank dialogFactory) {
 		String path = basePath + "\\info";
 		File[] files = new File(path).listFiles();
 		try {
@@ -96,7 +94,7 @@ public class ContentLoader {
 		}		
 	}
 	
-	static void loadScenario(String subject, String basePath) {
+	static void loadScenario(String subject, String basePath, DialogBank dialogFactory) {
 		String path = basePath + "\\scenario";
 		File[] files = new File(path).listFiles();
 		try {
@@ -130,7 +128,7 @@ public class ContentLoader {
 		}		
 	}
 
-	static void loadYesNo(String subject, String basePath) {
+	static void loadYesNo(String subject, String basePath, DialogBank dialogFactory) {
 		String path = basePath + "\\yesno";
 		File[] files = new File(path).listFiles();
 		try {
@@ -162,7 +160,7 @@ public class ContentLoader {
 		}		
 	}
 	
-	static Room buildRoom(String path) {
+	static Room buildRoom(String path, DialogBank dialogFactory) {
 		
 		Room result = new Room();	
 		
@@ -185,7 +183,7 @@ public class ContentLoader {
 					String trimmed = line.split("=")[1].replace(" ", "");
 					String type = trimmed.split("/")[0];
 					String[] position = trimmed.split("/")[1].split(",");
-					result.addNPC(generateNPC(result.subject, type, toInt(position)));;
+					result.addNPC(generateNPC(result.subject, type, toInt(position), dialogFactory));;
 				} else if (line.contains("x,y,width,height =")) {
 					String trimmed = line.split("=")[1].replace(" ", "");
 					String[] bounds = trimmed.split(",");
@@ -216,34 +214,34 @@ public class ContentLoader {
 		return result;
 	}
 	
-	static NPC generateNPC(String subject, String npcType, int[] position) {
+	static NPC generateNPC(String subject, String npcType, int[] position, DialogBank dialogFactory) {
 		if (npcType.equals("yesno")) {
-			return generateYesNoNPC(subject, position);
+			return generateYesNoNPC(subject, position, dialogFactory);
 		} else if (npcType.equals("trainer")) {
-			return generateTrainer(subject, position);
+			return generateTrainer(subject, position, dialogFactory);
 		} else if (npcType.equals("boss")) {
-			return generateBoss(subject, position);
+			return generateBoss(subject, position, dialogFactory);
 		} else {
-			return generateInfoNPC(subject, position);
+			return generateInfoNPC(subject, position, dialogFactory);
 		}
 	}
 	
-	static Boss generateBoss(String subject, int[] position) {
+	static Boss generateBoss(String subject, int[] position, DialogBank dialogFactory) {
 		ArrayList<ScenarioQuestion> questions = dialogFactory.getScenarioQuestions(subject);
 		return new Boss(questions, position);
 	}	
 	
-	static Trainer generateTrainer(String subject, int[] position) {
+	static Trainer generateTrainer(String subject, int[] position, DialogBank dialogFactory) {
 		ScenarioQuestion question = dialogFactory.getScenarioQuestion(subject);
 		return new Trainer(question, position);
 	}
 	
-	static YesNoNPC generateYesNoNPC(String subject, int[] position) {
+	static YesNoNPC generateYesNoNPC(String subject, int[] position, DialogBank dialogFactory) {
 		YesNoQuestion question = dialogFactory.getYesNoQuestion(subject);
 		return new YesNoNPC(question, position);
 	}
 	
-	static InfoNPC generateInfoNPC(String subject, int[] position) {
+	static InfoNPC generateInfoNPC(String subject, int[] position, DialogBank dialogFactory) {
 		Info info = dialogFactory.getInfo(subject);		
 		return new InfoNPC(info, position);
 	}

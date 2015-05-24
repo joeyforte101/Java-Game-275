@@ -48,7 +48,6 @@ public class Notes implements Screen, TextInputListener {
 		table.align(Align.topRight);
 		table.setFillParent(true);
 		stage.addActor(table);
-
 	}
 
 	public void show() {

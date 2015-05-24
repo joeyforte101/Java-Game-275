@@ -50,7 +50,7 @@ public class MainMenu implements Screen, TextInputListener {
     	userName.setAlignment(1);
     	userName.setMessageText(" Enter Username");
     	music.play(); 
-    	//Gdx.input.getTextInput(listener, "Enter Username", "", null);
+
         buttonPlay.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -69,6 +69,7 @@ public class MainMenu implements Screen, TextInputListener {
                 
             }
         });
+        
         buttonExit.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -76,6 +77,7 @@ public class MainMenu implements Screen, TextInputListener {
                 // or System.exit(0);
             }
         });
+        
         buttonHelp.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -94,12 +96,10 @@ public class MainMenu implements Screen, TextInputListener {
         //mStage.addActor(userName);
         table.add(buttonPlay).size(150,60).padBottom(20).row();
         table.add(buttonHelp).size(150,60).padBottom(20).row();
-        table.add(buttonExit).size(150,60).padBottom(30).row();
-        
+        table.add(buttonExit).size(150,60).padBottom(30).row();        
 
         table.setFillParent(true);
         stage.addActor(table);
-
     }
     
     @Override
