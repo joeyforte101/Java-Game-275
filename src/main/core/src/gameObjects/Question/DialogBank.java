@@ -11,9 +11,9 @@ public class DialogBank {
 	static int[] infoarr;
 	static int[] trainarr;
 	
-	HashMap<String, ArrayList<Info>> infoBank;
-	HashMap<String, ArrayList<YesNoQuestion>> yesnoBank;
-	HashMap<String, ArrayList<ScenarioQuestion>> scenarioBank;
+	public HashMap<String, ArrayList<Info>> infoBank;
+	public HashMap<String, ArrayList<YesNoQuestion>> yesnoBank;
+	public HashMap<String, ArrayList<ScenarioQuestion>> scenarioBank;
 	
 	public DialogBank () {
 		rand = new Random();

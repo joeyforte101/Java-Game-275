@@ -4,6 +4,7 @@ import gameObjects.Room;
 import gameObjects.Entity.Battle;
 import gameObjects.Entity.Boss;
 import gameObjects.Entity.NPC;
+import helperClasses.CsvWriting;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -206,6 +207,7 @@ public class BattleScreen implements Screen, TextInputListener {
 				{
 					// game is over
 					((Game) Gdx.app.getApplicationListener()).setScreen(new WinScreen());	
+					CsvWriting.writeCsvFile("userData.csv",Database.bank);
 					return;
 				} 
 			}

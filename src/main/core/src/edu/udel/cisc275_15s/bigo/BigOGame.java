@@ -12,6 +12,11 @@ import gameObjects.Entity.Trainer;
 import gameObjects.Entity.UserCharacter;
 import gameObjects.Entity.YesNoNPC;
 import gameObjects.Question.DialogBank;
+import gameObjects.Question.Info;
+import gameObjects.Question.Question;
+import gameObjects.Question.ScenarioQuestion;
+import gameObjects.Question.YesNoQuestion;
+import helperClasses.CsvWriting;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
@@ -103,6 +108,7 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		completedRoom = new Texture("completed_room.png");
 
 		dialogFactory = new DialogBank();
+		Database.bank = dialogFactory;
 		rooms = ContentLoader.load(dialogFactory);		
 		changeRoom("overworld");
 		//need this for game progression
@@ -142,7 +148,6 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 	}
 
 	public void update(float deltaTime) {
-
 		player.setDeltaTime(deltaTime);
 
 		// get nearest npc
@@ -213,7 +218,6 @@ public class BigOGame extends ApplicationAdapter implements Screen {
 		yourBitmapFontName.draw(batch, mouseX + ", " + (480 - mouseY), 25, 100);
 
 		batch.end();
-
 		// if we are in a battle
 		if (!battling)
 			drawRoom();

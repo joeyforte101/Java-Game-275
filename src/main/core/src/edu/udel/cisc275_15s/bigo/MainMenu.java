@@ -62,7 +62,8 @@ public class MainMenu implements Screen, TextInputListener {
             		userName.setColor(Color.RED);
             	}
             	else{
-            		Database.createUserData(name);
+//            		Database.createUserData(name);
+            		Database.name=name;
             		MainClass.Game = new BigOGame();
             		((Game)Gdx.app.getApplicationListener()).setScreen(MainClass.Game);
             	}

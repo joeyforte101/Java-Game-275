@@ -2,12 +2,15 @@ package edu.udel.cisc275_15s.bigo;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import gameObjects.Question.DialogBank;
 import helperClasses.CsvWriter;
 
 public class Database {
 	
-	static String outputFile = "userData.csv";
-	
+	static String outputFile = "userdData.csv";
+	public static String name = "";
+	public static DialogBank bank;
 	public static void createUserData(String name){
 		boolean alreadyExists = new File(outputFile).exists();
 			
